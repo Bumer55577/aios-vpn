@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="256dp"
+    android:height="256dp"
+    android:viewportWidth="256"
+    android:viewportHeight="256">
+  <!-- AIOS gold peak (replaces Amnezia mark) -->
+  <path
+      android:pathData="M128,36 L212,196 L168,196 L128,116 L88,196 L44,196 Z"
+      android:fillColor="#D4AF37" />
+  <path
+      android:pathData="M128,88 L156,142 L136,142 L128,126 L120,142 L100,142 Z"
+      android:fillColor="#F5D061" />
+</vector>
