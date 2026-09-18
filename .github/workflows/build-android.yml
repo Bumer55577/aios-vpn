@@ -44,6 +44,9 @@ jobs:
           dir: ${{ github.workspace }}/Qt
           setup-python: 'true'
           cache: true
+          # Default mirror sometimes serves broken Updates.xml for 6.7.3
+          # (aqt: "packages were not found while parsing XML") — use a reliable one.
+          mirror: 'https://mirrors.ocf.berkeley.edu/qt/'
 
       - name: 'Install Qt (linux gcc_64 host tools)'
         uses: jurplel/install-qt-action@v4
@@ -56,6 +59,7 @@ jobs:
           dir: ${{ github.workspace }}/Qt
           setup-python: 'true'
           cache: true
+          mirror: 'https://mirrors.ocf.berkeley.edu/qt/'
 
       - name: 'Install build tools (conan, ninja)'
         run: |
