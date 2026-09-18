@@ -51,13 +51,13 @@ DrawerType2 {
                 Layout.fillWidth: true
                 Layout.topMargin: 16
 
-                text: qsTr("Telegram")
-                descriptionText: qsTr("We'll reply in chat")
-                leftImageSource: "qrc:/images/controls/telegram.svg"
+                text: qsTr("GitHub")
+                descriptionText: qsTr("Issues and bug reports")
+                leftImageSource: "qrc:/images/controls/github.svg"
                 rightImageSource: "qrc:/images/controls/chevron-right.svg"
 
                 clickedFunction: function() {
-                    Qt.openUrlExternally(qsTr("https://t.me/amnezia_vpn_en"))
+                    Qt.openUrlExternally(qsTr("https://github.com/Bumer55577/aios-vpn"))
                 }
             }
 
@@ -66,13 +66,13 @@ DrawerType2 {
             LabelWithButtonType {
                 Layout.fillWidth: true
 
-                text: qsTr("support@amnezia.org")
+                text: qsTr("support@aios-vpn.app")
                 descriptionText: qsTr("Support email")
                 leftImageSource: "qrc:/images/controls/mail.svg"
                 rightImageSource: "qrc:/images/controls/chevron-right.svg"
 
                 clickedFunction: function() {
-                    Qt.openUrlExternally(qsTr("mailto:support@amnezia.org"))
+                    Qt.openUrlExternally(qsTr("mailto:support@aios-vpn.app"))
                 }
             }
 
@@ -81,13 +81,13 @@ DrawerType2 {
             LabelWithButtonType {
                 Layout.fillWidth: true
 
-                text: qsTr("amnezia.org")
+                text: qsTr("GitHub")
                 descriptionText: qsTr("Download the update manually")
-                leftImageSource: "qrc:/images/controls/amnezia.svg"
+                leftImageSource: "qrc:/images/controls/github.svg"
                 rightImageSource: "qrc:/images/controls/chevron-right.svg"
 
                 clickedFunction: function() {
-                    Qt.openUrlExternally(LanguageUiController.getCurrentSiteUrl(""))
+                    Qt.openUrlExternally(qsTr("https://github.com/Bumer55577/aios-vpn/releases"))
                 }
             }
         }

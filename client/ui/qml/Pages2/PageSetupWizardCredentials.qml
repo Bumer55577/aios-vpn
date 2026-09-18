@@ -141,7 +141,7 @@ PageType {
                 Layout.rightMargin: 16
                 Layout.bottomMargin: 16
 
-                text: qsTr("All data you enter will remain strictly confidential and will not be shared or disclosed to the Amnezia or any third parties")
+                text: qsTr("All data you enter will remain strictly confidential and will not be shared or disclosed to the AIOS or any third parties")
             }
 
             CardWithIconsType {
@@ -155,7 +155,7 @@ PageType {
                 Layout.bottomMargin: 8
 
                 headerText: qsTr("Don't have a server?")
-                bodyText: qsTr("Amnezia hosting. VPN servers without complicated settings and headaches")
+                bodyText: qsTr("AIOS hosting. VPN servers without complicated settings and headaches")
 
                 rightImageSource: "qrc:/images/controls/chevron-right.svg"
                 leftImageSource: "qrc:/images/controls/amnezia.svg"

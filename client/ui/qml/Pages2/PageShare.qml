@@ -48,7 +48,7 @@ PageType {
             switch (type) {
             case PageShare.ConfigType.AmneziaConnection: {
                 ExportController.generateConnectionConfig(serverId, containerIndex, clientNameTextField.textField.text);
-                configCaption = qsTr("Save AmneziaVPN config")
+                configCaption = qsTr("Save AIOS VPN config")
                 configExtension = ".vpn"
                 configFileName = "amnezia_config"
                 break;
@@ -69,7 +69,7 @@ PageType {
             }
             case PageShare.ConfigType.Awg: {
                 ExportController.generateAwgConfig(serverId, containerIndex, clientNameTextField.textField.text)
-                configCaption = qsTr("Save AmneziaWG config")
+                configCaption = qsTr("Save AWG config")
                 configExtension = ".conf"
                 configFileName = "amnezia_for_awg"
                 break
@@ -105,7 +105,7 @@ PageType {
 
     QtObject {
         id: amneziaConnectionFormat
-        readonly property string name: qsTr("For the AmneziaVPN app")
+        readonly property string name: qsTr("For the AIOS VPN app")
         readonly property int type: PageShare.ConfigType.AmneziaConnection
     }
     QtObject {
@@ -120,7 +120,7 @@ PageType {
     }
     QtObject {
         id: awgConnectionFormat
-        readonly property string name: qsTr("AmneziaWG native format")
+        readonly property string name: qsTr("AWG native format")
         readonly property int type: PageShare.ConfigType.Awg
     }
     QtObject {

@@ -92,7 +92,7 @@ PageType {
                     Layout.fillWidth: true
                     headerText: qsTr("XRay VLESS settings")
                     descriptionLinkText: qsTr("More about settings")
-                    descriptionLinkUrl: "https://docs.amnezia.org"
+                    descriptionLinkUrl: "https://github.com/Bumer55577/aios-vpn"
                 }
 
                 ImageButtonType {

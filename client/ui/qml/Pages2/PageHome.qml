@@ -35,7 +35,7 @@ PageType {
 
     function protocolDisplayName(protocol) {
         switch (protocol) {
-        case "awg": return "AmneziaWG"
+        case "awg": return "AWG"
         case "vless": return "VLESS"
         default: return protocol
         }
@@ -464,7 +464,7 @@ PageType {
                     iconPath: "qrc:/images/controls/alert-circle.svg"
                     imageColor: AmneziaStyle.color.goldenApricot
                     textColor: AmneziaStyle.color.goldenApricot
-                    textString: qsTr("AmneziaWG 2.0 is outdated and no longer supported. Continued use requires a fresh installation of the AmneziaWG 3.1 container.")
+                    textString: qsTr("AWG 2.0 is outdated and no longer supported. Continued use requires a fresh installation of the AWG 3.1 container.")
                 }
 
                 RowLayout {
@@ -594,7 +594,7 @@ PageType {
                         }
                         Item { Layout.fillWidth: true }
                         Text {
-                            text: "AmneziaWG"
+                            text: "AWG"
                             color: '#FFFFFF'
                             font.pixelSize: 12
                         }

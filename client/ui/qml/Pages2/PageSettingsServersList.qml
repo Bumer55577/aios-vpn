@@ -91,7 +91,7 @@ PageType {
                 }
             }
             Text {
-                text: "AmneziaWG"
+                text: "AWG"
                 color: '#8E8E93'
                 font.pixelSize: 12
             }

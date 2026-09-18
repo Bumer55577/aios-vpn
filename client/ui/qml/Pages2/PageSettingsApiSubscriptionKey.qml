@@ -118,7 +118,7 @@ PageType {
                     var fileName = GC.isMobile()
                         ? root.processedServer.name.toLowerCase().replace(/\s+/g, "_") + "_key.vpn"
                         : SystemController.getFileName(
-                            qsTr("Save AmneziaVPN config"),
+                            qsTr("Save AIOS VPN config"),
                             qsTr("Config files (*.vpn)"),
                             StandardPaths.standardLocations(StandardPaths.DocumentsLocation) + "/" + root.processedServer.name.toLowerCase().replace(/\s+/g, "_") + "_key",
                             true,
@@ -188,7 +188,7 @@ PageType {
                 Layout.rightMargin: 16
                 visible: SubscriptionUiController.qrCodesCount > 0
                 horizontalAlignment: Text.AlignHCenter
-                text: qsTr("To read the QR code in the Amnezia app, tap + in the main menu → 'QR code'")
+                text: qsTr("To read the QR code in the AIOS app, tap + in the main menu → 'QR code'")
             }
         }
     }
