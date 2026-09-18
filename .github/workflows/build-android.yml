@@ -33,40 +33,20 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: 'Setup Python 3.12 (aqt compat)'
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: 'Install Qt (android_arm64_v8a)'
-        uses: jurplel/install-qt-action@v4
-        with:
-          version: ${{ env.QT_VERSION }}
-          host: 'linux'
-          target: 'android'
-          arch: 'android_arm64_v8a'
-          modules: 'qtremoteobjects qt5compat'
-          dir: ${{ github.workspace }}/Qt
-          setup-python: 'false'
-          cache: true
-          aqtversion: '==3.1.19'
-          mirror: 'https://mirrors.ocf.berkeley.edu/qt/'
-
-      - name: 'Install Qt (linux gcc_64 host tools)'
-        uses: jurplel/install-qt-action@v4
-        with:
-          version: ${{ env.QT_VERSION }}
-          host: 'linux'
-          target: 'desktop'
-          arch: 'gcc_64'
-          # No modules here: host tools (moc/rcc) don't need them, and aqt 3.3
-          # chokes on desktop 6.7.3 module metadata ('qt_base not found').
-          # Keep aqt pinned below 3.2 — same reason.
-          dir: ${{ github.workspace }}/Qt
-          setup-python: 'false'
-          cache: true
-          aqtversion: '==3.1.19'
-          mirror: 'https://mirrors.ocf.berkeley.edu/qt/'
+      # aqt сломан для android 6.7.3 (3.1.x падает на qt6_dev в listing,
+      # 3.3.0 ищет Updates.xml не в том пути). Поэтому используем готовый
+      # Qt 6.7.3 (android_arm64_v8a + linux gcc_64 host) из release 'libxray'.
+      - name: 'Install Qt 6.7.3 (android + host from release)'
+        run: |
+          set -euo pipefail
+          mkdir -p "${{ github.workspace }}/Qt/6.7.3"
+          URL="https://github.com/${{ github.repository }}/releases/download/libxray/qt-6.7.3-android-host.tar.zst"
+          echo "Downloading Qt 6.7.3 bundle..."
+          wget -q --tries=2 "$URL" -O /tmp/qt.tar.zst
+          tar -x --zstd -f /tmp/qt.tar.zst -C "${{ github.workspace }}/Qt/6.7.3"
+          ls "${{ github.workspace }}/Qt/6.7.3"
+          test -f "${{ github.workspace }}/Qt/6.7.3/android_arm64_v8a/bin/qmake"
+          test -x "${{ github.workspace }}/Qt/6.7.3/gcc_64/libexec/moc"
 
       - name: 'Install build tools (conan, ninja)'
         run: |
