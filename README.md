@@ -20,9 +20,11 @@ Fork of the AmneziaVPN client, rebranded and extended for the AIOS VPN service
 
 ## Build (Android, arm64-v8a)
 
-Toolchain: JDK 17, Android SDK (platform 34, build-tools 34.0.0, NDK 26.3),
-Qt 6.7.3 (android_arm64_v8a + linux_gcc_64 host, modules: qtremoteobjects,
-qt5compat), Conan 2, Ninja.
+Toolchain: JDK 17, Android SDK (platform android-28, NDK 27.0.11718014),
+Qt 6.10.3 (android_arm64_v8a + linux_gcc_64 host, modules: qtremoteobjects,
+qt5compat, qtimageformats, qtshadertools), Conan 2, Ninja.
+NOTE: Qt >= 6.8 is required — 6.7.3 lacks popupType/ContextMenu support and
+caused a startup crash on low-end devices (e.g. Redmi 12C).
 
 ```sh
 git clone --recurse-submodules <this-repo>
@@ -33,7 +35,7 @@ cd aios-vpn
 #   client/android/xray/libXray/libxray.aar
 
 export ANDROID_HOME=~/android-sdk
-export QT_ROOT_PATH=~/Qt/6.7.3          # the script appends the abi dir itself
+export QT_ROOT_PATH=~/Qt/6.10.3         # the script appends the abi dir itself
 export QT_ANDROID_KEYSTORE_PATH=/path/to/your.keystore
 export QT_ANDROID_KEYSTORE_STORE_PASS=...
 export QT_ANDROID_KEYSTORE_ALIAS=...

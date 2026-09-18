@@ -4,9 +4,8 @@ import QtQuick.Controls
 Menu {
     property var textObj
 
-    // popupType exists only in Qt >= 6.8; on 6.7 assigning it breaks QML load (upstream is fine, we are pinned to 6.7.3)
-    // Component.onDataChanged guard: set it only when the property actually exists.
-    Component.onCompleted: if ("popupType" in this) popupType = Popup.Native
+    // Native popup menu (Qt >= 6.8; CI builds against Qt 6.10.3)
+    popupType: Popup.Native
 
     // On Qt < 6.10 the ContextMenu attached type has no native backing on iOS
     // and opens this Qt-drawn menu instead. In that case the native edit menu

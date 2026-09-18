@@ -16,8 +16,15 @@ jobs:
     timeout-minutes: 150
 
     env:
-      QT_VERSION: '6.7.3'
-      QT_ROOT_PATH: ${{ github.workspace }}/Qt/6.7.3
+      # Qt 6.10.3: popupType/ContextMenu/ShaderTools из коробки (6.7.3 вызывал
+      # краш старта на Redmi 12C и проблемы aqt со старым форматом репозитория).
+      # Версия выверена по deploy.yml (матрица Build-Android) и проверена через
+      # aqt list-qt all_os android (новый формат all_os, aqt >= 3.3.0).
+      QT_VERSION: '6.10.3'
+      QT_ROOT_PATH: ${{ github.workspace }}/Qt/6.10.3
+      ANDROID_NDK_VERSION: 27.0.11718014
+      QT_MIRROR: https://mirrors.ocf.berkeley.edu/qt/
+      QT_MODULES: 'qtremoteobjects qt5compat qtimageformats qtshadertools'
       LIBXRAY_RELEASE_URL: https://github.com/${{ github.repository }}/releases/download/libxray/libxray.aar
 
     steps:
@@ -40,10 +47,13 @@ jobs:
           host: 'linux'
           target: 'android'
           arch: 'android_arm64_v8a'
-          modules: 'qtremoteobjects qt5compat'
+          modules: ${{ env.QT_MODULES }}
           dir: ${{ github.workspace }}/Qt
           setup-python: 'true'
           cache: true
+          aqtversion: '==3.3.0'
+          py7zrversion: '==0.22.*'
+          extra: '--base ${{ env.QT_MIRROR }}'
 
       - name: 'Install Qt (linux gcc_64 host tools)'
         uses: jurplel/install-qt-action@v4
@@ -52,16 +62,26 @@ jobs:
           host: 'linux'
           target: 'desktop'
           arch: 'gcc_64'
-          modules: 'qtremoteobjects qt5compat'
+          modules: ${{ env.QT_MODULES }}
           dir: ${{ github.workspace }}/Qt
           setup-python: 'true'
           cache: true
+          aqtversion: '==3.3.0'
+          py7zrversion: '==0.22.*'
+          extra: '--base ${{ env.QT_MIRROR }}'
 
       - name: 'Install build tools (conan, ninja)'
         run: |
           python3 -m pip install --upgrade pip
           python3 -m pip install "conan>=2.0" ninja
           conan profile detect --force || true
+
+      # Детерминированный NDK (27.x как в deploy.yml) + platform android-28:
+      # build.sh подхватит NDK через фильтр ANDROID_NDK_VERSION.
+      - name: 'Setup Android SDK/NDK'
+        uses: android-actions/setup-android@v4
+        with:
+          packages: 'platforms;android-28 ndk;${{ env.ANDROID_NDK_VERSION }}'
 
       # libxray.aar не хранится в репо (58 МБ). Один раз загрузите его как
       # релиз-ассет: Releases -> Draft new release -> tag "libxray" ->
