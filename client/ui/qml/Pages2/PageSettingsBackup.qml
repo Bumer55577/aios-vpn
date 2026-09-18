@@ -86,7 +86,7 @@ PageType {
                 Layout.rightMargin: 16
 
                 textString: qsTr("The backup will contain your passwords and private keys for all servers added " +
-                                 "to AmneziaVPN. Keep this information in a secure place.")
+                                 "to AIOS VPN. Keep this information in a secure place.")
 
                 iconPath: "qrc:/images/controls/alert-circle.svg"
             }
@@ -104,11 +104,11 @@ PageType {
                 clickedFunc: function() {
                     var fileName = ""
                     if (GC.isMobile()) {
-                        fileName = "AmneziaVPN.backup"
+                        fileName = "AIOS VPN.backup"
                     } else {
                         fileName = SystemController.getFileName(qsTr("Save backup file"),
                                                                 qsTr("Backup files (*.backup)"),
-                                                                StandardPaths.standardLocations(StandardPaths.DocumentsLocation) + "/AmneziaVPN",
+                                                                StandardPaths.standardLocations(StandardPaths.DocumentsLocation) + "/AIOS VPN",
                                                                 true,
                                                                 ".backup")
                     }

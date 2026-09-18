@@ -27,12 +27,12 @@ PageType {
     property bool isSelfHostedConfig: true
 
     property string configExtension: ".vpn"
-    property string configCaption: qsTr("Save AmneziaVPN config")
+    property string configCaption: qsTr("Save AIOS VPN config")
     property string configFileName: "amnezia_config"
 
     // onVisibleChanged: {
     //     configExtension = ".vpn"
-    //     configCaption = qsTr("Save AmneziaVPN config")
+    //     configCaption = qsTr("Save AIOS VPN config")
     //     configFileName = "amnezia_config"
 
     //     if (visible) {
@@ -323,7 +323,7 @@ PageType {
                               && (ExportController.config.startsWith("tg://")
                                   || ExportController.config.startsWith("https://t.me")))
                 horizontalAlignment: Text.AlignHCenter
-                text: qsTr("To read the QR code in the Amnezia app, tap + in the main menu → 'QR code'")
+                text: qsTr("To read the QR code in the AIOS app, tap + in the main menu → 'QR code'")
             }
 
             WarningType {

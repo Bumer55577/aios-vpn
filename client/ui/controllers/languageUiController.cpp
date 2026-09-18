@@ -73,29 +73,23 @@ LanguageSettings::AvailableLanguageEnum LanguageUiController::getSystemLanguageE
 
 QString LanguageUiController::getCurrentSiteUrl(const QString &path) const
 {
-    auto locale = m_settingsController->getAppLanguage();
-    if (locale.language() == QLocale::Russian) {
-        return "https://storage.googleapis.com/amnezia/amnezia.org?utm_source=app&utm_campaign=amnezia_hello" + (path.isEmpty() ? "" : (QString("?m-path=/%1").arg(path)));
-    }
-    return QString("https://amnezia.org?utm_source=app&utm_campaign=amnezia_hello") + (path.isEmpty() ? "" : (QString("/%1").arg(path)));
+    // AIOS: the project website is the GitHub repository
+    Q_UNUSED(path)
+    return "https://github.com/Bumer55577/aios-vpn";
 }
 
 QString LanguageUiController::getCurrentDocsUrl(const QString &path) const
 {
-    auto locale = m_settingsController->getAppLanguage();
-    if (locale.language() == QLocale::Russian) {
-        return "https://storage.googleapis.com/amnezia/docs" + (path.isEmpty() ? "" : (QString("?m-path=/%1").arg(path)));
-    }
-    return QString("https://docs.amnezia.org") + (path.isEmpty() ? "" : (QString("/%1").arg(path)));
+    // AIOS: documentation lives in the GitHub repository
+    Q_UNUSED(path)
+    return "https://github.com/Bumer55577/aios-vpn";
 }
 
 QString LanguageUiController::getCurrentHostUrl(const QString &path) const
 {
-    auto locale = m_settingsController->getAppLanguage();
-    if (locale.language() == QLocale::Russian) {
-        return "https://storage.googleapis.com/amnezia/host" + (path.isEmpty() ? "" : (QString("?m-path=/%1").arg(path)));
-    }
-    return QString("https://amnezia.host") + (path.isEmpty() ? "" : (QString("/%1").arg(path)));
+    // AIOS: hosting info lives in the GitHub repository
+    Q_UNUSED(path)
+    return "https://github.com/Bumer55577/aios-vpn";
 }
 
 QString LanguageUiController::getLocalLanguageName(const LanguageSettings::AvailableLanguageEnum language) const

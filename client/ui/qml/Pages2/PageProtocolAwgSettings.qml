@@ -65,7 +65,7 @@ PageType {
                 Layout.leftMargin: 16
                 Layout.rightMargin: 16
 
-                headerText: qsTr("AmneziaWG settings")
+                headerText: qsTr("AWG settings")
             }
 
             TextFieldWithHeaderType {

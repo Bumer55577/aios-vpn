@@ -465,8 +465,8 @@ Already installed containers were found on the server. All installed containers 
     <message>
         <location filename="../ui/utils/notificationHandler.cpp" line="57"/>
         <location filename="../ui/utils/notificationHandler.cpp" line="64"/>
-        <source>AmneziaVPN</source>
-        <translation>AmneziaVPN</translation>
+        <source>AIOS VPN</source>
+        <translation>AIOS VPN</translation>
     </message>
     <message>
         <location filename="../ui/utils/notificationHandler.cpp" line="58"/>
@@ -480,8 +480,8 @@ Already installed containers were found on the server. All installed containers 
     </message>
     <message>
         <location filename="../ui/utils/notificationHandler.cpp" line="88"/>
-        <source>AmneziaVPN notification</source>
-        <translation>AmneziaVPN နိုတီ</translation>
+        <source>AIOS VPN notification</source>
+        <translation>AIOS VPN နိုတီ</translation>
     </message>
     <message>
         <location filename="../ui/utils/notificationHandler.cpp" line="89"/>
@@ -549,8 +549,8 @@ Already installed containers were found on the server. All installed containers 
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageHome.qml" line="426"/>
-        <source>AmneziaWG 2.0 is outdated and no longer supported. Continued use requires a fresh installation of the AmneziaWG 3.1 container.</source>
-        <translation>AmneziaWG 2.0 သည် ဟောင်းနေပြီး ပံ့ပိုးမထားတော့ပါ။ ဆက်လက်အသုံးပြုရန် AmneziaWG 3.1 ကွန်တိန်နာကို အသစ်ထည့်သွင်းရန် လိုအပ်ပါသည်။</translation>
+        <source>AWG 2.0 is outdated and no longer supported. Continued use requires a fresh installation of the AWG 3.1 container.</source>
+        <translation>AWG 2.0 သည် ဟောင်းနေပြီး ပံ့ပိုးမထားတော့ပါ။ ဆက်လက်အသုံးပြုရန် AWG 3.1 ကွန်တိန်နာကို အသစ်ထည့်သွင်းရန် လိုအပ်ပါသည်။</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageHome.qml" line="472"/>
@@ -579,8 +579,8 @@ Already installed containers were found on the server. All installed containers 
     <name>PageProtocolAwgClientSettings</name>
     <message>
         <location filename="../ui/qml/Pages2/PageProtocolAwgClientSettings.qml" line="56"/>
-        <source>AmneziaWG settings</source>
-        <translation>AmneziaWG ဆက်တင်များ</translation>
+        <source>AWG settings</source>
+        <translation>AWG ဆက်တင်များ</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageProtocolAwgClientSettings.qml" line="80"/>
@@ -702,8 +702,8 @@ Already installed containers were found on the server. All installed containers 
     <name>PageProtocolAwgSettings</name>
     <message>
         <location filename="../ui/qml/Pages2/PageProtocolAwgSettings.qml" line="68"/>
-        <source>AmneziaWG settings</source>
-        <translation>AmneziaWG ဆက်တင်များ</translation>
+        <source>AWG settings</source>
+        <translation>AWG ဆက်တင်များ</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageProtocolAwgSettings.qml" line="81"/>
@@ -2068,8 +2068,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageServiceDnsSettings.qml" line="79"/>
-        <source>Cannot remove AmneziaDNS from running server</source>
-        <translation>AmneziaDNS ကို လည်ပတ်နေသည့်ဆာဗာမှ ဖယ်ရှား၍မရပါ</translation>
+        <source>Cannot remove AIOS DNS from running server</source>
+        <translation>AIOS DNS ကို လည်ပတ်နေသည့်ဆာဗာမှ ဖယ်ရှား၍မရပါ</translation>
     </message>
 </context>
 <context>
@@ -3202,8 +3202,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettings.qml" line="177"/>
-        <source>About AmneziaVPN</source>
-        <translation>AmneziaVPN အကြောင်း</translation>
+        <source>About AIOS VPN</source>
+        <translation>AIOS VPN အကြောင်း</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettings.qml" line="188"/>
@@ -3215,13 +3215,13 @@ Create one from the current settings.</source>
     <name>PageSettingsAbout</name>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsAbout.qml" line="61"/>
-        <source>Support Amnezia</source>
-        <translation>Amnezia ကိုကူညီပံ့ပိုးမည်</translation>
+        <source>Support AIOS</source>
+        <translation>AIOS ကိုကူညီပံ့ပိုးမည်</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsAbout.qml" line="76"/>
-        <source>Amnezia is a free and open-source application. You can support the developers if you like it.</source>
-        <translation>Amnezia သည် အခမဲ့ open-source application တစ်ခုဖြစ်သည်။ သင်နှစ်သက်ပါက developer များကို ပံ့ပိုးနိုင်ပါသည်.</translation>
+        <source>AIOS is a free and open-source application. You can support the developers if you like it.</source>
+        <translation>AIOS သည် အခမဲ့ open-source application တစ်ခုဖြစ်သည်။ သင်နှစ်သက်ပါက developer များကို ပံ့ပိုးနိုင်ပါသည်.</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsAbout.qml" line="86"/>
@@ -3260,8 +3260,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsAbout.qml" line="200"/>
-        <source>support@amnezia.org</source>
-        <translation>support@amnezia.org</translation>
+        <source>support@aios-vpn.app</source>
+        <translation>support@aios-vpn.app</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsAbout.qml" line="201"/>
@@ -3270,8 +3270,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsAbout.qml" line="204"/>
-        <source>mailto:support@amnezia.org</source>
-        <translation>mailto:support@amnezia.org</translation>
+        <source>mailto:support@aios-vpn.app</source>
+        <translation>mailto:support@aios-vpn.app</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsAbout.qml" line="211"/>
@@ -3285,8 +3285,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsAbout.qml" line="215"/>
-        <source>https://github.com/amnezia-vpn/amnezia-client</source>
-        <translation>https://github.com/amnezia-vpn/amnezia-client</translation>
+        <source>https://github.com/Bumer55577/aios-vpn</source>
+        <translation>https://github.com/Bumer55577/aios-vpn</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsAbout.qml" line="222"/>
@@ -3469,16 +3469,16 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsApiInstructions.qml" line="102"/>
-        <source>Setup guides on the Amnezia website</source>
-        <translation>Amnezia ဝဘ်ဆိုက်တွင် တပ်ဆင်မှု လမ်းညွှန်များ</translation>
+        <source>Setup guides on the AIOS website</source>
+        <translation>AIOS ဝဘ်ဆိုက်တွင် တပ်ဆင်မှု လမ်းညွှန်များ</translation>
     </message>
 </context>
 <context>
     <name>PageSettingsApiNativeConfigs</name>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsApiNativeConfigs.qml" line="23"/>
-        <source>Save AmneziaVPN config</source>
-        <translation>AmneziaWG config ကိုသိမ်းဆည်းမည်</translation>
+        <source>Save AIOS VPN config</source>
+        <translation>AWG config ကိုသိမ်းဆည်းမည်</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsApiNativeConfigs.qml" line="60"/>
@@ -3487,8 +3487,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsApiNativeConfigs.qml" line="61"/>
-        <source>For router setup or the AmneziaWG app</source>
-        <translation>ရောက်တာ တပ်ဆင်မှု သို့မဟုတ် AmneziaWG အပလီကေးရှင်းအတွက်</translation>
+        <source>For router setup or the AWG app</source>
+        <translation>ရောက်တာ တပ်ဆင်မှု သို့မဟုတ် AWG အပလီကေးရှင်းအတွက်</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsApiNativeConfigs.qml" line="73"/>
@@ -3713,8 +3713,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsApiSubscriptionKey.qml" line="121"/>
-        <source>Save AmneziaVPN config</source>
-        <translation>AmneziaWG config ကိုသိမ်းဆည်းမည်</translation>
+        <source>Save AIOS VPN config</source>
+        <translation>AWG config ကိုသိမ်းဆည်းမည်</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsApiSubscriptionKey.qml" line="122"/>
@@ -3733,8 +3733,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsApiSubscriptionKey.qml" line="191"/>
-        <source>To read the QR code in the Amnezia app, tap + in the main menu → &apos;QR code&apos;</source>
-        <translation>Amnezia အပလီကေးရှင်းတွင် QR ကုဒ်ကို ဖတ်ရန် ပင်မမီနူးတွင် + ကို နှိပ်ပါ → &apos;QR ကုဒ်&apos;</translation>
+        <source>To read the QR code in the AIOS app, tap + in the main menu → &apos;QR code&apos;</source>
+        <translation>AIOS အပလီကေးရှင်းတွင် QR ကုဒ်ကို ဖတ်ရန် ပင်မမီနူးတွင် + ကို နှိပ်ပါ → &apos;QR ကုဒ်&apos;</translation>
     </message>
 </context>
 <context>
@@ -3937,8 +3937,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsApplication.qml" line="243"/>
-        <source>All settings will be reset to default. All installed AmneziaVPN services will still remain on the server.</source>
-        <translation>ဆက်တင်အားလုံးကို မူရင်းအတိုင်း ပြန်လည်သတ်မှတ်ပါမည်။ ထည့်သွင်းထားသော AmneziaVPN ဝန်ဆောင်မှုများအားလုံးသည် ဆာဗာပေါ်တွင် ဆက်လက်ရှိနေမည်ဖြစ်သည်။.</translation>
+        <source>All settings will be reset to default. All installed AIOS VPN services will still remain on the server.</source>
+        <translation>ဆက်တင်အားလုံးကို မူရင်းအတိုင်း ပြန်လည်သတ်မှတ်ပါမည်။ ထည့်သွင်းထားသော AIOS VPN ဝန်ဆောင်မှုများအားလုံးသည် ဆာဗာပေါ်တွင် ဆက်လက်ရှိနေမည်ဖြစ်သည်။.</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsApplication.qml" line="244"/>
@@ -3975,8 +3975,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsBackup.qml" line="88"/>
-        <source>The backup will contain your passwords and private keys for all servers added to AmneziaVPN. Keep this information in a secure place.</source>
-        <translation>အရံဖိုင်တွင် AmneziaVPN သို့ ထည့်ထားသော ဆာဗာအားလုံးအတွက် သင့်စကားဝှက်များနှင့် လျှို့ဝှက်သော့များ ပါဝင်ပါမည်။ ဤအချက်အလက်ကို လုံခြုံသောနေရာတွင် ထားပါ။.</translation>
+        <source>The backup will contain your passwords and private keys for all servers added to AIOS VPN. Keep this information in a secure place.</source>
+        <translation>အရံဖိုင်တွင် AIOS VPN သို့ ထည့်ထားသော ဆာဗာအားလုံးအတွက် သင့်စကားဝှက်များနှင့် လျှို့ဝှက်သော့များ ပါဝင်ပါမည်။ ဤအချက်အလက်ကို လုံခြုံသောနေရာတွင် ထားပါ။.</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsBackup.qml" line="102"/>
@@ -4044,13 +4044,13 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsConnection.qml" line="65"/>
-        <source>Use AmneziaDNS</source>
-        <translation>AmneziaDNS ကို အသုံးပြုမည်</translation>
+        <source>Use AIOS DNS</source>
+        <translation>AIOS DNS ကို အသုံးပြုမည်</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsConnection.qml" line="66"/>
-        <source>If AmneziaDNS is installed on the server</source>
-        <translation>အကယ်၍ AmneziaDNS ကို ဆာဗာတွင် ထည့်သွင်းထားလျှင်</translation>
+        <source>If AIOS DNS is installed on the server</source>
+        <translation>အကယ်၍ AIOS DNS ကို ဆာဗာတွင် ထည့်သွင်းထားလျှင်</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsConnection.qml" line="83"/>
@@ -4059,8 +4059,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsConnection.qml" line="84"/>
-        <source>When AmneziaDNS is not used or installed</source>
-        <translation>AmneziaDNS ကို အသုံးမပြု သို့မဟုတ် ထည့်သွင်းခြင်းမပြုသည့်အခါ</translation>
+        <source>When AIOS DNS is not used or installed</source>
+        <translation>AIOS DNS ကို အသုံးမပြု သို့မဟုတ် ထည့်သွင်းခြင်းမပြုသည့်အခါ</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsConnection.qml" line="99"/>
@@ -4107,8 +4107,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsDns.qml" line="67"/>
-        <source>If AmneziaDNS is not used or installed</source>
-        <translation>AmneziaDNS ကို အသုံးမပြု သို့မဟုတ် ထည့်သွင်းခြင်းမပြုသည့်အခါ</translation>
+        <source>If AIOS DNS is not used or installed</source>
+        <translation>AIOS DNS ကို အသုံးမပြု သို့မဟုတ် ထည့်သွင်းခြင်းမပြုသည့်အခါ</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsDns.qml" line="84"/>
@@ -4369,8 +4369,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsLogging.qml" line="182"/>
-        <source>AmneziaVPN logs</source>
-        <translation>AmneziaVPN မှတ်တမ်းများ</translation>
+        <source>AIOS VPN logs</source>
+        <translation>AIOS VPN မှတ်တမ်းများ</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsLogging.qml" line="192"/>
@@ -4397,8 +4397,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsLogging.qml" line="211"/>
-        <source>AmneziaVPN-service logs</source>
-        <translation>AmneziaVPN-service မှတ်တမ်းများ</translation>
+        <source>AIOS VPN service logs</source>
+        <translation>AIOS VPN service မှတ်တမ်းများ</translation>
     </message>
 </context>
 <context>
@@ -4436,8 +4436,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsServerData.qml" line="98"/>
-        <source>Check the server for previously installed Amnezia services</source>
-        <translation>ယခင်က ထည့်သွင်းထားသော Amnezia ဝန်ဆောင်မှုများရှိမရှိ ဆာဗာကို စစ်ဆေးမည်</translation>
+        <source>Check the server for previously installed AIOS services</source>
+        <translation>ယခင်က ထည့်သွင်းထားသော AIOS ဝန်ဆောင်မှုများရှိမရှိ ဆာဗာကို စစ်ဆေးမည်</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsServerData.qml" line="99"/>
@@ -4492,8 +4492,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsServerData.qml" line="147"/>
-        <source>All installed AmneziaVPN services will still remain on the server.</source>
-        <translation>ထည့်သွင်းထားသော AmneziaVPN ဝန်ဆောင်မှုများအားလုံးသည် ဆာဗာပေါ်တွင် ဆက်လက်ရှိနေမည်ဖြစ်သည်.</translation>
+        <source>All installed AIOS VPN services will still remain on the server.</source>
+        <translation>ထည့်သွင်းထားသော AIOS VPN ဝန်ဆောင်မှုများအားလုံးသည် ဆာဗာပေါ်တွင် ဆက်လက်ရှိနေမည်ဖြစ်သည်.</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsServerData.qml" line="153"/>
@@ -4502,13 +4502,13 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsServerData.qml" line="172"/>
-        <source>Clear server from Amnezia software</source>
-        <translation>ဆာဗာကို Amnezia ဆော့ဖ်ဝဲလ်မှ ရှင်းလင်းမည်</translation>
+        <source>Clear server from AIOS software</source>
+        <translation>ဆာဗာကို AIOS ဆော့ဖ်ဝဲလ်မှ ရှင်းလင်းမည်</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsServerData.qml" line="176"/>
-        <source>Do you want to clear server from Amnezia software?</source>
-        <translation>ဆာဗာကို Amnezia ဆော့ဖ်ဝဲလ်မှ ရှင်းလင်းလိုပါသလား?</translation>
+        <source>Do you want to clear server from AIOS software?</source>
+        <translation>ဆာဗာကို AIOS ဆော့ဖ်ဝဲလ်မှ ရှင်းလင်းလိုပါသလား?</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsServerData.qml" line="177"/>
@@ -4517,8 +4517,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsServerData.qml" line="183"/>
-        <source>Cannot clear server from Amnezia software during active connection</source>
-        <translation>လက်ရှိချိတ်ဆက်မှုတစ်ခုရှိနေချိန်တွင် ဆာဗာကို Amnezia ဆော့ဖ်ဝဲလ်မှ ရှင်းလင်း၍မရပါ</translation>
+        <source>Cannot clear server from AIOS software during active connection</source>
+        <translation>လက်ရှိချိတ်ဆက်မှုတစ်ခုရှိနေချိန်တွင် ဆာဗာကို AIOS ဆော့ဖ်ဝဲလ်မှ ရှင်းလင်း၍မရပါ</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsServerData.qml" line="201"/>
@@ -4568,8 +4568,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsServerProtocol.qml" line="71"/>
-        <source>AmneziaWG 2.0 is outdated and does not include the latest security improvements, but it will continue to work. Moving to AmneziaWG 3.1 by deploying a new container on the server is recommended for stronger protocol security</source>
-        <translation>AmneziaWG 2.0 သည် ဟောင်းနေပြီး နောက်ဆုံးပေါ် လုံခြုံရေး တိုးတက်မှုများ မပါဝင်ပါ၊ သို့ရာတွင် ဆက်လက် အလုပ်လုပ်ပါမည်။ ပရိုတိုကော လုံခြုံမှု ပိုမိုခိုင်မာရန် ဆာဗာတွင် ကွန်တိန်နာအသစ် ထည့်သွင်းပြီး AmneziaWG 3.1 သို့ ပြောင်းရန် အကြံပြုပါသည်</translation>
+        <source>AWG 2.0 is outdated and does not include the latest security improvements, but it will continue to work. Moving to AWG 3.1 by deploying a new container on the server is recommended for stronger protocol security</source>
+        <translation>AWG 2.0 သည် ဟောင်းနေပြီး နောက်ဆုံးပေါ် လုံခြုံရေး တိုးတက်မှုများ မပါဝင်ပါ၊ သို့ရာတွင် ဆက်လက် အလုပ်လုပ်ပါမည်။ ပရိုတိုကော လုံခြုံမှု ပိုမိုခိုင်မာရန် ဆာဗာတွင် ကွန်တိန်နာအသစ် ထည့်သွင်းပြီး AWG 3.1 သို့ ပြောင်းရန် အကြံပြုပါသည်</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSettingsServerProtocol.qml" line="90"/>
@@ -4877,8 +4877,8 @@ Create one from the current settings.</source>
     <name>PageSetupWizardApiServicesList</name>
     <message>
         <location filename="../ui/qml/Pages2/PageSetupWizardApiServicesList.qml" line="52"/>
-        <source>VPN by Amnezia</source>
-        <translation>Amnezia မှ VPN</translation>
+        <source>VPN by AIOS</source>
+        <translation>AIOS မှ VPN</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSetupWizardApiServicesList.qml" line="53"/>
@@ -5004,13 +5004,13 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSetupWizardConfigSource.qml" line="260"/>
-        <source>Site Amnezia</source>
-        <translation>Amnezia ဝဘ်ဆိုက်</translation>
+        <source>Site AIOS</source>
+        <translation>AIOS ဝဘ်ဆိုက်</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSetupWizardConfigSource.qml" line="284"/>
-        <source>VPN by Amnezia</source>
-        <translation>Amnezia မှ VPN</translation>
+        <source>VPN by AIOS</source>
+        <translation>AIOS မှ VPN</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSetupWizardConfigSource.qml" line="285"/>
@@ -5024,8 +5024,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSetupWizardConfigSource.qml" line="304"/>
-        <source>Configure Amnezia VPN on your own server</source>
-        <translation>Amnezia VPN ကို သင်၏ကိုယ်ပိုင်ဆာဗာပေါ်တွင် စီစဥ်ချိန်ညှိမည်</translation>
+        <source>Configure AIOS VPN on your own server</source>
+        <translation>AIOS VPN ကို သင်၏ကိုယ်ပိုင်ဆာဗာပေါ်တွင် စီစဥ်ချိန်ညှိမည်</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSetupWizardConfigSource.qml" line="316"/>
@@ -5094,8 +5094,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSetupWizardCredentials.qml" line="144"/>
-        <source>All data you enter will remain strictly confidential and will not be shared or disclosed to the Amnezia or any third parties</source>
-        <translation>သင်ထည့်သွင်းသည့်ဒေတာအားလုံးကို တင်းကြပ်လုံခြုံစွာလျှို့ဝှက်ထားမည်ဖြစ်ပြီး Amnezia သို့မဟုတ် မည်သည့်ပြင်ပအဖွဲ့အစည်းကိုမျှ မျှဝေမည် သို့မဟုတ် ထုတ်ဖော်မည်မဟုတ်ပါ</translation>
+        <source>All data you enter will remain strictly confidential and will not be shared or disclosed to the AIOS or any third parties</source>
+        <translation>သင်ထည့်သွင်းသည့်ဒေတာအားလုံးကို တင်းကြပ်လုံခြုံစွာလျှို့ဝှက်ထားမည်ဖြစ်ပြီး AIOS သို့မဟုတ် မည်သည့်ပြင်ပအဖွဲ့အစည်းကိုမျှ မျှဝေမည် သို့မဟုတ် ထုတ်ဖော်မည်မဟုတ်ပါ</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSetupWizardCredentials.qml" line="155"/>
@@ -5186,13 +5186,13 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSetupWizardInstalling.qml" line="63"/>
-        <source>Amnezia has detected that your server is currently </source>
-        <translation>Amnezia သည် သင့်ဆာဗာက </translation>
+        <source>AIOS has detected that your server is currently </source>
+        <translation>AIOS သည် သင့်ဆာဗာက </translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSetupWizardInstalling.qml" line="64"/>
-        <source>busy installing other software. Amnezia installation </source>
-        <translation>အခြားဆော့ဖ်ဝဲကို ထည့်သွင်းနေသောကြောင့် အလုပ်ရှုပ်နေကြောင်းထောက်လှန်းမိပါသည်. Amnezia ထည့်သွင်းခြင်းလုပ်ငန်းစဥ် </translation>
+        <source>busy installing other software. AIOS installation </source>
+        <translation>အခြားဆော့ဖ်ဝဲကို ထည့်သွင်းနေသောကြောင့် အလုပ်ရှုပ်နေကြောင်းထောက်လှန်းမိပါသည်. AIOS ထည့်သွင်းခြင်းလုပ်ငန်းစဥ် </translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageSetupWizardInstalling.qml" line="65"/>
@@ -5347,8 +5347,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageShare.qml" line="51"/>
-        <source>Save AmneziaVPN config</source>
-        <translation>AmneziaVPN config ကိုသိမ်းဆည်းမည်</translation>
+        <source>Save AIOS VPN config</source>
+        <translation>AIOS VPN config ကိုသိမ်းဆည်းမည်</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageShare.qml" line="58"/>
@@ -5362,8 +5362,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageShare.qml" line="72"/>
-        <source>Save AmneziaWG config</source>
-        <translation>AmneziaWG config ကိုသိမ်းဆည်းမည်</translation>
+        <source>Save AWG config</source>
+        <translation>AWG config ကိုသိမ်းဆည်းမည်</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageShare.qml" line="79"/>
@@ -5382,8 +5382,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageShare.qml" line="108"/>
-        <source>For the AmneziaVPN app</source>
-        <translation>AmneziaVPN အက်ပ်အတွက်</translation>
+        <source>For the AIOS VPN app</source>
+        <translation>AIOS VPN အက်ပ်အတွက်</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageShare.qml" line="113"/>
@@ -5397,8 +5397,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageShare.qml" line="123"/>
-        <source>AmneziaWG native format</source>
-        <translation>AmneziaWG မူရင်းဖော်မတ်</translation>
+        <source>AWG native format</source>
+        <translation>AWG မူရင်းဖော်မတ်</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageShare.qml" line="128"/>
@@ -5550,8 +5550,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageShareConnection.qml" line="30"/>
-        <source>Save AmneziaVPN config</source>
-        <translation>AmneziaWG config ကိုသိမ်းဆည်းမည်</translation>
+        <source>Save AIOS VPN config</source>
+        <translation>AWG config ကိုသိမ်းဆည်းမည်</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageShareConnection.qml" line="150"/>
@@ -5571,8 +5571,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageShareConnection.qml" line="326"/>
-        <source>To read the QR code in the Amnezia app, tap + in the main menu → &apos;QR code&apos;</source>
-        <translation>Amnezia အပလီကေးရှင်းတွင် QR ကုဒ်ကို ဖတ်ရန် ပင်မမီနူးတွင် + ကို နှိပ်ပါ → &apos;QR ကုဒ်&apos;</translation>
+        <source>To read the QR code in the AIOS app, tap + in the main menu → &apos;QR code&apos;</source>
+        <translation>AIOS အပလီကေးရှင်းတွင် QR ကုဒ်ကို ဖတ်ရန် ပင်မမီနူးတွင် + ကို နှိပ်ပါ → &apos;QR ကုဒ်&apos;</translation>
     </message>
     <message>
         <location filename="../ui/qml/Pages2/PageShareConnection.qml" line="342"/>
@@ -5795,8 +5795,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../core/utils/errorStrings.cpp" line="73"/>
-        <source>This legacy Amnezia subscription format is no longer supported</source>
-        <translation>ဤ Amnezia အသင်းဝင်မှု ပုံစံအဟောင်းကို ပံ့ပိုးမထားတော့ပါ</translation>
+        <source>This legacy AIOS subscription format is no longer supported</source>
+        <translation>ဤ AIOS အသင်းဝင်မှု ပုံစံအဟောင်းကို ပံ့ပိုးမထားတော့ပါ</translation>
     </message>
     <message>
         <location filename="../core/utils/errorStrings.cpp" line="74"/>
@@ -5821,10 +5821,10 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../core/utils/errorStrings.cpp" line="93"/>
-        <source>Your Amnezia Premium subscription has expired.
+        <source>Your AIOS Premium subscription has expired.
  Please check your email for renewal instructions.
  If you haven&apos;t received an email, please contact our support.</source>
-        <translation>သင်၏ Amnezia Premium အသင်းဝင်မှု သက်တမ်းကုန်သွားပါပြီ။
+        <translation>သင်၏ AIOS Premium အသင်းဝင်မှု သက်တမ်းကုန်သွားပါပြီ။
  သက်တမ်းတိုးရန် လမ်းညွှန်ချက်များအတွက် သင့်အီးမေးလ်ကို စစ်ဆေးပါ။
  အီးမေးလ် မရရှိပါက ကျွန်ုပ်တို့၏ ကူညီရေးအဖွဲ့ကို ဆက်သွယ်ပါ။</translation>
     </message>
@@ -5930,8 +5930,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../core/utils/errorStrings.cpp" line="62"/>
-        <source>Amnezia helper service error</source>
-        <translation>Amnezia helper ဝန်ဆောင်မှု မှားယွင်းမှု</translation>
+        <source>AIOS helper service error</source>
+        <translation>AIOS helper ဝန်ဆောင်မှု မှားယွင်းမှု</translation>
     </message>
     <message>
         <location filename="../core/utils/errorStrings.cpp" line="63"/>
@@ -6138,8 +6138,8 @@ Create one from the current settings.</source>
     </message>
     <message>
         <location filename="../core/utils/containers/containerUtils.cpp" line="77"/>
-        <source>AmneziaDNS</source>
-        <translation>AmneziaDNS</translation>
+        <source>AIOS DNS</source>
+        <translation>AIOS DNS</translation>
     </message>
     <message>
         <location filename="../core/utils/containers/containerUtils.cpp" line="80"/>
@@ -6179,14 +6179,14 @@ Create one from the current settings.</source>
         <source>OpenVPN is one of the most popular and reliable VPN protocols. It uses SSL/TLS encryption, supports a wide variety of devices and operating systems, and is continuously improved by the community due to its open-source nature. It provides a good balance between speed and security but is easily recognized by DPI systems, making it susceptible to blocking.
 
 Features:
-* Available on all AmneziaVPN platforms
+* Available on all AIOS VPN platforms
 * Normal battery consumption on mobile devices
 * Flexible customization for various devices and OS
 * Operates over both TCP and UDP protocols</source>
         <translation>OpenVPN သည် အလွန်လူကြိုက်များ၍ စိတ်ချရသော VPN ပရိုတိုကောများအထဲမှ တစ်ခုဖြစ်ပါသည်။ SSL/TLS စာဝှက်နည်းကို အသုံးပြုပြီး စက်ပစ္စည်းနှင့် စနစ်အမျိုးမျိုးကို ပံ့ပိုးပါသည်။ open-source ဖြစ်သောကြောင့် အသိုင်းအဝိုင်းမှ အဆက်မပြတ် ပိုမိုကောင်းမွန်လာပါသည်။ အလျင်နှင့် လုံခြုံမှုအကြား ချိန်ခွင်လျှာမှန်ကန်ပါသည်။ သို့ရာတွင် DPI စနစ်များက အလွယ်တကူ ရှာဖွေတွေ့ရှိနိုင်သဖြင့် ပိတ်ဆို့ခံရနိုင်ပါသည်။
 
 အင်္ဂါရပ်များ:
-* AmneziaVPN ပလက်ဖောင်းအားလုံးတွင် ရရှိနိုင်သည်
+* AIOS VPN ပလက်ဖောင်းအားလုံးတွင် ရရှိနိုင်သည်
 * မိုဘိုင်းစက်များတွင် ပုံမှန် ဘက်ထရီအသုံးပြုမှု
 * စက်နှင့် စနစ်အမျိုးမျိုးအတွက် လိုအပ်သလို ချိန်ညှိနိုင်သည်
 * TCP နှင့် UDP ပရိုတိုကော နှစ်မျိုးလုံးဖြင့် အလုပ်လုပ်သည်</translation>
@@ -6196,7 +6196,7 @@ Features:
         <source>WireGuard is a modern, streamlined VPN protocol offering stable connectivity and excellent performance across all devices. It uses fixed encryption settings, delivering lower latency and higher data transfer speeds compared to OpenVPN. However, WireGuard is easily identifiable by DPI systems due to its distinctive packet signatures, making it susceptible to blocking.
 
 Features:
-* Available on all AmneziaVPN platforms
+* Available on all AIOS VPN platforms
 * Low power consumption on mobile devices
 * Minimal configuration required
 * Easily detected by DPI systems (susceptible to blocking)
@@ -6204,7 +6204,7 @@ Features:
         <translation>WireGuard သည် စက်ပစ္စည်းအားလုံးတွင် ကြံ့ခိုင်သော ချိတ်ဆက်မှုနှင့် ထူးချွန်သော စွမ်းဆောင်ရည်ကို ပေးစွမ်းသည့် ခေတ်မီ၍ ရှင်းလင်းသော VPN ပရိုတိုကောဖြစ်ပါသည်။ သတ်မှတ်ထားသော စာဝှက်ဆက်တင်များကို အသုံးပြုသဖြင့် OpenVPN နှင့် နှိုင်းယှဉ်လျှင် နှောင့်နှေးမှုနည်းပြီး ဒေတာပို့လွှတ်မှု ပိုမိုလျင်မြန်ပါသည်။ သို့ရာတွင် WireGuard သည် ထူးခြားသော packet လက်မှတ်များကြောင့် DPI စနစ်များက အလွယ်တကူ ခွဲခြားသိရှိနိုင်သဖြင့် ပိတ်ဆို့ခံရနိုင်ပါသည်။
 
 အင်္ဂါရပ်များ:
-* AmneziaVPN ပလက်ဖောင်းအားလုံးတွင် ရရှိနိုင်သည်
+* AIOS VPN ပလက်ဖောင်းအားလုံးတွင် ရရှိနိုင်သည်
 * မိုဘိုင်းစက်များတွင် ပါဝါအသုံးပြုမှုနည်းသည်
 * ဆက်တင် အနည်းငယ်သာ လိုအပ်သည်
 * DPI စနစ်များက အလွယ်တကူ ရှာဖွေတွေ့ရှိနိုင်သည် (ပိတ်ဆို့ခံရနိုင်သည်)
@@ -6212,22 +6212,22 @@ Features:
     </message>
     <message>
         <location filename="../core/utils/containers/containerUtils.cpp" line="148"/>
-        <source>AmneziaWG is a modern VPN protocol based on WireGuard, combining simplified architecture with high performance across all devices. It addresses WireGuard&apos;s main vulnerability (easy detection by DPI systems) through advanced obfuscation techniques, making VPN traffic indistinguishable from regular internet traffic.
+        <source>AWG is a modern VPN protocol based on WireGuard, combining simplified architecture with high performance across all devices. It addresses WireGuard&apos;s main vulnerability (easy detection by DPI systems) through advanced obfuscation techniques, making VPN traffic indistinguishable from regular internet traffic.
 
-AmneziaWG is an excellent choice for those seeking a fast, stealthy VPN connection.
+AWG is an excellent choice for those seeking a fast, stealthy VPN connection.
 
 Features:
-* Available on all AmneziaVPN platforms
+* Available on all AIOS VPN platforms
 * Low battery consumption on mobile devices
 * Minimal settings required
 * Undetectable by traffic analysis systems (DPI)
 * Operates over UDP protocol</source>
-        <translation>AmneziaWG သည် WireGuard အပေါ်အခြေခံသော ခေတ်မီ VPN ပရိုတိုကောဖြစ်ပြီး ရှင်းလင်းသော ဖွဲ့စည်းပုံနှင့် စက်အားလုံးတွင် စွမ်းဆောင်ရည်မြင့်မားမှုကို တွဲဖက်ထားပါသည်။ WireGuard ၏ အဓိကအားနည်းချက် (DPI စနစ်များက အလွယ်တကူ ရှာဖွေတွေ့ရှိနိုင်ခြင်း) ကို အထက်တန်းကျသော ဖုံးကွယ်နည်းများဖြင့် ဖြေရှင်းထားသဖြင့် VPN ဒေတာစီးဆင်းမှုကို ပုံမှန်အင်တာနက် ဒေတာစီးဆင်းမှုမှ ခွဲခြားနိုင်ခြင်း မရှိပါ။
+        <translation>AWG သည် WireGuard အပေါ်အခြေခံသော ခေတ်မီ VPN ပရိုတိုကောဖြစ်ပြီး ရှင်းလင်းသော ဖွဲ့စည်းပုံနှင့် စက်အားလုံးတွင် စွမ်းဆောင်ရည်မြင့်မားမှုကို တွဲဖက်ထားပါသည်။ WireGuard ၏ အဓိကအားနည်းချက် (DPI စနစ်များက အလွယ်တကူ ရှာဖွေတွေ့ရှိနိုင်ခြင်း) ကို အထက်တန်းကျသော ဖုံးကွယ်နည်းများဖြင့် ဖြေရှင်းထားသဖြင့် VPN ဒေတာစီးဆင်းမှုကို ပုံမှန်အင်တာနက် ဒေတာစီးဆင်းမှုမှ ခွဲခြားနိုင်ခြင်း မရှိပါ။
 
-လျင်မြန်၍ မထင်မရှားသော VPN ချိတ်ဆက်မှုကို ရှာနေသူများအတွက် AmneziaWG သည် အလွန်ကောင်းမွန်သော ရွေးချယ်မှုဖြစ်ပါသည်။
+လျင်မြန်၍ မထင်မရှားသော VPN ချိတ်ဆက်မှုကို ရှာနေသူများအတွက် AWG သည် အလွန်ကောင်းမွန်သော ရွေးချယ်မှုဖြစ်ပါသည်။
 
 အင်္ဂါရပ်များ:
-* AmneziaVPN ပလက်ဖောင်းအားလုံးတွင် ရရှိနိုင်သည်
+* AIOS VPN ပလက်ဖောင်းအားလုံးတွင် ရရှိနိုင်သည်
 * မိုဘိုင်းစက်များတွင် ဘက်ထရီအသုံးပြုမှုနည်းသည်
 * ဆက်တင် အနည်းငယ်သာ လိုအပ်သည်
 * ဒေတာစီးဆင်းမှု ခွဲခြမ်းစိတ်ဖြာသည့် စနစ်များ (DPI) က ရှာဖွေတွေ့ရှိနိုင်ခြင်း မရှိပါ
@@ -6259,7 +6259,7 @@ VMess၊ VLESS နှင့် XTLS-Vision ကဲ့သို့ ပရိုတ
         <source>IKEv2, combined with IPSec encryption, is a modern and reliable VPN protocol. It reconnects quickly when switching networks or devices, making it ideal for dynamic network environments. While it provides good security and speed, it&apos;s easily recognized by DPI systems and susceptible to blocking.
 
 Features:
-* Available in AmneziaVPN only on Windows
+* Available in AIOS VPN only on Windows
 * Low battery consumption on mobile devices
 * Minimal configuration required
 * Detectable by DPI analysis systems(easily blocked)
@@ -6267,7 +6267,7 @@ Features:
         <translation>IKEv2 ကို IPSec စာဝှက်နည်းနှင့် တွဲဖက်အသုံးပြုသောအခါ ခေတ်မီ၍ စိတ်ချရသော VPN ပရိုတိုကော ဖြစ်လာပါသည်။ ကွန်ရက် သို့မဟုတ် စက်ပစ္စည်း ပြောင်းလဲသောအခါ လျင်မြန်စွာ ပြန်လည်ချိတ်ဆက်နိုင်သဖြင့် အမြဲပြောင်းလဲနေသော ကွန်ရက်ပတ်ဝန်းကျင်များအတွက် အလွန်သင့်လျော်ပါသည်။ လုံခြုံမှုနှင့် အလျင်ကောင်းမွန်သော်လည်း DPI စနစ်များက အလွယ်တကူ ရှာဖွေတွေ့ရှိနိုင်သဖြင့် ပိတ်ဆို့ခံရနိုင်ပါသည်။
 
 အင်္ဂါရပ်များ:
-* AmneziaVPN တွင် Windows ပေါ်၌သာ ရရှိနိုင်သည်
+* AIOS VPN တွင် Windows ပေါ်၌သာ ရရှိနိုင်သည်
 * မိုဘိုင်းစက်များတွင် ဘက်ထရီအသုံးပြုမှုနည်းသည်
 * ဆက်တင် အနည်းငယ်သာ လိုအပ်သည်
 * DPI ခွဲခြမ်းစိတ်ဖြာသည့် စနစ်များက ရှာဖွေတွေ့ရှိနိုင်သည် (အလွယ်တကူ ပိတ်ဆို့ခံရသည်)
@@ -6290,8 +6290,8 @@ Features:
     </message>
     <message>
         <location filename="../core/utils/containers/containerUtils.cpp" line="337"/>
-        <source>AmneziaWG protocol will be installed. It provides high connection speed and ensures stable operation even in the most challenging network conditions.</source>
-        <translation>AmneziaWG ပရိုတိုကောကို ထည့်သွင်းပါမည်။ ချိတ်ဆက်မှုအလွန်လျင်မြန်ပြီး အခက်ခဲဆုံး ကွန်ရက်အခြေအနေများတွင်ပင် ကြံ့ခိုင်စွာ အလုပ်လုပ်နိုင်ကြောင်း အာမခံပါသည်။</translation>
+        <source>AWG protocol will be installed. It provides high connection speed and ensures stable operation even in the most challenging network conditions.</source>
+        <translation>AWG ပရိုတိုကောကို ထည့်သွင်းပါမည်။ ချိတ်ဆက်မှုအလွန်လျင်မြန်ပြီး အခက်ခဲဆုံး ကွန်ရက်အခြေအနေများတွင်ပင် ကြံ့ခိုင်စွာ အလုပ်လုပ်နိုင်ကြောင်း အာမခံပါသည်။</translation>
     </message>
     <message>
         <location filename="../core/utils/containers/containerUtils.cpp" line="95"/>
@@ -6302,8 +6302,8 @@ Features:
         <location filename="../core/utils/containers/containerUtils.cpp" line="98"/>
         <location filename="../core/utils/containers/containerUtils.cpp" line="101"/>
         <location filename="../ui/models/containersModel.cpp" line="41"/>
-        <source>AmneziaWG is a special protocol from Amnezia based on WireGuard. It provides high connection speed and ensures stable operation even in the most challenging network conditions.</source>
-        <translation>AmneziaWG သည် WireGuard အပေါ်အခြေခံသော Amnezia မှ ထူးခြားသည့် ပရိုတိုကောဖြစ်ပါသည်။ ချိတ်ဆက်မှုအလွန်လျင်မြန်ပြီး အခက်ခဲဆုံး ကွန်ရက်အခြေအနေများတွင်ပင် ကြံ့ခိုင်စွာ အလုပ်လုပ်နိုင်ကြောင်း အာမခံပါသည်။</translation>
+        <source>AWG is a special protocol from AIOS based on WireGuard. It provides high connection speed and ensures stable operation even in the most challenging network conditions.</source>
+        <translation>AWG သည် WireGuard အပေါ်အခြေခံသော AIOS မှ ထူးခြားသည့် ပရိုတိုကောဖြစ်ပါသည်။ ချိတ်ဆက်မှုအလွန်လျင်မြန်ပြီး အခက်ခဲဆုံး ကွန်ရက်အခြေအနေများတွင်ပင် ကြံ့ခိုင်စွာ အလုပ်လုပ်နိုင်ကြောင်း အာမခံပါသည်။</translation>
     </message>
     <message>
         <location filename="../core/utils/containers/containerUtils.cpp" line="104"/>
@@ -6322,7 +6322,7 @@ Features:
     </message>
     <message>
         <location filename="../core/utils/containers/containerUtils.cpp" line="186"/>
-        <source>After installation, Amnezia will create a
+        <source>After installation, AIOS will create a
 
  file storage on your server. You will be able to access it using
  FileZilla or other SFTP clients, as well as mount the disk on your device to access
@@ -6330,7 +6330,7 @@ Features:
 
 For more detailed information, you can
  find it in the support section under &quot;Create SFTP file storage.&quot; </source>
-        <translation>တပ်ဆင်ပြီးနောက်၊ Amnezia သည် ဖန်တီးပေးလိမ့်မည်။
+        <translation>တပ်ဆင်ပြီးနောက်၊ AIOS သည် ဖန်တီးပေးလိမ့်မည်။
 
  သင့်ဆာဗာတွင် ဖိုင်သိုလှောင်မှု။ ၎င်းကို အသုံးပြု၍ သင်ဝင်ရောက်နိုင်မည်ဖြစ်သည်။
  FileZilla သို့မဟုတ် အခြား SFTP ဖောက်သည်များအပြင် ဝင်ရောက်ကြည့်ရှုရန် သင့်စက်ပေါ်တွင် ဒစ်ကို တပ်ဆင်ပါ။
@@ -6845,9 +6845,9 @@ For more detailed information, you can
     </message>
     <message>
         <location filename="../ui/qml/main2.qml" line="395"/>
-        <source>This legacy Amnezia subscription type can no longer be used to connect in this application version.
+        <source>This legacy AIOS subscription type can no longer be used to connect in this application version.
 Remove the server from the app to continue.</source>
-        <translation>ဤ Amnezia အသင်းဝင်မှု အမျိုးအစားအဟောင်းကို ဤအပလီကေးရှင်း ဗားရှင်းတွင် ချိတ်ဆက်ရန် အသုံးပြု၍မရတော့ပါ။
+        <translation>ဤ AIOS အသင်းဝင်မှု အမျိုးအစားအဟောင်းကို ဤအပလီကေးရှင်း ဗားရှင်းတွင် ချိတ်ဆက်ရန် အသုံးပြု၍မရတော့ပါ။
 ဆက်လက်လုပ်ဆောင်ရန် ဆာဗာကို အပလီကေးရှင်းမှ ဖယ်ရှားပါ။</translation>
     </message>
     <message>
