@@ -44,8 +44,7 @@ jobs:
           dir: ${{ github.workspace }}/Qt
           setup-python: 'true'
           cache: true
-          # Default mirror sometimes serves broken Updates.xml for 6.7.3
-          # (aqt: "packages were not found while parsing XML") — use a reliable one.
+          aqtversion: '==3.1.*'
           mirror: 'https://mirrors.ocf.berkeley.edu/qt/'
 
       - name: 'Install Qt (linux gcc_64 host tools)'
@@ -55,10 +54,13 @@ jobs:
           host: 'linux'
           target: 'desktop'
           arch: 'gcc_64'
-          modules: 'qtremoteobjects qt5compat'
+          # No modules here: host tools (moc/rcc) don't need them, and aqt 3.3
+          # chokes on desktop 6.7.3 module metadata ('qt_base not found').
+          # Keep aqt pinned below 3.2 — same reason.
           dir: ${{ github.workspace }}/Qt
           setup-python: 'true'
           cache: true
+          aqtversion: '==3.1.*'
           mirror: 'https://mirrors.ocf.berkeley.edu/qt/'
 
       - name: 'Install build tools (conan, ninja)'
