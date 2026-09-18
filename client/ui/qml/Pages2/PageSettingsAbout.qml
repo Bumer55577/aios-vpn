@@ -18,7 +18,7 @@ PageType {
         target: UpdateController
 
         function onUpdateNotFound() {
-            PageController.showNotificationMessage(qsTr("You have the latest version of AmneziaVPN"))
+            PageController.showNotificationMessage(qsTr("You have the latest version of AIOS VPN"))
         }
 
         function onUpdateCheckFailed() {

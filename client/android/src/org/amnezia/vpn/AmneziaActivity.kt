@@ -35,7 +35,6 @@ import android.view.WindowManager.LayoutParams
 import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.annotation.MainThread
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.Insets
 import androidx.core.view.OnApplyWindowInsetsListener
@@ -588,43 +587,11 @@ class AmneziaActivity : QtActivity() {
             .show()
     }
 
-    private fun checkNotificationPermission(onChecked: () -> Unit) {
-        Log.d(TAG, "Check notification permission")
-        if (
-            !isNotificationPermissionGranted() &&
-            !Prefs.load<Boolean>(PREFS_NOTIFICATION_PERMISSION_ASKED)
-        ) {
-            showNotificationPermissionDialog(onChecked)
-        } else {
-            onChecked()
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    private fun showNotificationPermissionDialog(onChecked: () -> Unit) {
-        AlertDialog.Builder(this)
-            .setTitle(R.string.notificationDialogTitle)
-            .setMessage(R.string.notificationDialogMessage)
-            .setNegativeButton(R.string.no) { _, _ ->
-                Prefs.save(PREFS_NOTIFICATION_PERMISSION_ASKED, true)
-                onChecked()
-            }
-            .setPositiveButton(R.string.yes) { _, _ ->
-                val saveAsked: () -> Unit = {
-                    Prefs.save(PREFS_NOTIFICATION_PERMISSION_ASKED, true)
-                }
-                requestPermission(
-                    Manifest.permission.POST_NOTIFICATIONS,
-                    CHECK_NOTIFICATION_PERMISSION_ACTION_CODE,
-                    PermissionRequestHandler(
-                        onSuccess = saveAsked,
-                        onFail = saveAsked,
-                        onAny = onChecked
-                    )
-                )
-            }
-            .show()
-    }
+    // AIOS: единственное обязательное разрешение — системный диалог VpnService
+    // (запрашивается в checkVpnPermission при первом подключении).
+    // Разрешение на уведомления при подключении НЕ запрашиваем: статус виден
+    // в шторке через иконку VPN и без POST_NOTIFICATIONS, а FGS работает.
+    // Камера (QR) и файлы запрашиваются контекстно, только при реальном использовании.
 
     @MainThread
     private fun startVpn(vpnConfig: String) {
@@ -698,10 +665,9 @@ class AmneziaActivity : QtActivity() {
     fun start(vpnConfig: String) {
         Log.v(TAG, "Start VPN")
         mainScope.launch {
+            // AIOS: один системный запрос (VpnService) — без дополнительных диалогов
             checkVpnPermission {
-                checkNotificationPermission {
-                    startVpn(vpnConfig)
-                }
+                startVpn(vpnConfig)
             }
         }
     }
