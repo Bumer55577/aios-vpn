@@ -27,6 +27,8 @@ qrc_*.cpp
 ui_*.h
 Makefile*
 *build-*
+# GitHub Actions workflow files are NOT build artifacts
+!.github/workflows/*
 compile_commands.json
 
 # fastlane

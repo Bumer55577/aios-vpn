@@ -44,6 +44,31 @@ export QT_ANDROID_KEYSTORE_ALIAS=...
 Windows installers build via GitHub Actions (`.github/workflows/build-windows.yml`,
 workflow_dispatch).
 
+## CI (autobuild APK)
+
+`.github/workflows/build-android.yml` builds a signed arm64-v8a APK on every
+push to `master` (and on demand via workflow_dispatch). Result: Actions ->
+latest run -> Artifacts -> `AIOS-VPN-Android-arm64`.
+
+One-time manual step — `libxray.aar` is not stored in the repo (58 MB):
+
+1. Releases -> Draft a new release -> tag **`libxray`**
+2. Attach your local `libxray.aar` (the file you already use for local builds)
+3. Publish
+
+Signing: if secrets `QT_ANDROID_KEYSTORE_BASE64`, `QT_ANDROID_KEYSTORE_STORE_PASS`,
+`QT_ANDROID_KEYSTORE_ALIAS` are set, your release keystore is used. Otherwise
+the workflow generates a personal keystore and caches it between runs
+(`aios-signing-keystore-v1` cache entry).
+
+## Permissions (single-dialog setup)
+
+The user sees exactly ONE system dialog during install + first connect —
+the VpnService consent (mandatory by Android). Notification permission is
+never proactively requested (the VPN key icon is visible without it and the
+foreground service runs fine); camera and file access are contextual, asked
+only when the user actually scans a QR code / imports a restricted file.
+
 ## Secrets policy
 
 - Keystore path/passwords/alias come only from `QT_ANDROID_KEYSTORE_*` env

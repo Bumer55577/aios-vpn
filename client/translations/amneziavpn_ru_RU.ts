@@ -256,7 +256,7 @@
 Can&apos;t be disabled for current server</source>
         <translation>Включено
 Невозможно отключить для текущего сервера
-		</translation>
+                </translation>
     </message>
     <message>
         <location filename="../ui/qml/Components/HomeSplitTunnelingDrawer.qml" line="64"/>
@@ -5838,7 +5838,7 @@ Create one from the current settings.</source>
     <message>
         <location filename="../core/utils/errorStrings.cpp" line="73"/>
         <source>This legacy Amnezia subscription format is no longer supported</source>
-        <translation>Этот устаревший формат подписки Amnezia больше не поддерживается</translation>
+        <translation>Этот устаревший формат подписки больше не поддерживается</translation>
     </message>
     <message>
         <location filename="../core/utils/errorStrings.cpp" line="74"/>
@@ -6857,9 +6857,9 @@ FileZilla или другие SFTP-клиенты, а также смонтир�
     </message>
     <message>
         <location filename="../ui/qml/main2.qml" line="395"/>
-        <source>This legacy Amnezia subscription type can no longer be used to connect in this application version.
+        <source>This legacy subscription type can no longer be used to connect in this application version.
 Remove the server from the app to continue.</source>
-        <translation>Этот устаревший тип подписки Amnezia больше нельзя использовать для подключения в этой версии приложения.
+        <translation>Этот устаревший тип подписки больше нельзя использовать для подключения в этой версии приложения.
 Удалите сервер из приложения, чтобы продолжить.</translation>
     </message>
     <message>

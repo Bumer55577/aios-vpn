@@ -1,0 +1,138 @@
+name: 'AIOS VPN — Android APK'
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+
+jobs:
+  build-android:
+    name: 'Build-Android-APK (arm64-v8a)'
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+
+    env:
+      QT_VERSION: '6.7.3'
+      QT_ROOT_PATH: ${{ github.workspace }}/Qt/6.7.3
+      LIBXRAY_RELEASE_URL: https://github.com/${{ github.repository }}/releases/download/libxray/libxray.aar
+
+    steps:
+      - name: 'Get sources'
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+          fetch-depth: 0
+
+      - name: 'Setup Java 17'
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: 'Install Qt (android_arm64_v8a)'
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: ${{ env.QT_VERSION }}
+          host: 'linux'
+          target: 'android'
+          arch: 'android_arm64_v8a'
+          modules: 'qtremoteobjects qt5compat'
+          dir: ${{ github.workspace }}/Qt
+          setup-python: 'true'
+          cache: true
+
+      - name: 'Install Qt (linux gcc_64 host tools)'
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: ${{ env.QT_VERSION }}
+          host: 'linux'
+          target: 'desktop'
+          arch: 'gcc_64'
+          modules: 'qtremoteobjects qt5compat'
+          dir: ${{ github.workspace }}/Qt
+          setup-python: 'true'
+          cache: true
+
+      - name: 'Install build tools (conan, ninja)'
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install "conan>=2.0" ninja
+          conan profile detect --force || true
+
+      # libxray.aar не хранится в репо (58 МБ). Один раз загрузите его как
+      # релиз-ассет: Releases -> Draft new release -> tag "libxray" ->
+      # приложите файл libxray.aar -> Publish.
+      - name: 'Get libxray.aar'
+        run: |
+          DEST="client/android/xray/libXray/libxray.aar"
+          if [ -f "$DEST" ]; then echo "libxray.aar already present"; exit 0; fi
+          echo "Downloading libxray.aar from release 'libxray'..."
+          if ! wget -q --tries=2 "$LIBXRAY_RELEASE_URL" -O "$DEST"; then
+            echo "::error::libxray.aar не найден. Один раз загрузите файл libxray.aar"
+            echo "::error::(лежит локально рядом с репо) в GitHub Releases этого репозитория:"
+            echo "::error::Releases -> New release -> tag: libxray -> attach libxray.aar -> Publish"
+            exit 1
+          fi
+          ls -la "$DEST"
+
+      # Подпись: при заданных секретах QT_ANDROID_KEYSTORE_BASE64 /
+      # QT_ANDROID_KEYSTORE_STORE_PASS / QT_ANDROID_KEYSTORE_ALIAS —
+      # используется ваш release-ключ. Иначе автоматически создаётся и
+      # кэшируется персональный ключ (стабилен между запусками через cache).
+      - name: 'Restore keystore'
+        id: keystore
+        uses: actions/cache@v4
+        with:
+          path: signing/aios-release.keystore
+          key: aios-signing-keystore-v1
+
+      - name: 'Prepare keystore'
+        run: |
+          mkdir -p signing
+          if [ -n "${{ secrets.QT_ANDROID_KEYSTORE_BASE64 }}" ]; then
+            echo "${{ secrets.QT_ANDROID_KEYSTORE_BASE64 }}" | base64 -d > signing/aios-release.keystore
+            echo "QT_ANDROID_KEYSTORE_PATH=$PWD/signing/aios-release.keystore" >> $GITHUB_ENV
+            echo "QT_ANDROID_KEYSTORE_STORE_PASS=${{ secrets.QT_ANDROID_KEYSTORE_STORE_PASS }}" >> $GITHUB_ENV
+            echo "QT_ANDROID_KEYSTORE_ALIAS=${{ secrets.QT_ANDROID_KEYSTORE_ALIAS }}" >> $GITHUB_ENV
+            echo "Keystore: from secrets"
+          elif [ -f signing/aios-release.keystore ]; then
+            echo "Keystore: from cache"
+            PW="${{ secrets.QT_ANDROID_KEYSTORE_STORE_PASS }}"
+            PW="${PW:-aios-vpn-2026}"
+            echo "QT_ANDROID_KEYSTORE_PATH=$PWD/signing/aios-release.keystore" >> $GITHUB_ENV
+            echo "QT_ANDROID_KEYSTORE_STORE_PASS=$PW" >> $GITHUB_ENV
+            echo "QT_ANDROID_KEYSTORE_ALIAS=aiosvpn" >> $GITHUB_ENV
+          else
+            echo "Keystore: generating new (cached for future runs)"
+            keytool -genkeypair -v -keystore signing/aios-release.keystore \
+              -alias aiosvpn -keyalg RSA -keysize 2048 -validity 10950 \
+              -storepass aios-vpn-2026 -keypass aios-vpn-2026 \
+              -dname "CN=AIOS VPN, OU=AIOS, O=AIOS, L=AIOS, C=RU"
+            echo "QT_ANDROID_KEYSTORE_PATH=$PWD/signing/aios-release.keystore" >> $GITHUB_ENV
+            echo "QT_ANDROID_KEYSTORE_STORE_PASS=aios-vpn-2026" >> $GITHUB_ENV
+            echo "QT_ANDROID_KEYSTORE_ALIAS=aiosvpn" >> $GITHUB_ENV
+          fi
+
+      - name: 'Build APK (arm64-v8a)'
+        run: |
+          export ANDROID_HOME="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          bash deploy/build.sh -t android --abi arm64-v8a --sign --apk \
+            -b "$PWD/deploy/build-android"
+
+      - name: 'Collect APK'
+        run: |
+          mkdir -p dist
+          find deploy/build-android -name "*.apk" -exec cp {} dist/ \;
+          ls -la dist/
+          test -n "$(ls dist/*.apk 2>/dev/null)" || { echo "::error::APK не найден"; exit 1; }
+
+      - name: 'Upload APK artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: AIOS-VPN-Android-arm64
+          path: dist/*.apk
+          if-no-files-found: error
