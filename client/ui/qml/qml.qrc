@@ -80,6 +80,8 @@
         <file>main2.qml</file>
         <file>Modules/Style/AmneziaStyle.qml</file>
         <file>Modules/Style/qmldir</file>
+        <file>Pages2/AiosRenewDrawer.qml</file>
+        <file>Pages2/PageAiosDevices.qml</file>
         <file>Pages2/PageDeinstalling.qml</file>
         <file>Pages2/PageDevMenu.qml</file>
         <file>Pages2/PageHome.qml</file>

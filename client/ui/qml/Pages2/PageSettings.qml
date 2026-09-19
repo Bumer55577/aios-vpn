@@ -14,6 +14,19 @@ import "../Config"
 PageType {
     id: root
 
+    // AIOS: дней до конца подписки (дефенсивный разбор строки expires)
+    function aiosDaysLeft() {
+        var s = AiosProfileController.expires
+        if (!s) return -1
+        var t = Date.parse(s)
+        if (isNaN(t)) {
+            var m = s.match(/^(\d{1,2})[.\-/](\d{1,2})[.\-/](\d{4})/)
+            if (m) t = new Date(parseInt(m[3], 10), parseInt(m[2], 10) - 1, parseInt(m[1], 10)).getTime()
+        }
+        if (isNaN(t)) return -1
+        return Math.ceil((t - Date.now()) / 86400000)
+    }
+
     Connections {
         target: ApiNewsController
         function onFetchNewsFinished() {
@@ -102,6 +115,8 @@ PageType {
                                 text: {
                                     if (!AiosProfileController.hasProfile) return qsTr("Доступ активен")
                                     if (AiosProfileController.expired) return qsTr("Доступ истёк")
+                                    var left = root.aiosDaysLeft()
+                                    if (left >= 1 && left <= 7) return qsTr("Доступ до ") + AiosProfileController.expires + " · " + qsTr("осталось %1 дн.").arg(left)
                                     if (AiosProfileController.expires !== "") return qsTr("Доступ до ") + AiosProfileController.expires
                                     return qsTr("Доступ активен")
                                 }
@@ -114,7 +129,10 @@ PageType {
                     DividerType { Layout.fillWidth: true }
 
                     RowLayout {
+                        id: aiosDevicesRow
+
                         Layout.fillWidth: true
+
                         Text {
                             text: qsTr("Устройства")
                             color: '#8E8E93'
@@ -127,6 +145,36 @@ PageType {
                                   : ServersModel.rowCount() + " " + qsTr("подключено")
                             color: '#FFFFFF'
                             font.pixelSize: 12
+                        }
+                        Text {
+                            text: "›"
+                            color: '#D4AF37'
+                            font.pixelSize: 16
+                        }
+
+                        TapHandler {
+                            onTapped: PageController.goToPage(PageEnum.PageAiosDevices)
+                        }
+                    }
+
+                    // AIOS: управление подпиской — продление через страницу оплаты
+                    BasicButtonType {
+                        id: aiosRenewButton
+
+                        Layout.fillWidth: true
+                        implicitHeight: 44
+
+                        defaultColor: '#D4AF37'
+                        hoveredColor: '#E4C258'
+                        pressedColor: '#B8922C'
+                        textColor: '#0B0B0D'
+                        borderWidth: 0
+
+                        text: AiosProfileController.hasProfile && AiosProfileController.expired
+                              ? qsTr("Продлить доступ")
+                              : qsTr("Продлить тариф")
+                        clickedFunction: function() {
+                            aiosRenewDrawer.openTriggered()
                         }
                     }
                 }
@@ -193,6 +241,13 @@ PageType {
                 visible: GC.isDesktop()
             }
         }
+    }
+
+    // AIOS: шторка продления подписки
+    AiosRenewDrawer {
+        id: aiosRenewDrawer
+
+        anchors.fill: parent
     }
 
     property list<QtObject> settingsEntries: [

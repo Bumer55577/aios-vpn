@@ -213,6 +213,10 @@ void CoreController::initControllers()
     m_aiosProfileController->setServersController(m_serversUiController);
     setQmlContextProperty("AiosProfileController", m_aiosProfileController);
 
+    m_aiosDevicesController = new AiosDevicesController(this);
+    m_aiosDevicesController->setServersController(m_serversUiController);
+    setQmlContextProperty("AiosDevicesController", m_aiosDevicesController);
+
     m_ipSplitTunnelingUiController = new IpSplitTunnelingUiController(m_ipSplitTunnelingController, m_ipSplitTunnelingModel, this);
     setQmlContextProperty("IpSplitTunnelingController", m_ipSplitTunnelingUiController);
 

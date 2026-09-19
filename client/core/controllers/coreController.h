@@ -24,6 +24,7 @@
 #include "ui/controllers/settingsUiController.h"
 #include "ui/controllers/serversUiController.h"
 #include "ui/controllers/aiosProfileController.h"
+#include "ui/controllers/aiosDevicesController.h"
 #include "ui/controllers/ipSplitTunnelingUiController.h"
 #include "ui/controllers/systemController.h"
 #include "ui/controllers/languageUiController.h"
@@ -173,6 +174,7 @@ private:
     SettingsUiController* m_settingsUiController;
     ServersUiController* m_serversUiController;
     AiosProfileController* m_aiosProfileController;
+    AiosDevicesController* m_aiosDevicesController;
     IpSplitTunnelingUiController* m_ipSplitTunnelingUiController;
     SystemController* m_systemController;
     NetworkReachabilityController* m_networkReachabilityController;

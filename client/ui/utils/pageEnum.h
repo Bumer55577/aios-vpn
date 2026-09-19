@@ -14,6 +14,8 @@ namespace PageLoader
         PageDeinstalling,
         PageAbout,
 
+        PageAiosDevices,
+
         PageSettingsServersList,
         PageSettings,
         PageSettingsServerData,

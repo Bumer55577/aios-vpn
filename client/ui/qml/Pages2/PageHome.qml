@@ -141,6 +141,79 @@ PageType {
             }
             anchors.bottomMargin: 16
 
+            // AIOS: баннер окончания подписки (последние 7 дней / истёк)
+            Rectangle {
+                id: aiosExpiryBanner
+                objectName: "aiosExpiryBanner"
+
+                property int aiosDaysLeft: {
+                    var s = AiosProfileController.expires
+                    if (!s) return -1
+                    var t = Date.parse(s)
+                    if (isNaN(t)) {
+                        var m = s.match(/^(\d{1,2})[.\-/](\d{1,2})[.\-/](\d{4})/)
+                        if (m) t = new Date(parseInt(m[3], 10), parseInt(m[2], 10) - 1, parseInt(m[1], 10)).getTime()
+                    }
+                    if (isNaN(t)) return -1
+                    return Math.ceil((t - Date.now()) / 86400000)
+                }
+
+                readonly property bool isExpired: AiosProfileController.hasProfile && AiosProfileController.expired
+
+                visible: AiosProfileController.hasProfile
+                         && (isExpired || (aiosDaysLeft >= 0 && aiosDaysLeft <= 7))
+
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                Layout.topMargin: 8
+                Layout.preferredWidth: Math.min(parent.width - 32, 340)
+                implicitHeight: expiryRow.implicitHeight + 20
+                radius: 26
+
+                color: isExpired ? Qt.rgba(229/255, 72/255, 77/255, 0.14) : Qt.rgba(212/255, 175/255, 55/255, 0.16)
+                border.color: isExpired ? '#E5484D' : '#D4AF37'
+                border.width: 1
+
+                RowLayout {
+                    id: expiryRow
+
+                    anchors.centerIn: parent
+                    anchors.leftMargin: 16
+                    anchors.rightMargin: 16
+                    width: parent.width - 32
+
+                    spacing: 10
+
+                    Text {
+                        Layout.fillWidth: true
+
+                        text: {
+                            if (parent.parent.isExpired || parent.parent.aiosDaysLeft <= 0) {
+                                return qsTr("Срок доступа истёк · Нажмите, чтобы продлить")
+                            }
+                            return qsTr("Подписка истекает · Осталось %1 дн.").arg(parent.parent.aiosDaysLeft)
+                        }
+                        color: parent.parent.isExpired ? '#F0858A' : '#D4AF37'
+                        font.pixelSize: 12
+                        font.weight: Font.Medium
+                        wrapMode: Text.WordWrap
+                    }
+
+                    Text {
+                        text: "›"
+                        color: parent.parent.isExpired ? '#F0858A' : '#D4AF37'
+                        font.pixelSize: 16
+                    }
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: PageController.goToPage(PageEnum.PageSettings)
+                }
+
+                Component.onCompleted: AiosProfileController.refresh()
+            }
+
             BasicButtonType {
                 id: loggingButton
                 objectName: "loggingButton"
