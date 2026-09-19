@@ -40,38 +40,20 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: 'Install Qt (android_arm64_v8a)'
-        uses: jurplel/install-qt-action@v4
-        with:
-          version: ${{ env.QT_VERSION }}
-          host: 'linux'
-          target: 'android'
-          arch: 'android_arm64_v8a'
-          modules: ${{ env.QT_MODULES }}
-          dir: ${{ github.workspace }}/Qt
-          setup-python: 'true'
-          python-version: '3.12'
-          cache: true
-          aqtversion: '==3.3.0'
-          py7zrversion: '==0.22.*'
-          extra: '--base ${{ env.QT_MIRROR }}'
-
-      # Хост-инструменты (moc/rcc/libexec) для кросс-сборки; в 6.8+ архив
-      # называется linux_gcc_64, дополнительных модулей для десктопа нет.
-      - name: 'Install Qt (linux host tools)'
-        uses: jurplel/install-qt-action@v4
-        with:
-          version: ${{ env.QT_VERSION }}
-          host: 'linux'
-          target: 'desktop'
-          arch: 'linux_gcc_64'
-          dir: ${{ github.workspace }}/Qt
-          setup-python: 'true'
-          python-version: '3.12'
-          cache: true
-          aqtversion: '==3.3.0'
-          py7zrversion: '==0.22.*'
-          extra: '--base ${{ env.QT_MIRROR }}'
+      # aqt 3.3.0 не умеет android >= 6.8 (ищет Updates.xml не в том каталоге,
+      # checksum-файлы 404). Используем готовый бандл Qt 6.10.1
+      # (android_arm64_v8a + linux host tools) из release 'libxray'.
+      - name: 'Install Qt 6.10.1 (android + host from release)'
+        run: |
+          set -euo pipefail
+          mkdir -p "${{ github.workspace }}/Qt"
+          URL="https://github.com/${{ github.repository }}/releases/download/libxray/qt-6.10.1-android-host.tar.zst"
+          echo "Downloading Qt 6.10.1 bundle..."
+          wget -q --tries=2 "$URL" -O /tmp/qt.tar.zst
+          tar -x --zstd -f /tmp/qt.tar.zst -C "${{ github.workspace }}/Qt"
+          ls "${{ github.workspace }}/Qt/6.10.1"
+          test -f "${{ github.workspace }}/Qt/6.10.1/android_arm64_v8a/bin/qmake"
+          test -x "${{ github.workspace }}/Qt/6.10.1/gcc_64/libexec/moc"
 
       - name: 'Install build tools (conan, ninja)'
         run: |
