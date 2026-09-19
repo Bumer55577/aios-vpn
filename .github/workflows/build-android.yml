@@ -141,3 +141,22 @@ jobs:
           name: AIOS-VPN-Android-arm64
           path: dist/*.apk
           if-no-files-found: error
+
+      # AIOS: публикация APK в публичный rolling-release 'aios-apk'.
+      # Артефакты Actions могут скачивать только залогиненные пользователи,
+      # а Release доступен всем по прямой ссылке:
+      # https://github.com/Bumer55577/aios-vpn/releases/tag/aios-apk
+      - name: 'Publish APK to public release'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG="aios-apk"
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1 || \
+            gh release create "$TAG" \
+              --repo "$GITHUB_REPOSITORY" \
+              --title "AIOS VPN — Android APK (актуальная сборка)" \
+              --notes "Автоматическая сборка ветки master. Скачивайте файл .apk из блока Assets ниже и устанавливайте на телефон (arm64-v8a)." \
+              --latest
+          gh release upload "$TAG" dist/*.apk --repo "$GITHUB_REPOSITORY" --clobber
+          echo "APK опубликован в release $TAG"
