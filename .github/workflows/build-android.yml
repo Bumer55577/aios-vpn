@@ -16,8 +16,15 @@ jobs:
     timeout-minutes: 150
 
     env:
-      QT_VERSION: '6.7.3'
-      QT_ROOT_PATH: ${{ github.workspace }}/Qt/6.7.3
+      # Qt 6.10.1: popupType/ContextMenu/ShaderTools из коробки (6.7.3 вызывал
+      # краш старта на Redmi 12C и проблемы aqt со старым форматом репозитория).
+      # Версия выверена по deploy.yml (матрица Build-Android) и проверена через
+      # aqt list-qt all_os android (новый формат all_os, aqt >= 3.3.0).
+      QT_VERSION: '6.10.1'
+      QT_ROOT_PATH: ${{ github.workspace }}/Qt/6.10.1
+      ANDROID_NDK_VERSION: 27.0.11718014
+      QT_MIRROR: https://mirrors.ocf.berkeley.edu/qt/
+      QT_MODULES: "qtremoteobjects qt5compat qtimageformats qtshadertools"
       LIBXRAY_RELEASE_URL: https://github.com/${{ github.repository }}/releases/download/libxray/libxray.aar
 
     steps:
@@ -33,26 +40,51 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # aqt сломан для android 6.7.3 (3.1.x падает на qt6_dev в listing,
-      # 3.3.0 ищет Updates.xml не в том пути). Поэтому используем готовый
-      # Qt 6.7.3 (android_arm64_v8a + linux gcc_64 host) из release 'libxray'.
-      - name: 'Install Qt 6.7.3 (android + host from release)'
-        run: |
-          set -euo pipefail
-          mkdir -p "${{ github.workspace }}/Qt/6.7.3"
-          URL="https://github.com/${{ github.repository }}/releases/download/libxray/qt-6.7.3-android-host.tar.zst"
-          echo "Downloading Qt 6.7.3 bundle..."
-          wget -q --tries=2 "$URL" -O /tmp/qt.tar.zst
-          tar -x --zstd -f /tmp/qt.tar.zst -C "${{ github.workspace }}/Qt/6.7.3"
-          ls "${{ github.workspace }}/Qt/6.7.3"
-          test -f "${{ github.workspace }}/Qt/6.7.3/android_arm64_v8a/bin/qmake"
-          test -x "${{ github.workspace }}/Qt/6.7.3/gcc_64/libexec/moc"
+      - name: 'Install Qt (android_arm64_v8a)'
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: ${{ env.QT_VERSION }}
+          host: 'linux'
+          target: 'android'
+          arch: 'android_arm64_v8a'
+          modules: ${{ env.QT_MODULES }}
+          dir: ${{ github.workspace }}/Qt
+          setup-python: 'true'
+          python-version: '3.12'
+          cache: true
+          aqtversion: '==3.3.0'
+          py7zrversion: '==0.22.*'
+          extra: '--base ${{ env.QT_MIRROR }}'
+
+      # Хост-инструменты (moc/rcc/libexec) для кросс-сборки; в 6.8+ архив
+      # называется linux_gcc_64, дополнительных модулей для десктопа нет.
+      - name: 'Install Qt (linux host tools)'
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: ${{ env.QT_VERSION }}
+          host: 'linux'
+          target: 'desktop'
+          arch: 'linux_gcc_64'
+          dir: ${{ github.workspace }}/Qt
+          setup-python: 'true'
+          python-version: '3.12'
+          cache: true
+          aqtversion: '==3.3.0'
+          py7zrversion: '==0.22.*'
+          extra: '--base ${{ env.QT_MIRROR }}'
 
       - name: 'Install build tools (conan, ninja)'
         run: |
           python3 -m pip install --upgrade pip
           python3 -m pip install "conan>=2.0" ninja
           conan profile detect --force || true
+
+      # Детерминированный NDK (27.x как в deploy.yml) + platform android-28:
+      # build.sh подхватит NDK через фильтр ANDROID_NDK_VERSION.
+      - name: 'Setup Android SDK/NDK'
+        uses: android-actions/setup-android@v4
+        with:
+          packages: 'platforms;android-28 ndk;${{ env.ANDROID_NDK_VERSION }}'
 
       # libxray.aar не хранится в репо (58 МБ). Один раз загрузите его как
       # релиз-ассет: Releases -> Draft new release -> tag "libxray" ->
