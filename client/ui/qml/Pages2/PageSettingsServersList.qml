@@ -64,7 +64,7 @@ PageType {
 
             Rectangle {
                 width: 40; height: 40; radius: 12
-                color: '#D4AF37'
+                color: '#E6B64C'
                 Text {
                     anchors.centerIn: parent
                     text: "\u25B2"
@@ -86,7 +86,7 @@ PageType {
                 }
                 Text {
                     text: ConnectionController.isConnected ? qsTr("Подключено") : qsTr("Доступен")
-                    color: ConnectionController.isConnected ? '#34D399' : '#8E8E93'
+                    color: ConnectionController.isConnected ? '#3DDC84' : '#8E8E93'
                     font.pixelSize: 12
                 }
             }

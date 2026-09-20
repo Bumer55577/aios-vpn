@@ -13,9 +13,9 @@ import Style 1.0
 Button {
     id: root
 
-    property string defaultButtonColor: '#D4AF37' // AIOS: золото офлайн
-    property string progressButtonColor: '#8a6f1f' // AIOS: приглушённое золото в процессе
-    property string connectedButtonColor: '#34D399' // AIOS: зелёное свечение подключено
+    property string defaultButtonColor: '#E6B64C' // AIOS: золото офлайн
+    property string progressButtonColor: '#B98A2E' // AIOS: приглушённое золото в процессе
+    property string connectedButtonColor: '#3DDC84' // AIOS: зелёное свечение подключено
 
     // AIOS: на главной состояние показывается подписью под кнопкой,
     // на остальных экранах текст внутри кнопки сохранён

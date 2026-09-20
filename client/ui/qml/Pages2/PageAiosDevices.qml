@@ -141,7 +141,7 @@ PageType {
                 height: countersRow.implicitHeight + 24
                 radius: 16
 
-                color: '#16161A'
+                color: '#101015'
                 border.color: '#2A2A2F'
                 border.width: 1
 
@@ -177,8 +177,8 @@ PageType {
                     Rectangle {
                         visible: root.hasProfileInfo
                         radius: 12
-                        color: Qt.rgba(212/255, 175/255, 55/255, 0.12)
-                        border.color: Qt.rgba(212/255, 175/255, 55/255, 0.4)
+                        color: Qt.rgba(230/255, 182/255, 76/255, 0.12)
+                        border.color: Qt.rgba(230/255, 182/255, 76/255, 0.4)
                         width: limitText.implicitWidth + 20
                         height: limitText.implicitHeight + 8
 
@@ -186,7 +186,7 @@ PageType {
                             id: limitText
                             anchors.centerIn: parent
                             text: qsTr("Лимит") + " " + AiosProfileController.devicesTotal
-                            color: '#D4AF37'
+                            color: '#E6B64C'
                             font.pixelSize: 11
                         }
                     }
@@ -233,8 +233,8 @@ PageType {
                         implicitHeight: deviceRow.implicitHeight + 28
 
                         radius: 16
-                        color: isSelected ? Qt.rgba(212/255, 175/255, 55/255, 0.08) : '#16161A'
-                        border.color: isSelected ? Qt.rgba(212/255, 175/255, 55/255, 0.5) : '#2A2A2F'
+                        color: isSelected ? Qt.rgba(230/255, 182/255, 76/255, 0.08) : '#101015'
+                        border.color: isSelected ? Qt.rgba(230/255, 182/255, 76/255, 0.5) : '#2A2A2F'
                         border.width: 1
 
                         RowLayout {
@@ -251,8 +251,8 @@ PageType {
                                 width: 44
                                 height: 44
                                 radius: 12
-                                color: Qt.rgba(212/255, 175/255, 55/255, 0.1)
-                                border.color: Qt.rgba(212/255, 175/255, 55/255, 0.24)
+                                color: Qt.rgba(230/255, 182/255, 76/255, 0.1)
+                                border.color: Qt.rgba(230/255, 182/255, 76/255, 0.24)
 
                                 Image {
                                     anchors.centerIn: parent
@@ -286,8 +286,8 @@ PageType {
                                         id: currentBadge
                                         visible: deviceCard.isCurrent
                                         radius: 8
-                                        color: Qt.rgba(52/255, 211/255, 153/255, 0.12)
-                                        border.color: Qt.rgba(52/255, 211/255, 153/255, 0.3)
+                                        color: Qt.rgba(61/255, 220/255, 132/255, 0.12)
+                                        border.color: Qt.rgba(61/255, 220/255, 132/255, 0.3)
                                         width: currentBadgeText.implicitWidth + 16
                                         height: currentBadgeText.implicitHeight + 6
 
@@ -316,13 +316,13 @@ PageType {
                                 width: 24
                                 height: 24
                                 radius: 12
-                                color: deviceCard.isSelected ? '#D4AF37' : "transparent"
-                                border.color: deviceCard.isSelected ? '#D4AF37' : Qt.rgba(212/255, 175/255, 55/255, 0.4)
+                                color: deviceCard.isSelected ? '#E6B64C' : "transparent"
+                                border.color: deviceCard.isSelected ? '#E6B64C' : Qt.rgba(230/255, 182/255, 76/255, 0.4)
 
                                 Text {
                                     anchors.centerIn: parent
                                     text: "✓"
-                                    color: '#0B0B0D'
+                                    color: '#060609'
                                     font.pixelSize: 13
                                     font.bold: true
                                     visible: deviceCard.isSelected
@@ -408,12 +408,12 @@ PageType {
 
                     implicitHeight: 36
 
-                    defaultColor: Qt.rgba(212/255, 175/255, 55/255, 0.12)
-                    hoveredColor: Qt.rgba(212/255, 175/255, 55/255, 0.2)
-                    pressedColor: Qt.rgba(212/255, 175/255, 55/255, 0.28)
-                    textColor: '#D4AF37'
+                    defaultColor: Qt.rgba(230/255, 182/255, 76/255, 0.12)
+                    hoveredColor: Qt.rgba(230/255, 182/255, 76/255, 0.2)
+                    pressedColor: Qt.rgba(230/255, 182/255, 76/255, 0.28)
+                    textColor: '#E6B64C'
                     borderWidth: 1
-                    borderColor: Qt.rgba(212/255, 175/255, 55/255, 0.4)
+                    borderColor: Qt.rgba(230/255, 182/255, 76/255, 0.4)
 
                     text: qsTr("Повторить")
                     clickedFunction: function() {
@@ -451,7 +451,7 @@ PageType {
         radius: 16
 
         color: '#0E0E12'
-        border.color: Qt.rgba(212/255, 175/255, 55/255, 0.28)
+        border.color: Qt.rgba(230/255, 182/255, 76/255, 0.28)
         border.width: 1
 
         RowLayout {

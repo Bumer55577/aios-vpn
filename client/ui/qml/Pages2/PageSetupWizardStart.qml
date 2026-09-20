@@ -38,7 +38,7 @@ PageType {
 
         Text {
             text: qsTr("AIOS")
-            color: "#D4AF37"
+            color: "#E6B64C"
             font.pixelSize: 38
             font.weight: Font.DemiBold
             font.letterSpacing: 12
@@ -48,7 +48,7 @@ PageType {
 
         Text {
             text: qsTr("VPN")
-            color: "#D4AF37"
+            color: "#E6B64C"
             font.pixelSize: 15
             font.weight: Font.Medium
             font.letterSpacing: 13
@@ -58,7 +58,7 @@ PageType {
 
         Text {
             text: qsTr("Свобода в каждом соединении")
-            color: "#D4AF37"
+            color: "#E6B64C"
             font.pixelSize: 16
             Layout.alignment: Qt.AlignHCenter
             Layout.topMargin: 12
@@ -106,7 +106,7 @@ PageType {
                         width: 24; height: 24
                         visible: false
                     }
-                    ColorOverlay { anchors.fill: f1; source: f1; color: "#D4AF37" }
+                    ColorOverlay { anchors.fill: f1; source: f1; color: "#E6B64C" }
                 }
 
                 Text {
@@ -136,7 +136,7 @@ PageType {
                         width: 24; height: 24
                         visible: false
                     }
-                    ColorOverlay { anchors.fill: f2; source: f2; color: "#D4AF37" }
+                    ColorOverlay { anchors.fill: f2; source: f2; color: "#E6B64C" }
                 }
 
                 Text {
@@ -166,7 +166,7 @@ PageType {
                         width: 24; height: 24
                         visible: false
                     }
-                    ColorOverlay { anchors.fill: f3; source: f3; color: "#D4AF37" }
+                    ColorOverlay { anchors.fill: f3; source: f3; color: "#E6B64C" }
                 }
 
                 Text {
@@ -203,7 +203,7 @@ PageType {
                         width: 24; height: 24
                         visible: false
                     }
-                    ColorOverlay { anchors.fill: f4; source: f4; color: "#D4AF37" }
+                    ColorOverlay { anchors.fill: f4; source: f4; color: "#E6B64C" }
                 }
 
                 Text {
@@ -233,7 +233,7 @@ PageType {
                         width: 24; height: 24
                         visible: false
                     }
-                    ColorOverlay { anchors.fill: f5; source: f5; color: "#D4AF37" }
+                    ColorOverlay { anchors.fill: f5; source: f5; color: "#E6B64C" }
                 }
 
                 Text {
@@ -262,7 +262,7 @@ PageType {
 
             implicitHeight: 48
 
-            defaultColor: "#D4AF37"
+            defaultColor: "#E6B64C"
             hoveredColor: "#E5C158"
             pressedColor: "#B8860B"
             disabledColor: AmneziaStyle.color.mutedGray
@@ -285,7 +285,7 @@ PageType {
             Layout.bottomMargin: 14 + PageController.safeAreaBottomMargin
             spacing: 7
 
-            Rectangle { width: 8; height: 8; radius: 4; color: "#D4AF37" }
+            Rectangle { width: 8; height: 8; radius: 4; color: "#E6B64C" }
             Rectangle { width: 8; height: 8; radius: 4; color: "#3A3A3E" }
             Rectangle { width: 8; height: 8; radius: 4; color: "#3A3A3E" }
             Rectangle { width: 8; height: 8; radius: 4; color: "#3A3A3E" }

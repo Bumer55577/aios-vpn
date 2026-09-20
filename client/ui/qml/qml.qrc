@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/ui/qml">
         <file>Components/UpdateSupportDrawer.qml</file>
+        <file>Components/AiosSettingsDrawer.qml</file>
         <file>Components/AdLabel.qml</file>
         <file>Components/ConnectButton.qml</file>
         <file>Components/ConnectionTypeSelectionDrawer.qml</file>
@@ -20,6 +21,8 @@
         <file>Components/TransportProtoSelector.qml</file>
         <file>Components/AddSitePanel.qml</file>
         <file>Config/GlobalConfig.qml</file>
+        <file>Config/AiosNav.qml</file>
+
         <file>Config/qmldir</file>
         <file>Controls2/BackButtonType.qml</file>
         <file>Controls2/BasicButtonType.qml</file>
@@ -82,6 +85,8 @@
         <file>Modules/Style/qmldir</file>
         <file>Pages2/AiosRenewDrawer.qml</file>
         <file>Pages2/PageAiosDevices.qml</file>
+        <file>Pages2/PageAiosProfile.qml</file>
+        <file>Pages2/PageAiosServers.qml</file>
         <file>Pages2/PageDeinstalling.qml</file>
         <file>Pages2/PageDevMenu.qml</file>
         <file>Pages2/PageHome.qml</file>

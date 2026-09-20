@@ -74,7 +74,7 @@ PageType {
                 implicitHeight: aiosProfileColumn.implicitHeight + 32
                 radius: 16
 
-                color: '#16161A'
+                color: '#101015'
                 border.color: '#2A2A2F'
                 border.width: 1
 
@@ -92,11 +92,11 @@ PageType {
 
                         Rectangle {
                             width: 44; height: 44; radius: 22
-                            color: '#D4AF37'
+                            color: '#E6B64C'
                             Text {
                                 anchors.centerIn: parent
                                 text: "AIOS"
-                                color: '#0B0B0D'
+                                color: '#060609'
                                 font.pixelSize: 12
                                 font.bold: true
                             }
@@ -120,7 +120,7 @@ PageType {
                                     if (AiosProfileController.expires !== "") return qsTr("Доступ до ") + AiosProfileController.expires
                                     return qsTr("Доступ активен")
                                 }
-                                color: (AiosProfileController.hasProfile && AiosProfileController.expired) ? '#D4AF37' : '#34D399'
+                                color: (AiosProfileController.hasProfile && AiosProfileController.expired) ? '#E6B64C' : '#3DDC84'
                                 font.pixelSize: 12
                             }
                         }
@@ -148,7 +148,7 @@ PageType {
                         }
                         Text {
                             text: "›"
-                            color: '#D4AF37'
+                            color: '#E6B64C'
                             font.pixelSize: 16
                         }
 
@@ -164,16 +164,16 @@ PageType {
                         Layout.fillWidth: true
                         implicitHeight: 44
 
-                        defaultColor: '#D4AF37'
-                        hoveredColor: '#E4C258'
-                        pressedColor: '#B8922C'
-                        textColor: '#0B0B0D'
+                        defaultColor: '#E6B64C'
+                        hoveredColor: '#F4D98B'
+                        pressedColor: '#C9962E'
+                        textColor: '#060609'
                         borderWidth: 0
 
                         text: AiosProfileController.hasProfile && AiosProfileController.expired
                               ? qsTr("Продлить доступ")
                               : qsTr("Продлить тариф")
-                        clickedFunction: function() {
+                        clickedFunc: function() {
                             aiosRenewDrawer.openTriggered()
                         }
                     }

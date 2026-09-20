@@ -1,1 +1,2 @@
 singleton GC 1.0 GlobalConfig.qml
+singleton AiosNav 1.0 AiosNav.qml

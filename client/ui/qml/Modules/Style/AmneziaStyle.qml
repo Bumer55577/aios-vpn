@@ -11,8 +11,8 @@ QtObject {
         readonly property color charcoalGray: '#494B50'
         readonly property color slateGray: '#2C2D30'
         readonly property color onyxBlack: '#1C1D21'
-        readonly property color midnightBlack: '#0E0E11'
-        readonly property color goldenApricot: goldenApricotString // AIOS: золото #D4AF37
+        readonly property color midnightBlack: '#060609' // AIOS: фон прототипа
+        readonly property color goldenApricot: goldenApricotString // AIOS: золото #E6B64C
         readonly property color benefitsPanelBackground: '#1C1C1E'
         readonly property color softViolet: '#A87BE2'
         readonly property color burntOrange: '#A85809'
@@ -36,21 +36,27 @@ QtObject {
         readonly property color translucentSlateGray: Qt.rgba(85/255, 86/255, 92/255, 0.13)
         readonly property color translucentOnyxBlack: Qt.rgba(28/255, 29/255, 33/255, 0.13)
 
-        readonly property string goldenApricotString: '#D4AF37' // AIOS gold
+        readonly property string goldenApricotString: '#E6B64C' // AIOS gold
 
-        readonly property color backgroundBase: '#0B0B0D' // AIOS: глубокий чёрный
-        readonly property color surfaceBase: '#16161A'
-        readonly property color surfaceHovered: '#232327'
+        // AIOS: производные оттенки золота из прототипа
+        readonly property color goldLight: '#F4D98B'
+        readonly property color goldDark: '#C9962E'
+        readonly property color goldInk: '#231806'
+        readonly property color goldBorder: Qt.rgba(230/255, 182/255, 76/255, 0.13)
+
+        readonly property color backgroundBase: '#060609' // AIOS: глубокий чёрный
+        readonly property color surfaceBase: '#101015'
+        readonly property color surfaceHovered: '#17171D'
         readonly property color surfacePressed: '#2C2D30'
         readonly property color surfaceInverse: '#E4E4E7'
         readonly property color surfaceInverseHovered: '#D4D4D8'
         readonly property color surfaceInversePressed: '#A1A1AA'
-        readonly property color textPrimary: '#FAFAFA'
-        readonly property color textTertiary: '#A1A1AA'
+        readonly property color textPrimary: '#F3EEE1' // AIOS: тёплый кремовый текст
+        readonly property color textTertiary: '#98917F' // AIOS: приглушённый тёплый серый
         readonly property color textInverted: '#09090B'
         readonly property color textStaticWhite: '#FFFFFF'
         readonly property color borderSoft: '#3F3F46'
-        readonly property color accentSuccess: '#34D399' // AIOS: зелёный статус
-        readonly property color accentWarning: '#D4AF37' // AIOS: золото вместо жёлтого
+        readonly property color accentSuccess: '#3DDC84' // AIOS: зелёный статус
+        readonly property color accentWarning: '#E6B64C' // AIOS: золото вместо жёлтого
     }
 }

@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Shapes
+import Qt5Compat.GraphicalEffects
 
 import PageEnum 1.0
 import Style 1.0
@@ -14,6 +15,94 @@ import "../Components"
 
 PageType {
     id: root
+
+    // AIOS: вкладка нижней навигации — иконка, подпись, золотая точка
+    component AiosTabButton: TabButton {
+        id: tabRoot
+
+        property string image
+        property string label
+        property var clickedFunc
+        property bool isFocusable: true
+
+        property int tabIndex: 0
+        isSelected: tabBar.currentIndex === tabRoot.tabIndex
+
+        implicitWidth: tabBar.width / 3
+        implicitHeight: 52
+
+        hoverEnabled: false
+
+        icon.source: image
+        icon.color: tabRoot.isSelected ? '#E6B64C' : Qt.rgba(135/255, 139/255, 145/255, 0.6)
+
+        background: Rectangle {
+            color: AmneziaStyle.color.transparent
+        }
+
+        contentItem: Column {
+            spacing: 4
+
+            Image {
+                anchors.horizontalCenter: parent.horizontalCenter
+                source: tabRoot.image
+                sourceSize.width: 22
+                sourceSize.height: 22
+                layer.enabled: true
+                layer.effect: ColorOverlay {
+                    color: tabRoot.isSelected ? '#E6B64C' : Qt.rgba(135/255, 139/255, 145/255, 0.6)
+                }
+            }
+
+            Text {
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                text: tabRoot.label
+                color: tabRoot.isSelected ? '#E6B64C' : Qt.rgba(135/255, 139/255, 145/255, 0.6)
+                font.pixelSize: 10
+                font.weight: tabRoot.isSelected ? Font.Medium : Font.Normal
+            }
+
+            Rectangle {
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                width: 4
+                height: 4
+                radius: 2
+
+                color: tabRoot.isSelected ? '#E6B64C' : AmneziaStyle.color.transparent
+            }
+        }
+
+        Keys.onTabPressed: {
+            FocusController.nextKeyTabItem()
+        }
+
+        Keys.onEnterPressed: {
+            if (tabRoot.clickedFunc && typeof tabRoot.clickedFunc === "function") {
+                tabRoot.clickedFunc()
+            }
+        }
+
+        Keys.onReturnPressed: {
+            if (tabRoot.clickedFunc && typeof tabRoot.clickedFunc === "function") {
+                tabRoot.clickedFunc()
+            }
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+            enabled: false
+        }
+
+        onClicked: {
+            if (tabRoot.clickedFunc && typeof tabRoot.clickedFunc === "function") {
+                tabRoot.clickedFunc()
+            }
+        }
+    }
+
 
     property bool isControlsDisabled: false
     property bool isTabBarDisabled: false
@@ -35,7 +124,7 @@ PageType {
         }
 
         function onGoToPageSettings() {
-            tabBar.setCurrentIndex(2)
+            // AIOS: полные настройки открываются как страница стека
             tabBarStackView.goToTabBarPage(PageEnum.PageSettings)
         }
 
@@ -97,6 +186,8 @@ PageType {
             var pageName = tabBarStackView.currentItem.objectName
             if ((pageName === PageController.getPagePath(PageEnum.PageShare)) ||
                     (pageName === PageController.getPagePath(PageEnum.PageSettings)) ||
+                    (pageName === PageController.getPagePath(PageEnum.PageAiosServers)) ||
+                    (pageName === PageController.getPagePath(PageEnum.PageAiosProfile)) ||
                     (pageName === PageController.getPagePath(PageEnum.PageSetupWizardConfigSource))) {
                 PageController.goToPageHome()
             } else {
@@ -115,6 +206,28 @@ PageType {
 
             ServersUiController.setProcessedServerId(ServersUiController.defaultServerId)
             PageController.goToPage(PageEnum.PageSetupWizardEasy)
+        }
+    }
+
+    // AIOS: переключение вкладок из страниц (карточка «Мой сервер» и др.)
+    Connections {
+        objectName: "aiosNavConnections"
+
+        target: AiosNav
+
+        function onGoToHomeTab() {
+            tabBar.setCurrentIndex(0)
+            tabBarStackView.goToTabBarPage(PageEnum.PageHome)
+        }
+
+        function onGoToServersTab() {
+            tabBar.setCurrentIndex(1)
+            tabBarStackView.goToTabBarPage(PageEnum.PageAiosServers)
+        }
+
+        function onGoToProfileTab() {
+            tabBar.setCurrentIndex(2)
+            tabBarStackView.goToTabBarPage(PageEnum.PageAiosProfile)
         }
     }
 
@@ -327,42 +440,39 @@ PageType {
         // Also adjust TabBar position when keyboard appears (Android 14+ workaround)
         anchors.bottomMargin: PageController.imeHeight
 
-        topPadding: 8
-        bottomPadding: 8 + PageController.safeAreaBottomMargin
-        leftPadding: 96
-        rightPadding: 96
+        topPadding: 10
+        bottomPadding: 10 + PageController.safeAreaBottomMargin
 
         height: visible ? homeTabButton.implicitHeight + tabBar.topPadding + tabBar.bottomPadding : 0
 
         enabled: !root.isControlsDisabled && !root.isTabBarDisabled
 
-        background: Shape {
+        background: Rectangle {
             objectName: "backgroundShape"
 
             width: parent.width
             height: parent.height
 
-            ShapePath {
-                startX: 0
-                startY: 0
+            color: '#0A0A0E'
 
-                PathLine { x: width; y: 0 }
-                PathLine { x: width; y: tabBar.height - 1 }
-                PathLine { x: 0; y: tabBar.height - 1 }
-                PathLine { x: 0; y: 0 }
-
-                strokeWidth: 1
-                strokeColor: AmneziaStyle.color.slateGray
-                fillColor: AmneziaStyle.color.onyxBlack
+            // золотая линия сверху
+            Rectangle {
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.right: parent.right
+                height: 1
+                color: Qt.rgba(230/255, 182/255, 76/255, 0.1)
             }
         }
 
-        TabImageButtonType {
+        AiosTabButton {
             id: homeTabButton
             objectName: "homeTabButton"
 
-            isSelected: tabBar.currentIndex === 0
+            tabIndex: 0
             image: "qrc:/images/controls/home.svg"
+            label: qsTr("Главная")
+
             clickedFunc: function () {
                 tabBarStackView.goToTabBarPage(PageEnum.PageHome)
                 ServersUiController.setProcessedServerId(ServersUiController.defaultServerId)
@@ -370,60 +480,31 @@ PageType {
             }
         }
 
-        TabImageButtonType {
-            id: shareTabButton
-            objectName: "shareTabButton"
+        AiosTabButton {
+            id: serversTabButton
+            objectName: "serversTabButton"
 
-            Connections {
-                target: ServersModel
+            tabIndex: 1
+            image: "qrc:/images/controls/globe-2.svg"
+            label: qsTr("Серверы")
 
-                function onModelReset() {
-                    if (!SettingsController.isOnTv()) {
-                        var hasServerWithWriteAccess = ServersUiController.hasServerWithWriteAccess()
-                        shareTabButton.visible = hasServerWithWriteAccess
-                        shareTabButton.width = hasServerWithWriteAccess ? undefined : 0
-                    }
-                }
-            }
-
-            visible: !SettingsController.isOnTv() && ServersUiController.hasServerWithWriteAccess()
-            width: !SettingsController.isOnTv() && ServersUiController.hasServerWithWriteAccess() ? undefined : 0
-
-            isSelected: tabBar.currentIndex === 1
-            image: "qrc:/images/controls/share-2.svg"
             clickedFunc: function () {
-                tabBarStackView.goToTabBarPage(PageEnum.PageShare)
+                tabBarStackView.goToTabBarPage(PageEnum.PageAiosServers)
                 tabBar.currentIndex = 1
             }
         }
 
-        TabImageButtonType {
-            id: settingsTabButton
-            objectName: "settingsTabButton"
+        AiosTabButton {
+            id: profileTabButton
+            objectName: "profileTabButton"
 
-            isSelected: tabBar.currentIndex === 2
-            image: (ServersUiController.hasServersFromGatewayApi && NewsModel.hasUnread && SettingsController.isNewsNotificationsEnabled()) ? "qrc:/images/controls/settings-news.svg" : "qrc:/images/controls/settings.svg"
-            Binding {
-                target: settingsTabButton
-                property: "defaultColor"
-                value: "transparent"
-                when: (ServersUiController.hasServersFromGatewayApi && NewsModel.hasUnread)
-            }
+            tabIndex: 2
+            image: "qrc:/images/controls/user.svg"
+            label: qsTr("Профиль")
+
             clickedFunc: function () {
-                tabBarStackView.goToTabBarPage(PageEnum.PageSettings)
+                tabBarStackView.goToTabBarPage(PageEnum.PageAiosProfile)
                 tabBar.currentIndex = 2
-            }
-        }
-
-        TabImageButtonType {
-            id: plusTabButton
-            objectName: "plusTabButton"
-
-            isSelected: tabBar.currentIndex === 3
-            image: "qrc:/images/controls/plus.svg"
-            clickedFunc: function () {
-                tabBarStackView.goToTabBarPage(PageEnum.PageSetupWizardConfigSource)
-                tabBar.currentIndex = 3
             }
         }
     }

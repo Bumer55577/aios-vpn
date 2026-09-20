@@ -18,6 +18,9 @@ DrawerType2 {
     anchors.fill: parent
     expandedHeight: parent.height * 0.56
 
+    defaultColor: '#121218'
+    borderColor: Qt.rgba(230/255, 182/255, 76/255, 0.15)
+
     // Плейсхолдер: заменить на реальный адрес платёжной страницы
     property string paymentBaseUrl: "https://aios-vpn.app/pay"
 
@@ -106,8 +109,8 @@ DrawerType2 {
                     implicitHeight: tariffRow.implicitHeight + 24
 
                     radius: 14
-                    color: isSelected ? Qt.rgba(212/255, 175/255, 55/255, 0.08) : '#16161A'
-                    border.color: isSelected ? '#D4AF37' : '#2A2A2F'
+                    color: isSelected ? Qt.rgba(230/255, 182/255, 76/255, 0.08) : '#101015'
+                    border.color: isSelected ? '#E6B64C' : '#2A2A2F'
                     border.width: 1
 
                     RowLayout {
@@ -125,7 +128,7 @@ DrawerType2 {
                             height: 20
                             radius: 10
                             color: "transparent"
-                            border.color: tariffCard.isSelected ? '#D4AF37' : '#8E8E93'
+                            border.color: tariffCard.isSelected ? '#E6B64C' : '#8E8E93'
                             border.width: 2
 
                             Rectangle {
@@ -133,7 +136,7 @@ DrawerType2 {
                                 width: 10
                                 height: 10
                                 radius: 5
-                                color: '#D4AF37'
+                                color: '#E6B64C'
                                 visible: tariffCard.isSelected
                             }
                         }
@@ -149,8 +152,8 @@ DrawerType2 {
                         Rectangle {
                             visible: tariffCard.modelData.badge !== ""
                             radius: 8
-                            color: Qt.rgba(212/255, 175/255, 55/255, 0.12)
-                            border.color: Qt.rgba(212/255, 175/255, 55/255, 0.4)
+                            color: Qt.rgba(230/255, 182/255, 76/255, 0.12)
+                            border.color: Qt.rgba(230/255, 182/255, 76/255, 0.4)
                             width: badgeText.implicitWidth + 16
                             height: badgeText.implicitHeight + 6
 
@@ -158,7 +161,7 @@ DrawerType2 {
                                 id: badgeText
                                 anchors.centerIn: parent
                                 text: tariffCard.modelData.badge
-                                color: '#D4AF37'
+                                color: '#E6B64C'
                                 font.pixelSize: 10
                             }
                         }
@@ -197,14 +200,14 @@ DrawerType2 {
                 Layout.fillWidth: true
                 implicitHeight: 48
 
-                defaultColor: '#D4AF37'
-                hoveredColor: '#E4C258'
-                pressedColor: '#B8922C'
-                textColor: '#0B0B0D'
+                defaultColor: '#E6B64C'
+                hoveredColor: '#F4D98B'
+                pressedColor: '#C9962E'
+                textColor: '#060609'
                 borderWidth: 0
 
                 text: qsTr("Оплатить") + " " + root.selectedTariff.price + " ₽"
-                clickedFunction: function() {
+                clickedFunc: function() {
                     root.pay()
                 }
             }
