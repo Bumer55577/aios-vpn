@@ -83,6 +83,7 @@
         <file>controls/trash.svg</file>
         <file>controls/user.svg</file>
         <file>controls/wifi.svg</file>
+        <file>controls/zap.svg</file>
         <file>controls/x-circle.svg</file>
         <file>tray/active.png</file>
         <file>tray/default.png</file>

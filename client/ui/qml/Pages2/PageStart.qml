@@ -26,7 +26,9 @@ PageType {
         property bool isFocusable: true
 
         property int tabIndex: 0
-        isSelected: tabBar.currentIndex === tabRoot.tabIndex
+        // AIOS: объявляем свойство (TabButton из QtQuick.Controls не имеет isSelected;
+        // присваивание несуществующего свойства фатально ломает компиляцию PageStart и крашит приложение на старте)
+        property bool isSelected: tabBar.currentIndex === tabRoot.tabIndex
 
         implicitWidth: tabBar.width / 3
         implicitHeight: 52
