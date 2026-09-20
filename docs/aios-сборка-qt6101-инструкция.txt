@@ -1,0 +1,58 @@
+ЗАМЕНА CI-ВОРКФЛОУ НА Qt 6.10.1 (финальный шаг против краша Redmi 12C)
+=======================================================================
+
+ЧТО УЖЕ СДЕЛАНО (запушено в master, коммиты 1b22893 + bb592b2):
+- v3: убраны все пользовательские упоминания Amnezia (39 файлов QML +
+  11 переводов), контакты -> support@aios-vpn.app / GitHub.
+- README: тулчейн для локальной сборки -> Qt 6.10.1 / NDK 27 / android-28.
+- .gitignore: исключение !.github/workflows/* (больше не блокирует CI-файл).
+- ContextMenuType.qml оставлен в двойно-совместимом виде: работает и на
+  6.7.3 (текущий пребилд-бандл), и на 6.10.1.
+
+ПОЧЕМУ ФАЙЛ WORKFLOW НЕЛЬЗЯ ЗАПУШИТЬ КЛЮЧОМ:
+GitHub запрещает deploy-ключам создавать/менять файлы в
+.github/workflows/ (нужен аккаунт со scope "workflow"). Поэтому
+последний шаг делаете вы (2 минуты, любым из способов).
+
+ЧТО НУЖНО СДЕЛАТЬ (заменить 1 файл):
+Файл:  aios-build-android-qt6101.yml  (лежит рядом с этой инструкцией)
+Цель:  .github/workflows/build-android.yml
+
+СПОСОБ А — через веб (самый быстрый):
+  1. Откройте https://github.com/Bumer55577/aios-vpn/blob/master/.github/workflows/build-android.yml
+  2. Карандаш (Edit) -> выделить всё (Ctrl+A) -> удалить.
+  3. Вставьте содержимое aios-build-android-qt6101.yml (откройте файл
+     любым текстовым редактором, Ctrl+A -> Ctrl+C).
+  4. Commit changes -> Commit directly to the master branch.
+  5. Actions: начнётся запуск "AIOS VPN — Android APK" на Qt 6.10.1.
+
+СПОСОБ Б — у агента есть аккаунт с правами записи:
+  просто перезаписать .github/workflows/build-android.yml содержимым
+  aios-build-android-qt6101.yml и закоммитить в master.
+
+ЧТО МЕНЯЕТСЯ В WORKFLOW (почему это лечит краш):
+- Qt 6.7.3 пребилд-бандл  ->  Qt 6.10.1 через jurplel/install-qt-action@v4
+  (aqt 3.3.0, python 3.12, зеркало mirrors.ocf.berkeley.edu).
+- popupType / ContextMenu / ShaderTools работают из коробки — именно их
+  отсутствие в 6.7.3 валило приложение на старте (Redmi 12C и другие
+  низкобюджетные устройства).
+- Детерминированный NDK 27.0.11718014 + platforms;android-28.
+- Модули: qtremoteobjects qt5compat qtimageformats qtshadertools
+  (проверены командой aqt list-qt all_os android --modules).
+- Хост-инструменты: arch "linux_gcc_64" (в 6.8+ переименован из "gcc_64",
+  модулей для десктопа больше нет — это учтено).
+- libxray.aar и кейстор-логика сохранены без изменений.
+
+ПРОВЕРЕНО ЛОКАЛЬНО (aqt 3.3.0):
+- aqt list-qt all_os android          -> 6.10.1 присутствует
+- aqt list-qt all_os android --arch 6.10.1  -> android_arm64_v8a есть
+- aqt list-qt all_os android --modules 6.10.1 android_arm64_v8a
+                                      -> все 4 модуля есть
+- зеркало OCF отдаёт метаданные qt6_6101
+- YAML провалидирован
+
+ПОСЛЕ ЗАМЕНЫ:
+- Каждый пуш в master снова собирает подписанный APK-артефакт
+  (AIOS-VPN-Android-arm64), теперь на Qt 6.10.1.
+- Если запуск упадёт — пришлите лог шага "Install Qt", причина будет
+  видна сразу.
