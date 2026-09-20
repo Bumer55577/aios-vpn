@@ -85,252 +85,462 @@ PageType {
         anchors.fill: parent
         anchors.bottomMargin: drawer.collapsedHeight
 
-        ColumnLayout {
-            objectName: "homeColumnLayout"
+        FlickableType {
+            id: homeFlickable
+            objectName: "homeFlickable"
 
-            anchors.fill: parent
-            anchors.topMargin: 12 + PageController.safeAreaTopMargin
+            height: parent.height
+            contentHeight: homeColumnLayout.implicitHeight
 
-            // AIOS: статус-баннер по референсу (жёлтый офлайн / зелёный подключено)
-            Rectangle {
-                id: aiosStatusBanner
-                objectName: "aiosStatusBanner"
+            ColumnLayout {
+                id: homeColumnLayout
+                objectName: "homeColumnLayout"
 
-                Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-                Layout.topMargin: 8
-                Layout.preferredWidth: Math.min(parent.width - 32, 340)
-                Layout.preferredHeight: 52
-                radius: 26
+                width: homeFlickable.width
+                spacing: 0
 
-                color: ConnectionController.isConnected ? Qt.rgba(52/255, 211/255, 153/255, 0.14) : Qt.rgba(212/255, 175/255, 55/255, 0.16)
-                border.color: ConnectionController.isConnected ? '#34D399' : '#D4AF37'
-                border.width: 1
+                // AIOS: отступ под системный статус-бар
+                Item {
+                    Layout.preferredWidth: parent.width
+                    Layout.preferredHeight: 12 + PageController.safeAreaTopMargin
+                }
 
+                // AIOS: шапка — фирменный знак + кнопка настроек
                 RowLayout {
-                    anchors.fill: parent
-                    anchors.leftMargin: 16
-                    anchors.rightMargin: 16
+                    objectName: "aiosHeaderRow"
+
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 20
+                    Layout.rightMargin: 20
                     spacing: 10
 
-                    Rectangle {
-                        width: 28; height: 28; radius: 14
-                        color: ConnectionController.isConnected ? '#34D399' : '#D4AF37'
-                        Text {
-                            anchors.centerIn: parent
-                            text: ConnectionController.isConnected ? "✓" : "⚠"
-                            color: '#0B0B0D'
-                            font.pixelSize: 14
-                            font.bold: true
-                        }
+                    Image {
+                        source: "qrc:/images/aios_logo.png"
+                        sourceSize.width: 28
+                        sourceSize.height: 28
                     }
+
                     ColumnLayout {
-                        spacing: 0
+                        spacing: 1
+
                         Text {
-                            text: ConnectionController.isConnected ? qsTr("Подключено") : qsTr("Вы не подключены")
-                            color: ConnectionController.isConnected ? '#34D399' : '#D4AF37'
-                            font.pixelSize: 15
+                            text: "AIOS"
+                            color: '#D4AF37'
+                            font.pixelSize: 14
                             font.weight: Font.Bold
+                            font.letterSpacing: 4.5
                         }
+
                         Text {
-                            text: ConnectionController.isConnected ? qsTr("Ваше соединение защищено") : qsTr("Ваше соединение не защищено")
-                            color: '#8E8E93'
-                            font.pixelSize: 12
+                            text: "VPN"
+                            color: AmneziaStyle.color.textTertiary
+                            font.pixelSize: 8
+                            font.weight: Font.Medium
+                            font.letterSpacing: 7
+                        }
+                    }
+
+                    Item { Layout.fillWidth: true }
+
+                    ImageButtonType {
+                        id: aiosSettingsButton
+                        objectName: "aiosSettingsButton"
+
+                        hoverEnabled: false
+
+                        image: "qrc:/images/controls/settings.svg"
+                        imageColor: AmneziaStyle.color.paleGray
+
+                        icon.width: 18
+                        icon.height: 18
+                        backgroundRadius: 18
+
+                        Keys.onEnterPressed: this.clicked()
+                        Keys.onReturnPressed: this.clicked()
+
+                        onClicked: {
+                            PageController.goToPage(PageEnum.PageSettings)
                         }
                     }
                 }
-            }
-            anchors.bottomMargin: 16
 
-            // AIOS: баннер окончания подписки (последние 7 дней / истёк)
-            Rectangle {
-                id: aiosExpiryBanner
-                objectName: "aiosExpiryBanner"
+                // AIOS: статус-карточка по референсу (золото офлайн / зелёный подключено)
+                Rectangle {
+                    id: aiosStatusBanner
+                    objectName: "aiosStatusBanner"
 
-                property int aiosDaysLeft: {
-                    var s = AiosProfileController.expires
-                    if (!s) return -1
-                    var t = Date.parse(s)
-                    if (isNaN(t)) {
-                        var m = s.match(/^(\d{1,2})[.\-/](\d{1,2})[.\-/](\d{4})/)
-                        if (m) t = new Date(parseInt(m[3], 10), parseInt(m[2], 10) - 1, parseInt(m[1], 10)).getTime()
-                    }
-                    if (isNaN(t)) return -1
-                    return Math.ceil((t - Date.now()) / 86400000)
-                }
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                    Layout.topMargin: 16
+                    Layout.leftMargin: 20
+                    Layout.rightMargin: 20
+                    Layout.preferredWidth: parent.width - 40
+                    implicitHeight: 64
+                    radius: 16
 
-                readonly property bool isExpired: AiosProfileController.hasProfile && AiosProfileController.expired
+                    color: ConnectionController.isConnected ? Qt.rgba(52/255, 211/255, 153/255, 0.08) : '#16161A'
+                    border.color: ConnectionController.isConnected ? Qt.rgba(52/255, 211/255, 153/255, 0.3) : '#2A2A2F'
+                    border.width: 1
 
-                visible: AiosProfileController.hasProfile
-                         && (isExpired || (aiosDaysLeft >= 0 && aiosDaysLeft <= 7))
+                    RowLayout {
+                        anchors.fill: parent
+                        anchors.leftMargin: 16
+                        anchors.rightMargin: 16
+                        spacing: 12
 
-                Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-                Layout.topMargin: 8
-                Layout.preferredWidth: Math.min(parent.width - 32, 340)
-                implicitHeight: expiryRow.implicitHeight + 20
-                radius: 26
+                        Image {
+                            source: ConnectionController.isConnected ? "qrc:/images/controls/check-circle.svg" : "qrc:/images/controls/alert-circle.svg"
 
-                color: isExpired ? Qt.rgba(229/255, 72/255, 77/255, 0.14) : Qt.rgba(212/255, 175/255, 55/255, 0.16)
-                border.color: isExpired ? '#E5484D' : '#D4AF37'
-                border.width: 1
+                            sourceSize.width: 20
+                            sourceSize.height: 20
 
-                RowLayout {
-                    id: expiryRow
-
-                    anchors.centerIn: parent
-                    anchors.leftMargin: 16
-                    anchors.rightMargin: 16
-                    width: parent.width - 32
-
-                    spacing: 10
-
-                    Text {
-                        Layout.fillWidth: true
-
-                        text: {
-                            if (parent.parent.isExpired || parent.parent.aiosDaysLeft <= 0) {
-                                return qsTr("Срок доступа истёк · Нажмите, чтобы продлить")
+                            layer {
+                                enabled: true
+                                effect: ColorOverlay {
+                                    color: ConnectionController.isConnected ? '#34D399' : '#D4AF37'
+                                }
                             }
-                            return qsTr("Подписка истекает · Осталось %1 дн.").arg(parent.parent.aiosDaysLeft)
                         }
-                        color: parent.parent.isExpired ? '#F0858A' : '#D4AF37'
-                        font.pixelSize: 12
-                        font.weight: Font.Medium
-                        wrapMode: Text.WordWrap
+
+                        ColumnLayout {
+                            spacing: 1
+
+                            Text {
+                                text: ConnectionController.isConnected ? qsTr("Подключено") : qsTr("Вы не подключены")
+                                color: ConnectionController.isConnected ? '#A7F3C9' : '#F0EAD9'
+                                font.pixelSize: 14
+                                font.weight: Font.Medium
+                            }
+
+                            Text {
+                                text: ConnectionController.isConnected ? qsTr("Ваше соединение защищено") : qsTr("Ваше соединение не защищено")
+                                color: AmneziaStyle.color.textTertiary
+                                font.pixelSize: 11
+                            }
+                        }
+
+                        Item { Layout.fillWidth: true }
+
+                        Image {
+                            source: "qrc:/images/controls/chevron-right.svg"
+
+                            sourceSize.width: 16
+                            sourceSize.height: 16
+
+                            layer {
+                                enabled: true
+                                effect: ColorOverlay {
+                                    color: AmneziaStyle.color.textTertiary
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // AIOS: баннер окончания подписки (последние 7 дней / истёк)
+                Rectangle {
+                    id: aiosExpiryBanner
+                    objectName: "aiosExpiryBanner"
+
+                    property int aiosDaysLeft: {
+                        var s = AiosProfileController.expires
+                        if (!s) return -1
+                        var t = Date.parse(s)
+                        if (isNaN(t)) {
+                            var m = s.match(/^(\d{1,2})[.\-/](\d{1,2})[.\-/](\d{4})/)
+                            if (m) t = new Date(parseInt(m[3], 10), parseInt(m[2], 10) - 1, parseInt(m[1], 10)).getTime()
+                        }
+                        if (isNaN(t)) return -1
+                        return Math.ceil((t - Date.now()) / 86400000)
                     }
 
-                    Text {
-                        text: "›"
-                        color: parent.parent.isExpired ? '#F0858A' : '#D4AF37'
-                        font.pixelSize: 16
+                    readonly property bool isExpired: AiosProfileController.hasProfile && AiosProfileController.expired
+
+                    visible: AiosProfileController.hasProfile
+                             && (isExpired || (aiosDaysLeft >= 0 && aiosDaysLeft <= 7))
+
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                    Layout.topMargin: 10
+                    Layout.leftMargin: 20
+                    Layout.rightMargin: 20
+                    Layout.preferredWidth: parent.width - 40
+                    implicitHeight: expiryRow.implicitHeight + 24
+                    radius: 16
+
+                    color: isExpired ? Qt.rgba(229/255, 72/255, 77/255, 0.12) : Qt.rgba(212/255, 175/255, 55/255, 0.1)
+                    border.color: isExpired ? '#E5484D' : '#D4AF37'
+                    border.width: 1
+
+                    RowLayout {
+                        id: expiryRow
+
+                        anchors.centerIn: parent
+                        anchors.leftMargin: 16
+                        anchors.rightMargin: 16
+                        width: parent.width - 32
+
+                        spacing: 10
+
+                        ColumnLayout {
+                            Layout.fillWidth: true
+                            spacing: 1
+
+                            Text {
+                                Layout.fillWidth: true
+
+                                text: {
+                                    if (aiosExpiryBanner.isExpired || aiosExpiryBanner.aiosDaysLeft <= 0) {
+                                        return qsTr("Срок доступа истёк")
+                                    }
+                                    return qsTr("Подписка истекает · Осталось %1 дн.").arg(aiosExpiryBanner.aiosDaysLeft)
+                                }
+                                color: aiosExpiryBanner.isExpired ? '#F0858A' : '#D4AF37'
+                                font.pixelSize: 13
+                                font.weight: Font.Medium
+                                wrapMode: Text.WordWrap
+                            }
+
+                            Text {
+                                Layout.fillWidth: true
+
+                                text: aiosExpiryBanner.isExpired || aiosExpiryBanner.aiosDaysLeft <= 0
+                                      ? qsTr("Продлите тариф, чтобы подключаться снова")
+                                      : qsTr("Продлите без перерыва в защите")
+                                color: AmneziaStyle.color.textTertiary
+                                font.pixelSize: 11
+                                wrapMode: Text.WordWrap
+                            }
+                        }
+
+                        Item { Layout.fillWidth: true }
+
+                        Text {
+                            text: qsTr("Продлить")
+                            color: aiosExpiryBanner.isExpired ? '#F0858A' : '#D4AF37'
+                            font.pixelSize: 12
+                            font.weight: Font.DemiBold
+                        }
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: PageController.goToPage(PageEnum.PageSettings)
+                    }
+
+                    Component.onCompleted: AiosProfileController.refresh()
+                }
+
+                BasicButtonType {
+                    id: loggingButton
+                    objectName: "loggingButton"
+
+                    property bool isLoggingEnabled: SettingsController.isLoggingEnabled
+
+                    Layout.alignment: Qt.AlignHCenter
+                    Layout.topMargin: 8
+
+                    implicitHeight: 36
+
+                    defaultColor: AmneziaStyle.color.transparent
+                    hoveredColor: AmneziaStyle.color.translucentWhite
+                    pressedColor: AmneziaStyle.color.sheerWhite
+                    disabledColor: AmneziaStyle.color.mutedGray
+                    textColor: AmneziaStyle.color.mutedGray
+                    borderWidth: 0
+
+                    visible: isLoggingEnabled ? true : false
+                    text: qsTr("Logging enabled")
+
+                    Keys.onEnterPressed: this.clicked()
+                    Keys.onReturnPressed: this.clicked()
+
+                    onClicked: {
+                        PageController.goToPage(PageEnum.PageSettingsLogging)
                     }
                 }
 
-                MouseArea {
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: PageController.goToPage(PageEnum.PageSettings)
+                BasicButtonType {
+                    id: devGatewayButton
+                    objectName: "devGatewayButton"
+
+                    property bool isDevGatewayEnabled: SettingsController.isDevGatewayEnv
+
+                    Layout.alignment: Qt.AlignHCenter
+
+                    implicitHeight: 36
+
+                    defaultColor: AmneziaStyle.color.transparent
+                    hoveredColor: AmneziaStyle.color.translucentWhite
+                    pressedColor: AmneziaStyle.color.sheerWhite
+                    disabledColor: AmneziaStyle.color.mutedGray
+                    textColor: AmneziaStyle.color.mutedGray
+                    borderWidth: 0
+
+                    visible: SettingsController.isDevModeEnabled && isDevGatewayEnabled
+                    text: qsTr("Dev gateway enabled")
+
+                    Keys.onEnterPressed: this.clicked()
+                    Keys.onReturnPressed: this.clicked()
+
+                    onClicked: {
+                        PageController.goToPage(PageEnum.PageDevMenu)
+                    }
                 }
 
-                Component.onCompleted: AiosProfileController.refresh()
-            }
+                // AIOS: кнопка питания по референсу
+                ConnectButton {
+                    id: connectButton
+                    objectName: "connectButton"
 
-            BasicButtonType {
-                id: loggingButton
-                objectName: "loggingButton"
+                    Layout.alignment: Qt.AlignHCenter
+                    Layout.topMargin: 28
 
-                property bool isLoggingEnabled: SettingsController.isLoggingEnabled
-
-                Layout.alignment: Qt.AlignHCenter
-
-                implicitHeight: 36
-
-                defaultColor: AmneziaStyle.color.transparent
-                hoveredColor: AmneziaStyle.color.translucentWhite
-                pressedColor: AmneziaStyle.color.sheerWhite
-                disabledColor: AmneziaStyle.color.mutedGray
-                textColor: AmneziaStyle.color.mutedGray
-                borderWidth: 0
-
-                visible: isLoggingEnabled ? true : false
-                text: qsTr("Logging enabled")
-
-                Keys.onEnterPressed: this.clicked()
-                Keys.onReturnPressed: this.clicked()
-
-                onClicked: {
-                    PageController.goToPage(PageEnum.PageSettingsLogging)
-                }
-            }
-
-            BasicButtonType {
-                id: devGatewayButton
-                objectName: "devGatewayButton"
-
-                property bool isDevGatewayEnabled: SettingsController.isDevGatewayEnv
-
-                Layout.alignment: Qt.AlignHCenter
-
-                implicitHeight: 36
-
-                defaultColor: AmneziaStyle.color.transparent
-                hoveredColor: AmneziaStyle.color.translucentWhite
-                pressedColor: AmneziaStyle.color.sheerWhite
-                disabledColor: AmneziaStyle.color.mutedGray
-                textColor: AmneziaStyle.color.mutedGray
-                borderWidth: 0
-
-                visible: SettingsController.isDevModeEnabled && isDevGatewayEnabled
-                text: qsTr("Dev gateway enabled")
-
-                Keys.onEnterPressed: this.clicked()
-                Keys.onReturnPressed: this.clicked()
-
-                onClicked: {
-                    PageController.goToPage(PageEnum.PageDevMenu)
-                }
-            }
-
-            ConnectButton {
-                id: connectButton
-                objectName: "connectButton"
-
-                Layout.fillHeight: true
-                Layout.alignment: Qt.AlignCenter
-            }
-
-            BasicButtonType {
-                id: splitTunnelingButton
-                objectName: "splitTunnelingButton"
-
-                Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-                leftPadding: 16
-                rightPadding: 16
-
-                implicitHeight: 36
-
-                defaultColor: AmneziaStyle.color.transparent
-                hoveredColor: AmneziaStyle.color.translucentWhite
-                pressedColor: AmneziaStyle.color.sheerWhite
-                disabledColor: AmneziaStyle.color.mutedGray
-                textColor: AmneziaStyle.color.mutedGray
-                borderWidth: 0
-
-                buttonTextLabel.lineHeight: 20
-                buttonTextLabel.font.pixelSize: 14
-                buttonTextLabel.font.weight: 500
-
-                property bool isSplitTunnelingEnabled: IpSplitTunnelingController.isSplitTunnelingEnabled || AppSplitTunnelingController.isSplitTunnelingEnabled ||
-                                                       ServersUiController.isDefaultServerDefaultContainerHasSplitTunneling
-
-                text: isSplitTunnelingEnabled ? qsTr("Split tunneling enabled") : qsTr("Split tunneling disabled")
-
-                leftImageSource: isSplitTunnelingEnabled ? "qrc:/images/controls/split-tunneling.svg" : ""
-                leftImageColor: ""
-                rightImageSource: "qrc:/images/controls/chevron-down.svg"
-
-                Keys.onEnterPressed: this.clicked()
-                Keys.onReturnPressed: this.clicked()
-
-                onClicked: {
-                    homeSplitTunnelingDrawer.openTriggered()
+                    showStateText: false
                 }
 
-                HomeSplitTunnelingDrawer {
-                    id: homeSplitTunnelingDrawer
-                    objectName: "homeSplitTunnelingDrawer"
+                Text {
+                    id: connectCaption
+                    objectName: "connectCaption"
 
-                    parent: root
+                    Layout.alignment: Qt.AlignHCenter
+                    Layout.topMargin: 12
+
+                    text: {
+                        if (ConnectionController.isConnected) {
+                            return qsTr("Подключено")
+                        } else if (ConnectionController.isConnectionInProgress) {
+                            return qsTr("Устанавливаем защищённый канал…")
+                        }
+                        return qsTr("Нажмите для подключения")
+                    }
+                    color: ConnectionController.isConnected ? '#34D399' : AmneziaStyle.color.textTertiary
+                    font.pixelSize: 12
                 }
-            }
 
-            AdLabel {
-                id: adLabel
+                // AIOS: преимущества — золотые плитки по референсу
+                GridLayout {
+                    objectName: "aiosFeatureTiles"
 
-                Layout.fillWidth: true
-                Layout.preferredHeight: adLabel.contentHeight
-                Layout.leftMargin: 16
-                Layout.rightMargin: 16
-                Layout.topMargin: 22
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                    Layout.topMargin: 26
+                    Layout.leftMargin: 28
+                    Layout.rightMargin: 28
+
+                    columns: 2
+                    columnSpacing: 20
+                    rowSpacing: 18
+
+                    Repeater {
+                        model: [
+                            { icon: "qrc:/images/controls/gauge.svg", title: qsTr("Быстрый доступ") },
+                            { icon: "qrc:/images/controls/lock.svg", title: qsTr("Безопасность данных") },
+                            { icon: "qrc:/images/controls/infinity.svg", title: qsTr("Без границ по контенту") },
+                            { icon: "qrc:/images/controls/refresh-cw.svg", title: qsTr("Стабильное соединение") }
+                        ]
+
+                        delegate: ColumnLayout {
+                            required property var modelData
+                            required property int index
+
+                            spacing: 8
+
+                            Rectangle {
+                                Layout.alignment: Qt.AlignHCenter
+
+                                width: 46
+                                height: 46
+                                radius: 14
+                                color: Qt.rgba(212/255, 175/255, 55/255, 0.05)
+                                border.color: Qt.rgba(212/255, 175/255, 55/255, 0.38)
+                                border.width: 1
+
+                                Image {
+                                    anchors.centerIn: parent
+
+                                    source: modelData.icon
+
+                                    sourceSize.width: 20
+                                    sourceSize.height: 20
+
+                                    layer {
+                                        enabled: true
+                                        effect: ColorOverlay {
+                                            color: '#D4AF37'
+                                        }
+                                    }
+                                }
+                            }
+
+                            Text {
+                                Layout.alignment: Qt.AlignHCenter
+                                Layout.maximumWidth: 128
+
+                                text: modelData.title
+                                color: '#D8D0BD'
+                                font.pixelSize: 11
+                                horizontalAlignment: Text.AlignHCenter
+                                wrapMode: Text.WordWrap
+                            }
+                        }
+                    }
+                }
+
+                BasicButtonType {
+                    id: splitTunnelingButton
+                    objectName: "splitTunnelingButton"
+
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+                    Layout.topMargin: 22
+                    leftPadding: 16
+                    rightPadding: 16
+
+                    implicitHeight: 36
+
+                    defaultColor: AmneziaStyle.color.transparent
+                    hoveredColor: AmneziaStyle.color.translucentWhite
+                    pressedColor: AmneziaStyle.color.sheerWhite
+                    disabledColor: AmneziaStyle.color.mutedGray
+                    textColor: AmneziaStyle.color.mutedGray
+                    borderWidth: 0
+
+                    buttonTextLabel.lineHeight: 20
+                    buttonTextLabel.font.pixelSize: 14
+                    buttonTextLabel.font.weight: 500
+
+                    property bool isSplitTunnelingEnabled: IpSplitTunnelingController.isSplitTunnelingEnabled || AppSplitTunnelingController.isSplitTunnelingEnabled ||
+                                                           ServersUiController.isDefaultServerDefaultContainerHasSplitTunneling
+
+                    text: isSplitTunnelingEnabled ? qsTr("Split tunneling enabled") : qsTr("Split tunneling disabled")
+
+                    leftImageSource: isSplitTunnelingEnabled ? "qrc:/images/controls/split-tunneling.svg" : ""
+                    leftImageColor: ""
+                    rightImageSource: "qrc:/images/controls/chevron-down.svg"
+
+                    Keys.onEnterPressed: this.clicked()
+                    Keys.onReturnPressed: this.clicked()
+
+                    onClicked: {
+                        homeSplitTunnelingDrawer.openTriggered()
+                    }
+
+                    HomeSplitTunnelingDrawer {
+                        id: homeSplitTunnelingDrawer
+                        objectName: "homeSplitTunnelingDrawer"
+
+                        parent: root
+                    }
+                }
+
+                AdLabel {
+                    id: adLabel
+
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: adLabel.contentHeight
+                    Layout.leftMargin: 16
+                    Layout.rightMargin: 16
+                    Layout.topMargin: 22
+                    Layout.bottomMargin: 16
+                }
             }
         }
     }

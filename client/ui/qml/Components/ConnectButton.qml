@@ -8,16 +8,23 @@ import ConnectionState 1.0
 import PageEnum 1.0
 import Style 1.0
 
+// AIOS: кнопка питания по референсу — тёмный диск, светящееся кольцо,
+// мягкое внутреннее кольцо, глиф питания. Цвета: золото офлайн / зелёный онлайн.
 Button {
     id: root
 
-    property string defaultButtonColor: '#D4AF37' // AIOS: золотое кольцо офлайн
+    property string defaultButtonColor: '#D4AF37' // AIOS: золото офлайн
     property string progressButtonColor: '#8a6f1f' // AIOS: приглушённое золото в процессе
     property string connectedButtonColor: '#34D399' // AIOS: зелёное свечение подключено
+
+    // AIOS: на главной состояние показывается подписью под кнопкой,
+    // на остальных экранах текст внутри кнопки сохранён
+    property bool showStateText: true
+
     property bool buttonActiveFocus: activeFocus && (Qt.platform.os !== "android" || SettingsController.isOnTv())
 
     property bool isFocusable: true
-    
+
     Keys.onTabPressed: {
         FocusController.nextKeyTabItem()
     }
@@ -29,11 +36,11 @@ Button {
     Keys.onUpPressed: {
         FocusController.nextKeyUpItem()
     }
-    
+
     Keys.onDownPressed: {
         FocusController.nextKeyDownItem()
     }
-    
+
     Keys.onLeftPressed: {
         FocusController.nextKeyLeftItem()
     }
@@ -41,11 +48,21 @@ Button {
     Keys.onRightPressed: {
         FocusController.nextKeyRightItem()
     }
-        
-    implicitWidth: 190
-    implicitHeight: 190
+
+    implicitWidth: 176
+    implicitHeight: 176
 
     text: ConnectionController.connectionStateText
+
+    // AIOS: акцентный цвет текущего состояния
+    readonly property color stateColor: {
+        if (ConnectionController.isConnectionInProgress) {
+            return progressButtonColor
+        } else if (ConnectionController.isConnected) {
+            return connectedButtonColor
+        }
+        return defaultButtonColor
+    }
 
     Connections {
         target: ConnectionController
@@ -55,102 +72,83 @@ Button {
         }
     }
 
-//    enabled: !ConnectionController.isConnectionInProgress
-
     background: Item {
         implicitWidth: parent.width
         implicitHeight: parent.height
         transformOrigin: Item.Center
 
-        Shape {
-            id: backgroundCircle
-            width: parent.implicitWidth
-            height: parent.implicitHeight
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
+        // тёмный диск
+        Rectangle {
+            id: disc
+
+            anchors.fill: parent
+            radius: width / 2
+            color: '#121218'
+        }
+
+        // мягкое внешнее свечение кольца
+        Rectangle {
+            id: rim
+
+            anchors.fill: parent
+            anchors.margins: 6
+            radius: width / 2
+            color: AmneziaStyle.color.transparent
+            border.width: 2
+            border.color: root.stateColor
+
             layer.enabled: true
-            layer.samples: 4
-            layer.smooth: true
             layer.effect: DropShadow {
-                anchors.fill: backgroundCircle
+                anchors.fill: rim
                 horizontalOffset: 0
                 verticalOffset: 0
-                radius: 10
+                radius: 22
                 samples: 25
-                color: root.buttonActiveFocus ? '#3a3a3e' : AmneziaStyle.color.goldenApricot
-                source: backgroundCircle
-            }
-
-            ShapePath {
-                fillColor: AmneziaStyle.color.transparent
-                strokeColor: AmneziaStyle.color.paleGray
-                strokeWidth: root.buttonActiveFocus ? 1 : 0
-                capStyle: ShapePath.RoundCap
-
-                PathAngleArc {
-                    centerX: backgroundCircle.width / 2
-                    centerY: backgroundCircle.height / 2
-                    radiusX: 94
-                    radiusY: 94
-                    startAngle: 0
-                    sweepAngle: 360
-                }
-            }
-
-            ShapePath {
-                fillColor: AmneziaStyle.color.transparent
-                strokeColor: {
-                    if (ConnectionController.isConnectionInProgress) {
-                        return '#2E2E33' // AIOS: тёмное кольцо в процессе
-                    } else if (ConnectionController.isConnected) {
-                        return connectedButtonColor
-                    } else {
-                        return defaultButtonColor
-                    }
-                }
-                strokeWidth: root.buttonActiveFocus ? 2 : 3
-                capStyle: ShapePath.RoundCap
-
-                PathAngleArc {
-                    centerX: backgroundCircle.width / 2
-                    centerY: backgroundCircle.height / 2
-                    radiusX: 93 - (root.buttonActiveFocus ? 2 : 0)
-                    radiusY: 93 - (root.buttonActiveFocus ? 2 : 0)
-                    startAngle: 0
-                    sweepAngle: 360
-                }
-            }
-
-            MouseArea {
-                anchors.fill: parent
-
-                cursorShape: Qt.PointingHandCursor
-                enabled: false
+                color: Qt.rgba(root.stateColor.r, root.stateColor.g, root.stateColor.b, 0.4)
+                source: rim
             }
         }
 
+        // мягкое внутреннее кольцо
+        Rectangle {
+            anchors.fill: parent
+            anchors.margins: 18
+            radius: width / 2
+            color: AmneziaStyle.color.transparent
+            border.width: 1
+            border.color: Qt.rgba(root.stateColor.r, root.stateColor.g, root.stateColor.b, 0.2)
+        }
+
+        // фокус-кольцо (десктоп/ТВ)
+        Rectangle {
+            anchors.fill: parent
+            radius: width / 2
+            color: AmneziaStyle.color.transparent
+            border.width: 1
+            border.color: AmneziaStyle.color.paleGray
+            visible: root.buttonActiveFocus
+        }
+
+        // дуга прогресса подключения
         Shape {
             id: shape
-            width: parent.implicitWidth
-            height: parent.implicitHeight
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
+
+            anchors.fill: parent
             layer.enabled: true
             layer.samples: 4
-
             visible: ConnectionController.isConnectionInProgress
 
             ShapePath {
                 fillColor: AmneziaStyle.color.transparent
-                strokeColor: AmneziaStyle.color.paleGray
-                strokeWidth: 3
+                strokeColor: root.defaultButtonColor
+                strokeWidth: 2
                 capStyle: ShapePath.RoundCap
 
                 PathAngleArc {
                     centerX: shape.width / 2
                     centerY: shape.height / 2
-                    radiusX: 93
-                    radiusY: 93
+                    radiusX: shape.width / 2 - 10
+                    radiusY: shape.height / 2 - 10
                     startAngle: 245
                     sweepAngle: -180
                 }
@@ -165,20 +163,83 @@ Button {
                 duration: 1000
             }
         }
+
+        MouseArea {
+            anchors.fill: parent
+
+            cursorShape: Qt.PointingHandCursor
+            enabled: false
+        }
     }
 
-    contentItem: Text {
-        height: 24
+    contentItem: Item {
+        implicitWidth: parent.width
+        implicitHeight: parent.height
 
-        font.family: "PT Root UI VF"
-        font.weight: 700
-        font.pixelSize: 20
+        ColumnLayout {
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.verticalCenterOffset: root.showStateText ? -14 : 0
+            spacing: 0
 
-        color: ConnectionController.isConnected ? connectedButtonColor : defaultButtonColor
-        text: root.text
+            // глиф питания: дуга с разрывом сверху + вертикальная линия
+            Shape {
+                id: powerGlyph
 
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
+                Layout.alignment: Qt.AlignHCenter
+                implicitWidth: 64
+                implicitHeight: 64
+                layer.enabled: true
+                layer.samples: 4
+
+                opacity: ConnectionController.isConnectionInProgress ? 0.8 : 1.0
+
+                ShapePath {
+                    fillColor: AmneziaStyle.color.transparent
+                    strokeColor: root.stateColor
+                    strokeWidth: 4.5
+                    capStyle: ShapePath.RoundCap
+
+                    PathAngleArc {
+                        centerX: 32
+                        centerY: 32
+                        radiusX: 23
+                        radiusY: 23
+                        startAngle: 320
+                        sweepAngle: 280
+                    }
+                }
+
+                ShapePath {
+                    fillColor: AmneziaStyle.color.transparent
+                    strokeColor: root.stateColor
+                    strokeWidth: 4.5
+                    capStyle: ShapePath.RoundCap
+
+                    startX: 32
+                    startY: 4
+
+                    PathLine {
+                        x: 32
+                        y: 30
+                    }
+                }
+            }
+
+            Text {
+                Layout.alignment: Qt.AlignHCenter
+                Layout.topMargin: 14
+
+                visible: root.showStateText
+
+                font.family: "PT Root UI VF"
+                font.weight: 600
+                font.pixelSize: 15
+
+                color: root.stateColor
+                text: root.text
+            }
+        }
     }
 
     onClicked: {
