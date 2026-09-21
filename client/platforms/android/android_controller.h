@@ -31,6 +31,9 @@ public:
 
     ErrorCode start(const QJsonObject &vpnConfig);
     void stop();
+    // AIOS: re-request the current connection status from the VPN service
+    // (used to resync the UI state on app resume).
+    void requestConnectionStatus();
     void resetLastServer(int serverIndex);
     void saveFile(const QString &fileName, const QString &data);
     QString openFile(const QString &filter);

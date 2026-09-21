@@ -16,7 +16,8 @@ DrawerType2 {
     id: root
 
     anchors.fill: parent
-    expandedHeight: parent.height * 0.56
+    // AIOS: приподнятая шторка — тарифы и кнопка «Оплатить» полностью над нижней навигацией
+    expandedHeight: parent.height * 0.72
 
     defaultColor: '#121218'
     borderColor: Qt.rgba(230/255, 182/255, 76/255, 0.15)
@@ -71,7 +72,7 @@ DrawerType2 {
             anchors.topMargin: 8
             anchors.leftMargin: 16
             anchors.rightMargin: 16
-            anchors.bottomMargin: 16
+            anchors.bottomMargin: 16 + PageController.safeAreaBottomMargin
 
             spacing: 12
 

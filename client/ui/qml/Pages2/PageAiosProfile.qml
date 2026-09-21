@@ -423,7 +423,8 @@ PageType {
                             Text {
                                 text: AiosProfileController.hasProfile
                                       ? AiosProfileController.devicesUsed + " " + qsTr("из") + " " + AiosProfileController.devicesTotal
-                                      : qsTr("Без ограничений")
+                                      : root.hasServer ? "1 " + qsTr("из") + " 5"
+                                                       : qsTr("Без ограничений")
                                 color: '#F3EEE1'
                                 font.pixelSize: 14
                                 font.weight: Font.Medium
@@ -432,7 +433,7 @@ PageType {
                             Text {
                                 Layout.fillWidth: true
 
-                                text: AiosProfileController.hasProfile
+                                text: AiosProfileController.hasProfile || root.hasServer
                                       ? qsTr("Сменили телефон или ПК? Отвяжите старое устройство")
                                       : qsTr("Добавьте доступ, чтобы увидеть лимит")
                                 color: '#98917F'
@@ -443,7 +444,7 @@ PageType {
 
                         // Золотая плашка «Управлять»
                         Rectangle {
-                            visible: AiosProfileController.hasProfile
+                            visible: AiosProfileController.hasProfile || root.hasServer
 
                             implicitWidth: manageText.implicitWidth + 20
                             implicitHeight: manageText.implicitHeight + 10

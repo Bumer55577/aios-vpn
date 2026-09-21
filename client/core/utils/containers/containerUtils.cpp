@@ -67,14 +67,14 @@ QMap<DockerContainer, QString> ContainerUtils::containerHumanNames()
              { DockerContainer::ShadowSocks, "OpenVPN over SS" },
              { DockerContainer::Cloak, "OpenVPN over Cloak" },
              { DockerContainer::WireGuard, "WireGuard" },
-             { DockerContainer::Awg, "AmneziaWG" },
-             { DockerContainer::Awg2, "AmneziaWG" },
+             { DockerContainer::Awg, "AIOS VPN" },
+             { DockerContainer::Awg2, "AIOS VPN" },
              { DockerContainer::Xray, "XRay" },
              { DockerContainer::Ipsec, QObject::tr("IPsec") },
              { DockerContainer::SSXray, "Shadowsocks"},
 
              { DockerContainer::TorWebSite, QObject::tr("Website in Tor network") },
-             { DockerContainer::Dns, QObject::tr("AmneziaDNS") },
+             { DockerContainer::Dns, QObject::tr("AIOS DNS") },
              { DockerContainer::Sftp, QObject::tr("SFTP file sharing service") },
              { DockerContainer::Socks5Proxy, QObject::tr("SOCKS5 proxy server") },
              { DockerContainer::MtProxy, QObject::tr("MTProxy (Telegram)") },
@@ -96,10 +96,10 @@ QMap<DockerContainer, QString> ContainerUtils::containerDescriptions()
                QObject::tr("WireGuard - popular VPN protocol with high performance, high speed and low power "
                            "consumption.") },
              { DockerContainer::Awg,
-               QObject::tr("AmneziaWG is a special protocol from Amnezia based on WireGuard. "
+               QObject::tr("AIOS VPN (AWG) is a modern protocol based on WireGuard. "
                            "It provides high connection speed and ensures stable operation even in the most challenging network conditions.") },
              { DockerContainer::Awg2,
-               QObject::tr("AmneziaWG is a special protocol from Amnezia based on WireGuard. "
+               QObject::tr("AIOS VPN (AWG) is a modern protocol based on WireGuard. "
                            "It provides high connection speed and ensures stable operation even in the most challenging network conditions.") },
              { DockerContainer::Xray,
                QObject::tr("XRay with REALITY masks VPN traffic as web traffic and protects against active probing. "
@@ -148,11 +148,11 @@ QMap<DockerContainer, QString> ContainerUtils::containerDetailedDescriptions()
                       "* Easily detected by DPI systems (susceptible to blocking)\n"
                       "* Operates over UDP protocol") },
         { DockerContainer::Awg2,
-          QObject::tr("AmneziaWG is a modern VPN protocol based on WireGuard, "
+          QObject::tr("AIOS VPN (AWG) is a modern VPN protocol based on WireGuard, "
                       "combining simplified architecture with high performance across all devices. "
                       "It addresses WireGuard's main vulnerability (easy detection by DPI systems) through advanced obfuscation techniques, "
                       "making VPN traffic indistinguishable from regular internet traffic.\n"
-                      "\nAmneziaWG is an excellent choice for those seeking a fast, stealthy VPN connection.\n"
+                      "\nAIOS VPN is an excellent choice for those seeking a fast, stealthy VPN connection.\n"
                       "\nFeatures:\n"
                       "* Available on all AmneziaVPN platforms\n"
                       "* Low battery consumption on mobile devices\n"
@@ -345,7 +345,7 @@ QString ContainerUtils::easySetupHeader(DockerContainer container)
 QString ContainerUtils::easySetupDescription(DockerContainer container)
 {
     switch (container) {
-    case DockerContainer::Awg2: return QObject::tr("AmneziaWG protocol will be installed. "
+    case DockerContainer::Awg2: return QObject::tr("AIOS VPN protocol will be installed. "
                                          "It provides high connection speed and ensures stable operation even in the most challenging network conditions.");
     default: return "";
     }

@@ -11,6 +11,41 @@
 #include "core/models/containerConfig.h"
 #include "core/utils/containerEnum.h"
 
+#include <QDateTime>
+#include <QTcpSocket>
+
+#ifdef Q_OS_ANDROID
+    #include "platforms/android/android_controller.h"
+#endif
+
+namespace
+{
+    // AIOS: display helpers for the home screen stat tiles
+    QString formatSpeed(quint64 bytesPerSec)
+    {
+        const double mbps = bytesPerSec * 8 / 1e6;
+        if (mbps >= 10.0) {
+            return QObject::tr("%1 Мбит/с").arg(mbps, 0, 'f', 0);
+        }
+        if (mbps >= 1.0) {
+            return QObject::tr("%1 Мбит/с").arg(mbps, 0, 'f', 1);
+        }
+        return QObject::tr("%1 Кбит/с").arg(bytesPerSec * 8 / 1024.0, 0, 'f', 0);
+    }
+
+    QString formatElapsed(qint64 msecs)
+    {
+        const qint64 total = msecs / 1000;
+        const qint64 h = total / 3600;
+        const qint64 m = (total % 3600) / 60;
+        const qint64 s = total % 60;
+        return QString("%1:%2:%3")
+            .arg(h, 2, 10, QChar('0'))
+            .arg(m, 2, 10, QChar('0'))
+            .arg(s, 2, 10, QChar('0'));
+    }
+} // namespace
+
 ConnectionUiController::ConnectionUiController(ConnectionController* connectionController,
                                                 ServersController* serversController,
                                                 QObject *parent)
@@ -23,6 +58,29 @@ ConnectionUiController::ConnectionUiController(ConnectionController* connectionC
     connect(this, &ConnectionUiController::connectButtonClicked, this, &ConnectionUiController::toggleConnection, Qt::QueuedConnection);
 
     m_state = Vpn::ConnectionState::Disconnected;
+
+    // AIOS: live stats timers (speed tiles on the home screen)
+    m_elapsedTimer.setInterval(1000);
+    connect(&m_elapsedTimer, &QTimer::timeout, this, [this]() { updateElapsedText(); });
+
+    m_pingTimer.setInterval(5000);
+    connect(&m_pingTimer, &QTimer::timeout, this, [this]() { startPingProbe(); });
+
+    m_pingSocket = new QTcpSocket(this);
+    connect(m_pingSocket, &QTcpSocket::connected, this, [this]() {
+        m_pingInFlight = false;
+        m_pingText = tr("%1 мс").arg(QDateTime::currentMSecsSinceEpoch() - m_pingStartedMsecs);
+        m_pingSocket->disconnectFromHost();
+        emit statisticsChanged();
+    });
+    connect(m_pingSocket, &QTcpSocket::errorOccurred, this, [this](QAbstractSocket::SocketError) {
+        if (m_pingInFlight) {
+            m_pingInFlight = false;
+            m_pingText = tr("—");
+            emit statisticsChanged();
+        }
+        m_pingSocket->abort();
+    });
 }
 
 void ConnectionUiController::openConnection()
@@ -53,6 +111,7 @@ ErrorCode ConnectionUiController::getLastConnectionError()
 
 void ConnectionUiController::onConnectionStateChanged(Vpn::ConnectionState state)
 {
+    const Vpn::ConnectionState previousState = m_state;
     m_state = state;
 
     m_isConnected = false;
@@ -64,6 +123,13 @@ void ConnectionUiController::onConnectionStateChanged(Vpn::ConnectionState state
         m_isConnectionInProgress = false;
         m_isConnected = true;
         m_connectionStateText = tr("Connected");
+
+        // AIOS: (re)start live stats when the tunnel is up. This also covers the
+        // resume path, where the UI learns about an already-active connection.
+        if (previousState != Vpn::ConnectionState::Connected) {
+            resetStats();
+            startStatsTimers();
+        }
         break;
     }
     case Vpn::ConnectionState::Connecting: {
@@ -78,6 +144,8 @@ void ConnectionUiController::onConnectionStateChanged(Vpn::ConnectionState state
     case Vpn::ConnectionState::Disconnected: {
         m_isConnectionInProgress = false;
         m_connectionStateText = tr("Connect");
+
+        stopStatsTimers();
         break;
     }
     case Vpn::ConnectionState::Disconnecting: {
@@ -93,12 +161,16 @@ void ConnectionUiController::onConnectionStateChanged(Vpn::ConnectionState state
     case Vpn::ConnectionState::Error: {
         m_isConnectionInProgress = false;
         m_connectionStateText = tr("Connect");
+
+        stopStatsTimers();
         emit connectionErrorOccurred(getLastConnectionError());
         break;
     }
     case Vpn::ConnectionState::Unknown: {
         m_isConnectionInProgress = false;
         m_connectionStateText = tr("Connect");
+
+        stopStatsTimers();
         emit connectionErrorOccurred(getLastConnectionError());
         break;
     }
@@ -115,6 +187,117 @@ Vpn::ConnectionState ConnectionUiController::getCurrentConnectionState()
 {
     return m_state;
 }
+
+// --- AIOS: live connection stats -------------------------------------------
+
+void ConnectionUiController::onBytesChanged(quint64 receivedBytes, quint64 sentBytes)
+{
+    if (!isConnected()) {
+        return;
+    }
+
+    const qint64 now = QDateTime::currentMSecsSinceEpoch();
+
+    if (m_lastStatsMsecs == 0) {
+        // First sample: VpnProtocol diffs against a zero baseline, so the first
+        // value is the total transfer count — skip it to avoid a bogus spike.
+        m_lastStatsMsecs = now;
+        return;
+    }
+
+    const qint64 dt = now - m_lastStatsMsecs;
+    m_lastStatsMsecs = now;
+    if (dt <= 0) {
+        return;
+    }
+
+    // VpnProtocol::bytesChanged reports bytes since the previous sample; normalise
+    // to bytes-per-second using the real time between samples.
+    m_receivedSpeedText = formatSpeed(static_cast<quint64>(receivedBytes * 1000 / dt));
+    m_sentSpeedText = formatSpeed(static_cast<quint64>(sentBytes * 1000 / dt));
+
+    emit statisticsChanged();
+}
+
+void ConnectionUiController::refreshConnectionState()
+{
+#ifdef Q_OS_ANDROID
+    AndroidController::instance()->requestConnectionStatus();
+#endif
+}
+
+void ConnectionUiController::resetStats()
+{
+    m_receivedSpeedText = tr("0 Кбит/с");
+    m_sentSpeedText = tr("0 Кбит/с");
+    m_pingText = tr("...");
+    m_lastReceivedBytes = 0;
+    m_lastSentBytes = 0;
+    m_lastStatsMsecs = 0;
+    m_connectedAtMsecs = QDateTime::currentMSecsSinceEpoch();
+    updateElapsedText();
+}
+
+void ConnectionUiController::startStatsTimers()
+{
+    m_elapsedTimer.start();
+    m_pingTimer.start();
+    startPingProbe();
+}
+
+void ConnectionUiController::stopStatsTimers()
+{
+    m_elapsedTimer.stop();
+    m_pingTimer.stop();
+
+    if (m_pingSocket && m_pingSocket->state() != QAbstractSocket::UnconnectedState) {
+        m_pingSocket->abort();
+    }
+
+    m_receivedSpeedText.clear();
+    m_sentSpeedText.clear();
+    m_pingText.clear();
+    m_connectionElapsedText.clear();
+
+    emit statisticsChanged();
+}
+
+void ConnectionUiController::updateElapsedText()
+{
+    if (m_connectedAtMsecs == 0) {
+        return;
+    }
+    m_connectionElapsedText = formatElapsed(QDateTime::currentMSecsSinceEpoch() - m_connectedAtMsecs);
+    emit statisticsChanged();
+}
+
+void ConnectionUiController::startPingProbe()
+{
+    if (!isConnected()) {
+        return;
+    }
+
+    const QString serverId = m_serversController->getDefaultServerId();
+    if (serverId.isEmpty()) {
+        return;
+    }
+
+    const ServerCredentials credentials = m_serversController->getServerCredentials(serverId);
+    if (credentials.hostName.isEmpty()) {
+        return;
+    }
+
+    if (m_pingSocket->state() != QAbstractSocket::UnconnectedState) {
+        m_pingSocket->abort();
+    }
+
+    m_pingStartedMsecs = QDateTime::currentMSecsSinceEpoch();
+    m_pingInFlight = true;
+    // While the tunnel is up this TCP handshake goes through it, so the measured
+    // round-trip reflects the real link latency to the server.
+    m_pingSocket->connectToHost(credentials.hostName, credentials.port > 0 ? credentials.port : 443);
+}
+// ---------------------------------------------------------------------------
 
 QString ConnectionUiController::connectionStateText() const
 {

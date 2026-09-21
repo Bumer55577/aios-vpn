@@ -149,6 +149,14 @@ void AndroidController::stop()
     callActivityMethod("stop", "()V");
 }
 
+void AndroidController::requestConnectionStatus()
+{
+    // AIOS: open the C++ side of the status gate so the next STATUS event from the
+    // service is delivered to ConnectionUiController even if it was consumed before.
+    isWaitingStatus = true;
+    callActivityMethod("requestStatus", "()V");
+}
+
 void AndroidController::resetLastServer(int serverIndex)
 {
     callActivityMethod("resetLastServer", "(I)V", serverIndex);

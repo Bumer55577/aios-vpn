@@ -9,6 +9,7 @@ import "./"
 import "../Controls2"
 import "../Controls2/TextTypes"
 import "../Config"
+import "../Components"
 
 PageType {
     id: root
@@ -162,7 +163,8 @@ PageType {
                         Text {
                             text: root.hasProfileInfo
                                   ? AiosProfileController.devicesUsed + " " + qsTr("из") + " " + AiosProfileController.devicesTotal
-                                  : qsTr("Без ограничений")
+                                  : ServersModel.rowCount() !== 0 ? "1 " + qsTr("из") + " 5"
+                                                                  : qsTr("Без ограничений")
                             color: '#F0EAD9'
                             font.pixelSize: 14
                             font.weight: Font.Medium
@@ -175,7 +177,7 @@ PageType {
                     }
 
                     Rectangle {
-                        visible: root.hasProfileInfo
+                        visible: root.hasProfileInfo || ServersModel.rowCount() !== 0
                         radius: 12
                         color: Qt.rgba(230/255, 182/255, 76/255, 0.12)
                         border.color: Qt.rgba(230/255, 182/255, 76/255, 0.4)
@@ -185,7 +187,9 @@ PageType {
                         Text {
                             id: limitText
                             anchors.centerIn: parent
-                            text: qsTr("Лимит") + " " + AiosProfileController.devicesTotal
+                            text: root.hasProfileInfo
+                                  ? qsTr("Лимит") + " " + AiosProfileController.devicesTotal
+                                  : qsTr("Лимит") + " 5"
                             color: '#E6B64C'
                             font.pixelSize: 11
                         }
@@ -348,9 +352,138 @@ PageType {
                 }
             }
 
+            // AIOS: локальная конфигурация (без токена панели) — показываем это
+            // устройство и возможность отвязать его (удалив доступ из приложения)
+            ColumnLayout {
+                id: localDeviceFallback
+
+                visible: ServersModel.rowCount() !== 0 && !AiosDevicesController.supported && !AiosDevicesController.loading
+
+                Layout.topMargin: 12
+                Layout.leftMargin: 16
+                Layout.rightMargin: 16
+
+                width: parent.width - 32
+                spacing: 12
+
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: localDeviceRow.implicitHeight + 28
+
+                    radius: 16
+                    color: '#101015'
+                    border.color: '#2A2A2F'
+                    border.width: 1
+
+                    RowLayout {
+                        id: localDeviceRow
+
+                        anchors.fill: parent
+                        anchors.margins: 14
+                        anchors.leftMargin: 16
+                        anchors.rightMargin: 16
+
+                        spacing: 14
+
+                        Rectangle {
+                            width: 44
+                            height: 44
+                            radius: 12
+                            color: Qt.rgba(230/255, 182/255, 76/255, 0.1)
+                            border.color: Qt.rgba(230/255, 182/255, 76/255, 0.24)
+
+                            Image {
+                                anchors.centerIn: parent
+                                width: 20
+                                height: 20
+                                source: "qrc:/images/controls/smartphone.svg"
+                                mipmap: true
+                            }
+                        }
+
+                        ColumnLayout {
+                            spacing: 2
+                            Layout.fillWidth: true
+
+                            RowLayout {
+                                spacing: 8
+                                Layout.fillWidth: true
+
+                                Text {
+                                    text: qsTr("Это устройство")
+                                    color: '#F0EAD9'
+                                    font.pixelSize: 14
+                                    font.weight: Font.Medium
+                                    elide: Text.ElideRight
+                                    Layout.fillWidth: true
+                                }
+
+                                Rectangle {
+                                    radius: 8
+                                    color: Qt.rgba(61/255, 220/255, 132/255, 0.12)
+                                    border.color: Qt.rgba(61/255, 220/255, 132/255, 0.3)
+                                    width: localBadgeText.implicitWidth + 16
+                                    height: localBadgeText.implicitHeight + 6
+
+                                    Text {
+                                        id: localBadgeText
+                                        anchors.centerIn: parent
+                                        text: qsTr("Подключено к серверу")
+                                        color: '#A7F3C9'
+                                        font.pixelSize: 10
+                                    }
+                                }
+                            }
+
+                            Text {
+                                text: "Android · " + qsTr("занимает 1 слот из 5")
+                                color: '#8E8E93'
+                                font.pixelSize: 12
+                                elide: Text.ElideRight
+                                Layout.fillWidth: true
+                            }
+                        }
+                    }
+                }
+
+                Text {
+                    Layout.fillWidth: true
+
+                    text: qsTr("Управление списком устройств доступно для доступа по токену. Чтобы освободить слот на этом устройстве, отвяжите его — доступ будет удалён и его можно будет добавить на другом телефоне.")
+                    color: '#8E8E93'
+                    font.pixelSize: 11
+                    wrapMode: Text.WordWrap
+                }
+
+                BasicButtonType {
+                    id: localUnlinkButton
+
+                    Layout.fillWidth: true
+                    Layout.topMargin: 4
+
+                    implicitHeight: 44
+
+                    defaultColor: Qt.rgba(255/255, 255/255, 255/255, 0.04)
+                    hoveredColor: Qt.rgba(255/255, 255/255, 255/255, 0.07)
+                    pressedColor: Qt.rgba(255/255, 255/255, 255/255, 0.1)
+                    textColor: '#F0858A'
+                    borderColor: Qt.rgba(229/255, 72/255, 77/255, 0.2)
+                    borderWidth: 1
+
+                    buttonTextLabel.font.pixelSize: 13
+
+                    text: qsTr("Отвязать это устройство")
+
+                    clickedFunc: function() {
+                        localUnlinkDrawer.openTriggered()
+                    }
+                }
+            }
+
             // Пустые состояния
             ColumnLayout {
-                visible: !AiosDevicesController.loading && (!AiosDevicesController.supported || AiosDevicesController.error !== "" || AiosDevicesController.devices.length === 0)
+                visible: !AiosDevicesController.loading && !localDeviceFallback.visible
+                         && (AiosDevicesController.error !== "" || AiosDevicesController.devices.length === 0)
 
                 Layout.topMargin: 24
                 Layout.leftMargin: 16
@@ -627,6 +760,28 @@ PageType {
                     }
                 }
             }
+        }
+    }
+
+    // AIOS: подтверждение отвязки для локальной конфигурации (без панели)
+    QuestionDrawer {
+        id: localUnlinkDrawer
+
+        headerText: qsTr("Отвязать это устройство?")
+        descriptionText: qsTr("Доступ будет удалён с этого устройства, слот освободится. Чтобы вернуть VPN, добавьте доступ заново по QR-коду, ссылке или файлу.")
+        yesButtonText: qsTr("Отвязать")
+        noButtonText: qsTr("Отмена")
+
+        yesButtonFunction: function() {
+            if (ConnectionController.isConnected || ConnectionController.isConnectionInProgress) {
+                PageController.showNotificationMessage(qsTr("Нельзя отвязывать устройство во время подключения"))
+                return
+            }
+            PageController.showBusyIndicator(true)
+            InstallController.removeServer(ServersUiController.defaultServerId)
+            PageController.showBusyIndicator(false)
+        }
+        noButtonFunction: function() {
         }
     }
 }

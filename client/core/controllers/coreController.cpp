@@ -176,6 +176,11 @@ void CoreController::initControllers()
     m_connectionUiController = new ConnectionUiController(m_connectionController, m_serversController, this);
     setQmlContextProperty("ConnectionController", m_connectionUiController);
 
+    // AIOS: feed live traffic statistics from the VPN tunnel into the UI controller
+    // (download/upload speed tiles on the home screen).
+    connect(m_vpnConnection.get(), &VpnConnection::bytesChanged,
+            m_connectionUiController, &ConnectionUiController::onBytesChanged);
+
     if (m_engine) {
         m_focusController = new FocusController(m_engine, this);
         setQmlContextProperty("FocusController", m_focusController);

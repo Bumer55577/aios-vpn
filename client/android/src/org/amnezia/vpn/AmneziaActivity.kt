@@ -205,6 +205,15 @@ class AmneziaActivity : QtActivity() {
         openFileDeliveryScheduled = false
         registerBroadcastReceivers()
         intent?.let(::processIntent)
+        // AIOS: when the activity is recreated inside a still-living process, the one-shot
+        // qtAndroidControllerInitialized() callback has already fired for a previous
+        // activity instance and will never fire again. Without completing the deferred
+        // here, onStart() suspends forever, the VPN service is never re-bound and the UI
+        // keeps showing "not connected" while the tunnel is actually up.
+        if (isQtNativesRegistered && !qtInitialized.isCompleted) {
+            Log.d(TAG, "Activity recreated in living process - unblock status resync")
+            qtInitialized.complete(Unit)
+        }
         runBlocking { vpnProto = proto.await() }
         billingRepository = BillingPaymentRepository(applicationContext)
     }
@@ -267,6 +276,15 @@ class AmneziaActivity : QtActivity() {
         Log.d(TAG, "Start Amnezia activity")
         mainScope.launch {
             qtInitialized.await()
+            // AIOS: make sure vpnProto is set even if onCreate read the persisted state
+            // before the service process had stored it (fresh install / first launch).
+            if (vpnProto == null) {
+                vpnProto = VpnStateStore.getVpnState().vpnProto
+            }
+            // AIOS: re-bind to a VPN service that is still running (e.g. after the main
+            // process was killed in background while the tunnel stayed up). Without the
+            // binding the client never requests STATUS and the UI stays "not connected"
+            // while the system VPN is actually active.
             vpnProto?.let { proto ->
                 if (AmneziaVpnService.isRunning(applicationContext, proto.processName)) {
                     doBindService()
@@ -552,6 +570,20 @@ class AmneziaActivity : QtActivity() {
     }
 
     /**
+     * AIOS: called from Qt on every activity resume. Re-requests the current status
+     * from a bound VPN service so the UI always converges to the real tunnel state
+     * (fixes "app says disconnected while system VPN is on" after minimize/restore).
+     */
+    @Suppress("unused")
+    fun requestStatus() {
+        Log.v(TAG, "Status requested from Qt")
+        if (isServiceConnected) {
+            isWaitingStatus = true
+            vpnServiceMessenger.send(Action.REQUEST_STATUS, replyTo = activityMessenger)
+        }
+    }
+
+    /**
      * Methods of starting and stopping VpnService
      */
     @MainThread
@@ -658,6 +690,9 @@ class AmneziaActivity : QtActivity() {
     @Suppress("unused")
     fun qtAndroidControllerInitialized() {
         Log.v(TAG, "Qt Android controller initialized")
+        // AIOS: process-wide marker that Qt JNI natives are registered. Survives
+        // activity recreation and lets a new instance unblock qtInitialized itself.
+        isQtNativesRegistered = true
         qtInitialized.complete(Unit)
     }
 
@@ -1198,6 +1233,11 @@ class AmneziaActivity : QtActivity() {
     }
 
     companion object {
+        // AIOS: process-wide flag set once Qt JNI natives are registered
+        @Volatile
+        var isQtNativesRegistered = false
+            private set
+
         private fun actionCodeToString(actionCode: Int): String =
             when (actionCode) {
                 CHECK_VPN_PERMISSION_ACTION_CODE -> "CHECK_VPN_PERMISSION"

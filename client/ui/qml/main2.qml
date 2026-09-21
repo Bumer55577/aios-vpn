@@ -38,7 +38,12 @@ Window  {
             if (Qt.platform.os === "android") root.visible = false
         }
         function onActivityResumed() {
-            if (Qt.platform.os === "android") root.visible = true
+            if (Qt.platform.os === "android") {
+                root.visible = true
+                // AIOS: на каждом возобновлении запроса реального состояния VPN-сервиса —
+                // UI не должен показывать «не подключён» при активном туннеле
+                ConnectionController.refreshConnectionState()
+            }
         }
     }
 
@@ -161,6 +166,91 @@ Window  {
         objectName: "pageStart"
         width: root.width
         height: root.height
+    }
+
+    // AIOS: splash при запуске — лого + планета по референсу (вместо пустой иконки
+    // системного splash-экрана), плавно исчезает после загрузки интерфейса
+    Item {
+        id: aiosSplash
+        objectName: "aiosSplash"
+
+        anchors.fill: parent
+        z: 1000
+        visible: opacity > 0
+
+        Rectangle {
+            anchors.fill: parent
+            color: "#0B0B0D"
+        }
+
+        ColumnLayout {
+            anchors.centerIn: parent
+            spacing: 0
+
+            Image {
+                source: "qrc:/images/aios_logo.png"
+                Layout.alignment: Qt.AlignHCenter
+                Layout.preferredWidth: 88
+                Layout.preferredHeight: 84
+                fillMode: Image.PreserveAspectFit
+            }
+
+            Text {
+                text: "AIOS"
+                color: "#E6B64C"
+                font.pixelSize: 34
+                font.weight: Font.DemiBold
+                font.letterSpacing: 12
+                Layout.alignment: Qt.AlignHCenter
+                Layout.topMargin: 10
+            }
+
+            Text {
+                text: "VPN"
+                color: "#E6B64C"
+                font.pixelSize: 13
+                font.weight: Font.Medium
+                font.letterSpacing: 13
+                Layout.alignment: Qt.AlignHCenter
+                Layout.topMargin: 2
+            }
+
+            Image {
+                source: "qrc:/images/aios_planet.jpg"
+                Layout.alignment: Qt.AlignHCenter
+                Layout.topMargin: 18
+                Layout.preferredWidth: root.width
+                Layout.preferredHeight: 260
+                fillMode: Image.PreserveAspectCrop
+            }
+        }
+
+        MouseArea {
+            anchors.fill: parent
+        }
+
+        Timer {
+            interval: 1800
+            running: true
+            repeat: false
+            onTriggered: hideAnim.start()
+        }
+
+        SequentialAnimation {
+            id: hideAnim
+
+            NumberAnimation {
+                target: aiosSplash
+                property: "opacity"
+                to: 0
+                duration: 450
+                easing.type: Easing.InOutQuad
+            }
+
+            ScriptAction {
+                script: aiosSplash.destroy()
+            }
+        }
     }
 
     Item {

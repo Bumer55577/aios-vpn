@@ -296,7 +296,9 @@ PageType {
 
                     text: {
                         if (ConnectionController.isConnected) {
-                            return qsTr("Подключено")
+                            var elapsed = ConnectionController.connectionElapsedText
+                            return elapsed ? qsTr("Подключено · %1").arg(elapsed)
+                                           : qsTr("Подключено")
                         } else if (ConnectionController.isConnectionInProgress) {
                             return qsTr("Устанавливаем защищённый канал…")
                         }
@@ -397,69 +399,99 @@ PageType {
                     }
                 }
 
-                // AIOS: преимущества — золотые плитки по референсу
+                // AIOS: живая статистика подключения — 4 плитки по референсу
                 GridLayout {
-                    objectName: "aiosFeatureTiles"
+                    objectName: "aiosStatsTiles"
+
+                    visible: ConnectionController.isConnected
 
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-                    Layout.topMargin: 26
-                    Layout.leftMargin: 32
-                    Layout.rightMargin: 32
+                    Layout.topMargin: 20
+                    Layout.leftMargin: 20
+                    Layout.rightMargin: 20
+                    Layout.preferredWidth: parent.width - 40
 
                     columns: 2
-                    columnSpacing: 20
-                    rowSpacing: 22
+                    columnSpacing: 12
+                    rowSpacing: 12
 
                     Repeater {
                         model: [
-                            { icon: "qrc:/images/controls/zap.svg", title: qsTr("Быстрый доступ") },
-                            { icon: "qrc:/images/controls/shield-check.svg", title: qsTr("Безопасность данных") },
-                            { icon: "qrc:/images/controls/globe-2.svg", title: qsTr("Без границ по контенту") },
-                            { icon: "qrc:/images/controls/wifi.svg", title: qsTr("Стабильное соединение") }
+                            {
+                                icon: "qrc:/images/controls/download.svg",
+                                title: qsTr("Скорость загрузки"),
+                                value: ConnectionController.receivedSpeedText !== "" ? ConnectionController.receivedSpeedText : "—"
+                            },
+                            {
+                                icon: "qrc:/images/controls/arrow-up.svg",
+                                title: qsTr("Скорость отдачи"),
+                                value: ConnectionController.sentSpeedText !== "" ? ConnectionController.sentSpeedText : "—"
+                            },
+                            {
+                                icon: "qrc:/images/controls/timer.svg",
+                                title: qsTr("Пинг"),
+                                value: ConnectionController.pingText !== "" ? ConnectionController.pingText : "—"
+                            },
+                            {
+                                icon: "qrc:/images/controls/history.svg",
+                                title: qsTr("Время подключения"),
+                                value: ConnectionController.connectionElapsedText !== "" ? ConnectionController.connectionElapsedText : "00:00:00"
+                            }
                         ]
 
-                        delegate: ColumnLayout {
+                        delegate: Rectangle {
                             required property var modelData
                             required property int index
 
-                            spacing: 8
+                            Layout.fillWidth: true
+                            implicitHeight: statInner.implicitHeight + 28
 
-                            Rectangle {
-                                Layout.alignment: Qt.AlignHCenter
+                            radius: 16
+                            color: '#101015'
+                            border.color: Qt.rgba(230/255, 182/255, 76/255, 0.13)
+                            border.width: 1
 
-                                width: 46
-                                height: 46
-                                radius: 14
-                                color: Qt.rgba(230/255, 182/255, 76/255, 0.05)
-                                border.color: Qt.rgba(230/255, 182/255, 76/255, 0.38)
-                                border.width: 1
+                            ColumnLayout {
+                                id: statInner
 
-                                Image {
-                                    anchors.centerIn: parent
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                anchors.top: parent.top
+                                anchors.margins: 14
 
-                                    source: modelData.icon
+                                spacing: 8
 
-                                    sourceSize.width: 20
-                                    sourceSize.height: 20
+                                RowLayout {
+                                    Layout.fillWidth: true
 
-                                    layer {
-                                        enabled: true
-                                        effect: ColorOverlay {
-                                            color: '#E6B64C'
-                                        }
+                                    spacing: 8
+
+                                    Image {
+                                        source: modelData.icon
+                                        sourceSize.width: 15
+                                        sourceSize.height: 15
+                                        layer.enabled: true
+                                        layer.effect: ColorOverlay { color: '#E6B64C' }
+                                    }
+
+                                    Text {
+                                        Layout.fillWidth: true
+
+                                        text: modelData.title
+                                        color: '#98917F'
+                                        font.pixelSize: 10
+                                        elide: Text.ElideRight
                                     }
                                 }
-                            }
 
-                            Text {
-                                Layout.alignment: Qt.AlignHCenter
-                                Layout.maximumWidth: 128
+                                Text {
+                                    Layout.fillWidth: true
 
-                                text: modelData.title
-                                color: '#D8D0BD'
-                                font.pixelSize: 11
-                                horizontalAlignment: Text.AlignHCenter
-                                wrapMode: Text.WordWrap
+                                    text: modelData.value
+                                    color: '#F3EEE1'
+                                    font.pixelSize: 15
+                                    font.weight: Font.DemiBold
+                                }
                             }
                         }
                     }
