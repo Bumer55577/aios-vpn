@@ -44,6 +44,11 @@ PageType {
                 names.push("«" + devices[i].name + "»")
             }
         }
+        // AIOS: в локальном режиме (панель не отдала список) выбранное «устройство» —
+        // это само приложение с именем «Это устройство»
+        if (!root.hasPanelList && isSelected(AiosDevicesController.myHwid())) {
+            names.push("«" + qsTr("Это устройство") + "»")
+        }
         return names.join(", ")
     }
 
@@ -59,15 +64,32 @@ PageType {
     }
 
     function confirmUnlink() {
-        var list = []
-        for (var i = 0; i < selectedHwids.length; i++) {
-            list.push(selectedHwids[i])
+        // AIOS: локальный режим — панель недоступна, отвязка = удаление доступа
+        // с этого устройства (сервер удаляется из приложения)
+        if (root.hasPanelList) {
+            var list = []
+            for (var i = 0; i < selectedHwids.length; i++) {
+                list.push(selectedHwids[i])
+            }
+            AiosDevicesController.revokeMany(list)
+            return
         }
-        AiosDevicesController.revokeMany(list)
+
+        if (ConnectionController.isConnected || ConnectionController.isConnectionInProgress) {
+            PageController.showNotificationMessage(qsTr("Нельзя отвязывать устройство во время подключения"))
+            return
+        }
+        InstallController.removeServer(ServersUiController.defaultServerId)
+        root.clearSelection()
+        PageController.showNotificationMessage(qsTr("Доступ удалён. Слот освобождён — добавьте доступ заново, когда понадобится."))
     }
 
     // Профиль может отсутствовать — тогда счётчики из профиля недоступны
     readonly property bool hasProfileInfo: AiosProfileController.hasProfile
+
+    // AIOS: панель отдаёт список устройств (иначе — локальный режим:
+    // единственное «устройство» — сам телефон, отвязка = удаление доступа)
+    readonly property bool hasPanelList: AiosDevicesController.supported && ServersModel.rowCount() !== 0
 
     Component.onCompleted: {
         AiosDevicesController.refresh()
@@ -352,8 +374,9 @@ PageType {
                 }
             }
 
-            // AIOS: локальная конфигурация (без токена панели) — показываем это
-            // устройство и возможность отвязать его (удалив доступ из приложения)
+            // AIOS: локальный режим (без списка от панели) — показываем это
+            // устройство КАРТОЧКОЙ С ЧЕКБОКСОМ как в прототипе: выбрал галочку —
+            // внизу появились «Отвязать / Снять».
             ColumnLayout {
                 id: localDeviceFallback
 
@@ -367,12 +390,16 @@ PageType {
                 spacing: 12
 
                 Rectangle {
+                    id: localDeviceCard
+
+                    property bool isSelected: !root.hasPanelList && root.isSelected(AiosDevicesController.myHwid())
+
                     Layout.fillWidth: true
                     implicitHeight: localDeviceRow.implicitHeight + 28
 
                     radius: 16
-                    color: '#101015'
-                    border.color: '#2A2A2F'
+                    color: isSelected ? Qt.rgba(230/255, 182/255, 76/255, 0.08) : '#101015'
+                    border.color: isSelected ? Qt.rgba(230/255, 182/255, 76/255, 0.5) : '#2A2A2F'
                     border.width: 1
 
                     RowLayout {
@@ -443,40 +470,43 @@ PageType {
                                 Layout.fillWidth: true
                             }
                         }
+
+                        // Чекбокс выбора — как в прототипе
+                        Rectangle {
+                            width: 24
+                            height: 24
+                            radius: 12
+                            color: localDeviceCard.isSelected ? '#E6B64C' : "transparent"
+                            border.color: localDeviceCard.isSelected ? '#E6B64C' : Qt.rgba(230/255, 182/255, 76/255, 0.4)
+
+                            Text {
+                                anchors.centerIn: parent
+                                text: "✓"
+                                color: '#060609'
+                                font.pixelSize: 13
+                                font.bold: true
+                                visible: localDeviceCard.isSelected
+                            }
+                        }
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            if (!root.hasPanelList) {
+                                root.toggleSelection(AiosDevicesController.myHwid())
+                            }
+                        }
                     }
                 }
 
                 Text {
                     Layout.fillWidth: true
 
-                    text: qsTr("Управление списком устройств доступно для доступа по токену. Чтобы освободить слот на этом устройстве, отвяжите его — доступ будет удалён и его можно будет добавить на другом телефоне.")
+                    text: qsTr("Управление списком устройств доступно для доступа по токену. Чтобы освободить слот на этом устройстве, отметьте его галочкой и нажмите «Отвязать» внизу — доступ будет удалён и его можно будет добавить на другом телефоне.")
                     color: '#8E8E93'
                     font.pixelSize: 11
                     wrapMode: Text.WordWrap
-                }
-
-                BasicButtonType {
-                    id: localUnlinkButton
-
-                    Layout.fillWidth: true
-                    Layout.topMargin: 4
-
-                    implicitHeight: 44
-
-                    defaultColor: Qt.rgba(255/255, 255/255, 255/255, 0.04)
-                    hoveredColor: Qt.rgba(255/255, 255/255, 255/255, 0.07)
-                    pressedColor: Qt.rgba(255/255, 255/255, 255/255, 0.1)
-                    textColor: '#F0858A'
-                    borderColor: Qt.rgba(229/255, 72/255, 77/255, 0.2)
-                    borderWidth: 1
-
-                    buttonTextLabel.font.pixelSize: 13
-
-                    text: qsTr("Отвязать это устройство")
-
-                    clickedFunc: function() {
-                        localUnlinkDrawer.openTriggered()
-                    }
                 }
             }
 
@@ -763,25 +793,6 @@ PageType {
         }
     }
 
-    // AIOS: подтверждение отвязки для локальной конфигурации (без панели)
-    QuestionDrawer {
-        id: localUnlinkDrawer
-
-        headerText: qsTr("Отвязать это устройство?")
-        descriptionText: qsTr("Доступ будет удалён с этого устройства, слот освободится. Чтобы вернуть VPN, добавьте доступ заново по QR-коду, ссылке или файлу.")
-        yesButtonText: qsTr("Отвязать")
-        noButtonText: qsTr("Отмена")
-
-        yesButtonFunction: function() {
-            if (ConnectionController.isConnected || ConnectionController.isConnectionInProgress) {
-                PageController.showNotificationMessage(qsTr("Нельзя отвязывать устройство во время подключения"))
-                return
-            }
-            PageController.showBusyIndicator(true)
-            InstallController.removeServer(ServersUiController.defaultServerId)
-            PageController.showBusyIndicator(false)
-        }
-        noButtonFunction: function() {
-        }
-    }
+    // AIOS: в локальном режиме подтверждение делается через общий confirmDrawer
+    // (нижняя панель «Отвязать / Снять»), отдельная шторка больше не нужна
 }

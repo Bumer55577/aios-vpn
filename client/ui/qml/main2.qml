@@ -22,6 +22,9 @@ Window  {
             if (Qt.platform.os === "android") {
                 if (Qt.application.state === Qt.ApplicationActive) {
                     root.visible = true
+                    // AIOS: второй, независимый триггер ресинка состояния VPN —
+                    // напрямую через Qt-стейт приложения, минуя Android-активити сигналы
+                    ConnectionController.refreshConnectionState()
                     refreshTimer.restart()
                 }
             }

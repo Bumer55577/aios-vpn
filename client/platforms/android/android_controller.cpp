@@ -630,6 +630,11 @@ void AndroidController::onActivityResumed(JNIEnv *env, jobject thiz)
     Q_UNUSED(thiz);
 
     emit AndroidController::instance()->activityResumed();
+
+    // AIOS: request the real tunnel state on every resume straight from C++, so the
+    // resync does not depend on the QML signal chain. Harmless when the service is
+    // not bound yet - the REGISTER_CLIENT handshake will push the status later.
+    requestConnectionStatus();
 }
 
 

@@ -2,7 +2,6 @@ package org.amnezia.vpn
 
 import android.annotation.SuppressLint
 import android.app.ActivityManager
-import android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND_SERVICE
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -147,10 +146,20 @@ open class AmneziaVpnService : VpnService() {
                         val messenger = IpcMessenger(msg.replyTo, clientName)
                         clientMessengers[msg.replyTo] = messenger
                         Log.d(TAG, "Messenger client '$clientName' was registered")
-                        // AIOS: a client that binds to an already-connected service
-                        // (e.g. after the activity was recreated) must start receiving
-                        // traffic statistics without waiting for a state change.
-                        if (clientName == ACTIVITY_MESSENGER_NAME && isConnected) launchSendingStatistics()
+                        if (clientName == ACTIVITY_MESSENGER_NAME) {
+                            // AIOS: a client that binds to an already-connected service
+                            // (e.g. after the activity was recreated) must start receiving
+                            // traffic statistics without waiting for a state change.
+                            if (isConnected) launchSendingStatistics()
+                            // AIOS: proactively push the real current state to a client
+                            // that (re)binds while the tunnel is up, so the UI converges
+                            // even if the request/response handshake races with binding.
+                            if (!isUnknown) {
+                                messenger.send {
+                                    ServiceEvent.STATUS.packToMessage { putStatus(protocolState.value) }
+                                }
+                            }
+                        }
                     }
 
                     Action.UNREGISTER_CLIENT -> {
@@ -636,9 +645,16 @@ open class AmneziaVpnService : VpnService() {
         }
 
     companion object {
-        fun isRunning(context: Context, processName: String): Boolean =
-            context.getSystemService<ActivityManager>()!!.runningAppProcesses.any {
-                it.processName == processName && it.importance <= IMPORTANCE_FOREGROUND_SERVICE
+        // AIOS: VpnProto carries the legacy upstream process name
+        // ("org.amnezia.vpn:amneziaAwgService"), but the real runtime process name is
+        // always "<applicationId>:<relative part>" (the fork uses ru.aios.vpn). Compare
+        // by the relative suffix so the check works regardless of the applicationId.
+        fun isRunning(context: Context, processName: String): Boolean {
+            val relative = processName.substringAfter(':')
+            val expected = "${context.packageName}:$relative"
+            return context.getSystemService<ActivityManager>()!!.runningAppProcesses.any {
+                it.processName == expected
             }
+        }
     }
 }

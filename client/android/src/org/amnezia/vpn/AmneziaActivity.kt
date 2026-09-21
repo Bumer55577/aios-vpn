@@ -114,10 +114,11 @@ class AmneziaActivity : QtActivity() {
                     }
 
                     ServiceEvent.STATUS -> {
-                        if (isWaitingStatus) {
-                            isWaitingStatus = false
-                            msg.data?.getStatus()?.let { QtAndroidController.onStatus(it) }
-                        }
+                        // AIOS: always forward the status to Qt. The C++ side keeps its
+                        // own isWaitingStatus gate, so dropping events here could stall
+                        // the resync when the Java/C++ gates get out of sync.
+                        isWaitingStatus = false
+                        msg.data?.getStatus()?.let { QtAndroidController.onStatus(it) }
                     }
 
                     ServiceEvent.STATISTICS_UPDATE -> {
