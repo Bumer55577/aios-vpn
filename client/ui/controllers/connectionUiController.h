@@ -49,6 +49,10 @@ public slots:
     void openConnection();
     void closeConnection();
 
+    // AIOS: автоподключение при запуске/открытии приложения, если тумнель
+    // не работает и пользователь сам не нажимал «выключить» в этой сессии
+    Q_INVOKABLE void tryAutoConnect();
+
     bool isRevokeBlockedDuringActiveConnection(const QString &serverId, int containerIndex, const QString &clientId) const;
 
     ErrorCode getLastConnectionError();
@@ -80,6 +84,13 @@ private:
     Vpn::ConnectionState getCurrentConnectionState();
     void notifyConnectionBlocked(ErrorCode errorCode);
 
+    // AIOS: реализация tryAutoConnect() после уточнения реального состояния сервиса
+    void tryAutoConnectNow();
+
+    // AIOS: тихий авто-повтор старта тумнеля после транзиентного сбоя
+    // (код 1000: система ещё не освободила предыдущую VPN-сессию)
+    void scheduleAndroidConnectRetry();
+
     // AIOS: live stats helpers
     void resetStats();
     void startStatsTimers();
@@ -95,6 +106,12 @@ private:
     QString m_connectionStateText = tr("Connect");
 
     Vpn::ConnectionState m_state;
+
+    // AIOS: автоподключение и авто-повтор старта тумнеля
+    bool m_userDisconnectedManually = false;   // пользователь сам нажал «выключить» в этой сессии
+    bool m_wasConnectingBeforeError = false;   // ошибка возникла во время подключения
+    int m_androidRetryAttemptsLeft = 0;        // оставшиеся тихие повторные попытки
+    int m_retryGeneration = 0;                 // отменяет отложенные повторы при ручных действиях
 
     // AIOS: live stats state
     QString m_receivedSpeedText;

@@ -12,6 +12,7 @@
 #include "core/utils/containerEnum.h"
 
 #include <QDateTime>
+#include <QDebug>
 #include <QTcpSocket>
 
 #ifdef Q_OS_ANDROID
@@ -44,6 +45,16 @@ namespace
             .arg(m, 2, 10, QChar('0'))
             .arg(s, 2, 10, QChar('0'));
     }
+
+#ifdef Q_OS_ANDROID
+    // AIOS: авто-повтор старта тумнеля на Android. После force-stop приложения
+    // («очистить всё») система может ещё около получминуты держать предыдущую
+    // VPN-сессию занятой: establish() возвращает null и подключение падает с
+    // транзиентной ошибкой (на UI — «код 1000»). Несколько тихих повторных
+    // попыток с нарастающими паузами перекрывают это окно без показа ошибки.
+    constexpr int kAndroidConnectRetryAttempts = 3;
+    constexpr int kAndroidConnectRetryDelaysMsecs[] = { 5000, 10000, 15000 };
+#endif
 } // namespace
 
 ConnectionUiController::ConnectionUiController(ConnectionController* connectionController,
@@ -124,6 +135,12 @@ void ConnectionUiController::onConnectionStateChanged(Vpn::ConnectionState state
         m_isConnected = true;
         m_connectionStateText = tr("Connected");
 
+        // AIOS: тумнель поднялся — сбрасываем состояние повторов и считаем,
+        // что текущее подключение соответствует желанию пользователя
+        m_wasConnectingBeforeError = false;
+        m_androidRetryAttemptsLeft = 0;
+        m_userDisconnectedManually = false;
+
         // AIOS: (re)start live stats when the tunnel is up. This also covers the
         // resume path, where the UI learns about an already-active connection.
         if (previousState != Vpn::ConnectionState::Connected) {
@@ -134,6 +151,7 @@ void ConnectionUiController::onConnectionStateChanged(Vpn::ConnectionState state
     }
     case Vpn::ConnectionState::Connecting: {
         m_isConnectionInProgress = true;
+        m_wasConnectingBeforeError = true;
         break;
     }
     case Vpn::ConnectionState::Reconnecting: {
@@ -144,6 +162,10 @@ void ConnectionUiController::onConnectionStateChanged(Vpn::ConnectionState state
     case Vpn::ConnectionState::Disconnected: {
         m_isConnectionInProgress = false;
         m_connectionStateText = tr("Connect");
+
+        // AIOS: чистое отключение — отложенные повторы старта больше не нужны
+        m_wasConnectingBeforeError = false;
+        m_androidRetryAttemptsLeft = 0;
 
         stopStatsTimers();
         break;
@@ -163,6 +185,20 @@ void ConnectionUiController::onConnectionStateChanged(Vpn::ConnectionState state
         m_connectionStateText = tr("Connect");
 
         stopStatsTimers();
+#ifdef Q_OS_ANDROID
+        // AIOS: транзиентный сбой старта тумнеля (код 1000 — Android ещё не
+        // освободил VPN-сессию после force-stop). Повторяем молча несколько
+        // раз, прежде чем показать ошибку пользователю.
+        if (m_wasConnectingBeforeError && m_androidRetryAttemptsLeft > 0) {
+            --m_androidRetryAttemptsLeft;
+            m_wasConnectingBeforeError = false;
+            m_connectionStateText = tr("Connecting...");
+            emit connectionStateChanged();
+            scheduleAndroidConnectRetry();
+            break;
+        }
+        m_wasConnectingBeforeError = false;
+#endif
         emit connectionErrorOccurred(getLastConnectionError());
         break;
     }
@@ -306,16 +342,25 @@ QString ConnectionUiController::connectionStateText() const
 
 void ConnectionUiController::toggleConnection()
 {
+    // AIOS: любое ручное действие отменяет отложенный тихий повтор подключения
+    ++m_retryGeneration;
+
     if (m_state == Vpn::ConnectionState::Preparing) {
         emit preparingConfig();
         return;
     }
 
     if (isConnectionInProgress()) {
+        m_userDisconnectedManually = true; // AIOS: пользователь сам останавливает подключение
         closeConnection();
     } else if (isConnected()) {
+        m_userDisconnectedManually = true; // AIOS: пользователь сам нажал «выключить»
         closeConnection();
     } else {
+        m_userDisconnectedManually = false; // AIOS: ручное подключение сбрасывает запрет
+#ifdef Q_OS_ANDROID
+        m_androidRetryAttemptsLeft = kAndroidConnectRetryAttempts; // новая попытка — новые повторы
+#endif
         const QString serverId = m_serversController->getDefaultServerId();
         if (serverId.isEmpty()) {
             return;
@@ -329,6 +374,71 @@ void ConnectionUiController::toggleConnection()
 
         emit prepareConfig();
     }
+}
+
+void ConnectionUiController::tryAutoConnect()
+{
+#ifdef Q_OS_ANDROID
+    // AIOS: перед решением уточняем реальное состояние VPN-сервиса — на resume
+    // статус тумнеля может прийти с задержкой, и без этого запроса можно
+    // случайно начать «подключаться» к уже работающему тумнелю (сервис такое
+    // игнорирует, но UI мигнёт «Подключение…» без причины).
+    AndroidController::instance()->requestConnectionStatus();
+    QTimer::singleShot(800, this, [this]() { tryAutoConnectNow(); });
+#else
+    tryAutoConnectNow();
+#endif
+}
+
+void ConnectionUiController::tryAutoConnectNow()
+{
+    // AIOS: автоподключение при запуске/открытии приложения. Раньше срабатывало
+    // только на холодный старт процесса (CoreSignalHandlers::initAutoConnectHandler),
+    // а свайп приложения и повторное открытие процесс не перезапускает —
+    // пользователь видел отключённое состояние, хотя автоподключение включено.
+    if (m_userDisconnectedManually) {
+        qDebug() << "AIOS: auto-connect skipped: user disconnected manually in this session";
+        return;
+    }
+
+    switch (m_state) {
+    case Vpn::ConnectionState::Disconnected:
+    case Vpn::ConnectionState::Error:
+    case Vpn::ConnectionState::Unknown:
+        break;
+    default:
+        return; // уже подключено или подключение идёт
+    }
+
+    const QString serverId = m_serversController->getDefaultServerId();
+    if (serverId.isEmpty()) {
+        return;
+    }
+
+    qDebug() << "AIOS: auto-connect on app start/open";
+    toggleConnection();
+}
+
+void ConnectionUiController::scheduleAndroidConnectRetry()
+{
+#ifdef Q_OS_ANDROID
+    const int delayIndex = qBound(0, kAndroidConnectRetryAttempts - m_androidRetryAttemptsLeft - 1,
+                                  kAndroidConnectRetryAttempts - 1);
+    const int delayMsecs = kAndroidConnectRetryDelaysMsecs[delayIndex];
+    const int generation = m_retryGeneration;
+    qInfo() << "AIOS: tunnel start failed transiently (code 1000), retry in" << delayMsecs << "ms";
+
+    QTimer::singleShot(delayMsecs, this, [this, generation]() {
+        if (generation != m_retryGeneration) {
+            return; // пользователь начал новое действие — повтор отменён
+        }
+        if (m_state != Vpn::ConnectionState::Error) {
+            return; // состояние уже изменилось (подключено/отключено/подключается)
+        }
+        qInfo() << "AIOS: retrying tunnel start after transient failure";
+        openConnection();
+    });
+#endif
 }
 
 void ConnectionUiController::notifyConnectionBlocked(ErrorCode errorCode)

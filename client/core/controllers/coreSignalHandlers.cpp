@@ -247,7 +247,10 @@ void CoreSignalHandlers::initAutoConnectHandler()
 {
     if (m_coreController->m_settingsUiController->isAutoConnectEnabled()
         && !m_coreController->m_serversController->getDefaultServerId().isEmpty()) {
-        QTimer::singleShot(1000, this, [this]() { m_coreController->m_connectionUiController->toggleConnection(); });
+        // AIOS: автоподключение идёт через tryAutoConnect(), чтобы не задублироваться
+        // с триггером при открытии приложения (main2.qml): кто первый успел — тот и
+        // подключает, второй увидит уже идущее подключение и выйдет.
+        QTimer::singleShot(1000, this, [this]() { m_coreController->m_connectionUiController->tryAutoConnect(); });
     }
 }
 

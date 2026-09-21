@@ -82,7 +82,7 @@ DrawerType2 {
                 Layout.fillWidth: true
 
                 text: qsTr("Автоподключение")
-                descriptionText: qsTr("Подключаться к серверу при старте приложения")
+                descriptionText: qsTr("Подключаться к серверу при запуске и открытии приложения")
 
                 checkedIndicatorColor: '#E6B64C'
                 checkedIndicatorBorderColor: '#E6B64C'

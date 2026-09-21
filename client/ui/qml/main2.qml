@@ -25,6 +25,9 @@ Window  {
                     // AIOS: второй, независимый триггер ресинка состояния VPN —
                     // напрямую через Qt-стейт приложения, минуя Android-активити сигналы
                     ConnectionController.refreshConnectionState()
+                    // AIOS: автоподключение при открытии приложения (если включено
+                    // в настройках защиты и пользователь сам не нажимал «выключить»)
+                    ConnectionController.tryAutoConnect()
                     refreshTimer.restart()
                 }
             }
@@ -46,6 +49,9 @@ Window  {
                 // AIOS: на каждом возобновлении запроса реального состояния VPN-сервиса —
                 // UI не должен показывать «не подключён» при активном туннеле
                 ConnectionController.refreshConnectionState()
+                // AIOS: дублирующий триггер автоподключения (состояние-гвард внутри
+                // tryAutoConnect защищает от двойного запуска с onStateChanged)
+                ConnectionController.tryAutoConnect()
             }
         }
     }
