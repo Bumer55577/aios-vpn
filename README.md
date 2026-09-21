@@ -3,6 +3,26 @@
 Fork of the AmneziaVPN client, rebranded and extended for the AIOS VPN service
 (package `ru.aios.vpn`, app name «AIOS VPN»).
 
+## Who this is for
+
+**AIOS VPN is intended for people who have their own servers.** It is not a
+public VPN service with shared nodes: the app is a client that connects your
+device to **your own VPN server** using an access key (QR code, link or config
+file). If you have no server and no key issued to you, there is nothing to
+connect to yet.
+
+## Quick start (end users)
+
+1. Download the APK from the public rolling release
+   [aios-apk](https://github.com/Bumer55577/aios-vpn/releases/tag/aios-apk)
+   (file `AIOSVPN.apk`).
+2. Install it on an Android 9+ device (arm64), allowing "unknown apps" when
+   Android asks.
+3. Open the app → «Начать» → add the access key (QR / link / file).
+4. Press the big gold button — when the status turns green, you are connected.
+
+Requirements: Android 9.0+, arm64, ~150 MB free space.
+
 ## What changed vs upstream (amnezia-vpn/amnezia-client)
 
 - Rebranding: package id `ru.aios.vpn`, app label «AIOS VPN», gold/black design
@@ -49,8 +69,11 @@ workflow_dispatch).
 ## CI (autobuild APK)
 
 `.github/workflows/build-android.yml` builds a signed arm64-v8a APK on every
-push to `master` (and on demand via workflow_dispatch). Result: Actions ->
-latest run -> Artifacts -> `AIOS-VPN-Android-arm64`.
+push to `master` (and on demand via workflow_dispatch). Results:
+- Actions -> latest run -> Artifacts -> `AIOS-VPN-Android-arm64`;
+- the same APK is published to the public rolling release
+  [aios-apk](https://github.com/Bumer55577/aios-vpn/releases/tag/aios-apk)
+  (file `AIOSVPN.apk`) — direct download without a GitHub login.
 
 One-time manual step — `libxray.aar` is not stored in the repo (58 MB):
 
