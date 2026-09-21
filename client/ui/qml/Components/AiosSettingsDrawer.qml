@@ -71,7 +71,7 @@ DrawerType2 {
 
                 text: qsTr("Параметры применяются к новому соединению.")
                 color: '#98917F'
-                font.pixelSize: 12.5
+                font.pixelSize: 12
                 wrapMode: Text.WordWrap
             }
 

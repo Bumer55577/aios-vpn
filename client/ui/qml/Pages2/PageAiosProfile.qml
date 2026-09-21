@@ -319,7 +319,7 @@ PageType {
 
                                 text: root.isExpired ? qsTr("Истёк") : qsTr("Осталось ") + root.daysLeft + qsTr(" дн.")
                                 color: root.isExpired ? '#F0858A' : root.daysLeft <= 7 ? '#F4D98B' : '#A7F3C9'
-                                font.pixelSize: 10.5
+                                font.pixelSize: 10
                             }
                         }
                     }
@@ -340,7 +340,7 @@ PageType {
                         textColor: '#231806'
                         borderWidth: 0
 
-                        buttonTextLabel.font.pixelSize: 13.5
+                        buttonTextLabel.font.pixelSize: 13
                         buttonTextLabel.font.weight: Font.DemiBold
 
                         text: root.isExpired ? qsTr("Продлить доступ") : qsTr("Продлить тариф")

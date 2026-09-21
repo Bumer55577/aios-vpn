@@ -306,7 +306,7 @@ PageType {
                             Text {
                                 text: qsTr("Протокол")
                                 color: '#98917F'
-                                font.pixelSize: 12.5
+                                font.pixelSize: 12
                             }
 
                             Item { Layout.fillWidth: true }
@@ -315,7 +315,7 @@ PageType {
                                 text: ServersUiController.defaultServerDefaultContainerName !== ""
                                       ? ServersUiController.defaultServerDefaultContainerName : "—"
                                 color: '#E9E2D2'
-                                font.pixelSize: 12.5
+                                font.pixelSize: 12
                             }
                         }
 
@@ -335,7 +335,7 @@ PageType {
                             Text {
                                 text: qsTr("Тип доступа")
                                 color: '#98917F'
-                                font.pixelSize: 12.5
+                                font.pixelSize: 12
                             }
 
                             Item { Layout.fillWidth: true }
@@ -343,7 +343,7 @@ PageType {
                             Text {
                                 text: root.hasToken ? qsTr("VPNPan (по токену)") : qsTr("Локальная конфигурация")
                                 color: '#E9E2D2'
-                                font.pixelSize: 12.5
+                                font.pixelSize: 12
                             }
                         }
 
@@ -363,7 +363,7 @@ PageType {
                             Text {
                                 text: qsTr("Доступ")
                                 color: '#98917F'
-                                font.pixelSize: 12.5
+                                font.pixelSize: 12
                             }
 
                             Item { Layout.fillWidth: true }
@@ -375,7 +375,7 @@ PageType {
                                     return qsTr("до ") + AiosProfileController.expires
                                 }
                                 color: AiosProfileController.hasProfile && AiosProfileController.expired ? '#F0858A' : '#E9E2D2'
-                                font.pixelSize: 12.5
+                                font.pixelSize: 12
                             }
                         }
                     }

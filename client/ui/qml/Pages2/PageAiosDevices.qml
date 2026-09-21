@@ -416,7 +416,7 @@ PageType {
                     borderColor: Qt.rgba(230/255, 182/255, 76/255, 0.4)
 
                     text: qsTr("Повторить")
-                    clickedFunction: function() {
+                    clickedFunc: function() {
                         AiosDevicesController.refresh()
                     }
                 }
@@ -432,7 +432,8 @@ PageType {
 
     BusyIndicatorType {
         anchors.centerIn: parent
-        running: AiosDevicesController.loading
+        // AIOS: BusyIndicatorType — Popup, свойства running нет;
+        // открытие/закрытие только через visible
         visible: AiosDevicesController.loading
     }
 
@@ -476,7 +477,7 @@ PageType {
                 borderWidth: 0
 
                 text: qsTr("Снять")
-                clickedFunction: function() {
+                clickedFunc: function() {
                     root.clearSelection()
                 }
             }
@@ -513,7 +514,7 @@ PageType {
                 borderWidth: 0
 
                 text: qsTr("Отвязать")
-                clickedFunction: function() {
+                clickedFunc: function() {
                     confirmDrawer.openTriggered()
                 }
             }
@@ -602,7 +603,7 @@ PageType {
                     borderColor: '#2A2A2F'
 
                     text: qsTr("Отмена")
-                    clickedFunction: function() {
+                    clickedFunc: function() {
                         confirmDrawer.closeTriggered()
                     }
                 }
@@ -620,7 +621,7 @@ PageType {
                     borderWidth: 0
 
                     text: qsTr("Отвязать")
-                    clickedFunction: function() {
+                    clickedFunc: function() {
                         confirmDrawer.closeTriggered()
                         root.confirmUnlink()
                     }
