@@ -158,7 +158,7 @@ PageType {
                 bodyText: qsTr("AIOS hosting. VPN servers without complicated settings and headaches")
 
                 rightImageSource: "qrc:/images/controls/chevron-right.svg"
-                leftImageSource: "qrc:/images/controls/amnezia.svg"
+                leftImageSource: "qrc:/images/controls/aios.svg"
 
                 onClicked: {
                     Qt.openUrlExternally(LanguageUiController.getCurrentHostUrl())

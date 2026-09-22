@@ -324,7 +324,7 @@ PageType {
         id: about
 
         property string title: qsTr("About AIOS VPN")
-        readonly property string leftImagePath: "qrc:/images/controls/amnezia.svg"
+        readonly property string leftImagePath: "qrc:/images/controls/aios.svg"
         property bool isVisible: true
         readonly property var clickedHandler: function() {
             PageController.goToPage(PageEnum.PageSettingsAbout)

@@ -5,14 +5,12 @@
     <qresource prefix="/images">
         <file>aios_logo.png</file>
         <file>aios_planet.jpg</file>
-        <file>amneziaBigLogo.png</file>
-        <file>AmneziaVPN.png</file>
         <file>controls/alert-circle.svg</file>
         <file>update/updateHeroDark.jpg</file>
         <file>update/plus-circle.svg</file>
         <file>update/arrow-up-circle.svg</file>
         <file>update/wrench.svg</file>
-        <file>controls/amnezia.svg</file>
+        <file>controls/aios.svg</file>
         <file>controls/app.svg</file>
         <file>controls/archive-restore.svg</file>
         <file>controls/arrow-left.svg</file>
