@@ -13,15 +13,20 @@ connect to yet.
 
 ## Quick start (end users)
 
-1. Download the APK from the public rolling release
-   [aios-apk](https://github.com/Bumer55577/aios-vpn/releases/tag/aios-apk)
-   (file `AIOSVPN.apk`).
-2. Install it on an Android 9+ device (arm64), allowing "unknown apps" when
-   Android asks.
-3. Open the app → «Начать» → add the access key (QR / link / file).
-4. Press the big gold button — when the status turns green, you are connected.
+**Android:** download the APK from the public rolling release
+[aios-apk](https://github.com/Bumer55577/aios-vpn/releases/tag/aios-apk)
+(file `AIOSVPN.apk`), install on an Android 9+ device (arm64), open the app →
+«Начать» → add the access key (QR / link / file) → press the big gold button.
 
-Requirements: Android 9.0+, arm64, ~150 MB free space.
+**Windows:** download the MSI from
+[aios-windows](https://github.com/Bumer55577/aios-vpn/releases/tag/aios-windows)
+(`AIOSVPN_*_windows_x64.msi`, Windows 10/11 x64), install it (the VPN service is
+registered automatically by the installer), open the app → add the access key →
+connect. The desktop app uses the same gold/dark UI and features as the mobile
+one (profile, devices, subscription, auto-connect), and the Kill Switch toggle
+is fully functional on Windows.
+
+Requirements: Android 9.0+ (arm64) or Windows 10/11 (x64), ~150–250 MB free space.
 
 ## What changed vs upstream (amnezia-vpn/amnezia-client)
 
@@ -38,7 +43,27 @@ Requirements: Android 9.0+, arm64, ~150 MB free space.
   (`/api/profile/<token>`, deployed behind TLS on the VPN server, port 8765).
   No keys/secrets are ever shown in the UI.
 
-## Build (Android, arm64-v8a)
+## Build
+
+### Windows (x64, MSI installer)
+
+Toolchain: Visual Studio 2022 (MSVC), JDK not required, Qt 6.10.1
+(`win64_msvc2022_64`, modules: qtremoteobjects, qt5compat, qtshadertools,
+qtimageformats), WiX 4.0.6, Conan 2.
+
+```bat
+set QT_INSTALL_DIR=C:\Qt
+set WIX_ROOT_PATH=%USERPROFILE%\.dotnet\tools
+deploy\build.bat --installer wix
+rem MSI: deploy\build\AIOSVPN_*_windows_x64.msi
+```
+
+The build produces `AIOSVPN.exe` (client) and `AIOSVPN-service.exe` (VPN
+service, registered by the MSI). CI: `.github/workflows/build-windows.yml`
+(staged at `deploy/ci/build-windows.yml`), publishes to the `aios-windows`
+release.
+
+### Android (arm64-v8a)
 
 Toolchain: JDK 17, Android SDK (platform android-28, NDK 27.0.11718014),
 Qt 6.10.1 (android_arm64_v8a + linux_gcc_64 host, modules: qtremoteobjects,
@@ -74,6 +99,12 @@ push to `master` (and on demand via workflow_dispatch). Results:
 - the same APK is published to the public rolling release
   [aios-apk](https://github.com/Bumer55577/aios-vpn/releases/tag/aios-apk)
   (file `AIOSVPN.apk`) — direct download without a GitHub login.
+
+`.github/workflows/build-windows.yml` (staged at `deploy/ci/build-windows.yml`;
+the deploy key lacks the workflow scope, so activating it is a one-time manual
+copy to `.github/workflows/build-windows.yml`) builds the Windows MSI on every
+push to `master` and publishes it to the public rolling release
+[aios-windows](https://github.com/Bumer55577/aios-vpn/releases/tag/aios-windows).
 
 One-time manual step — `libxray.aar` is not stored in the repo (58 MB):
 

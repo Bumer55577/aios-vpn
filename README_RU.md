@@ -19,15 +19,20 @@ AIOS VPN — мобильный VPN-клиент для Android (пакет `ru.
 
 ## Быстрый старт для пользователей
 
-1. Скачайте APK из публичного релиза
-   [`aios-apk`](https://github.com/Bumer55577/aios-vpn/releases/tag/aios-apk)
-   (файл `AIOSVPN.apk`) — вход в GitHub не требуется.
-2. Установите на телефон с Android 9.0+ (arm64), разрешив установку
-   «неизвестных приложений», когда Android об этом спросит.
-3. Откройте приложение → «Начать» → добавьте ключ доступа (QR-код, ссылка
-   или файл).
-4. Нажмите большую золотую кнопку на главном экране — когда статус станет
-   зелёным («Подключено»), можно пользоваться.
+**Android:** скачайте APK из публичного релиза
+[`aios-apk`](https://github.com/Bumer55577/aios-vpn/releases/tag/aios-apk)
+(файл `AIOSVPN.apk`) — вход в GitHub не требуется. Установите на телефон
+с Android 9.0+ (arm64), разрешив установку «неизвестных приложений». Откройте
+приложение → «Начать» → добавьте ключ доступа (QR-код, ссылка или файл) →
+нажмите большую золотую кнопку.
+
+**Windows:** скачайте MSI из релиза
+[`aios-windows`](https://github.com/Bumer55577/aios-vpn/releases/tag/aios-windows)
+(`AIOSVPN_*_windows_x64.msi`, Windows 10/11 x64) и установите — VPN-сервис
+регистрируется установщиком автоматически. Откройте приложение → добавьте ключ
+доступа → подключайтесь. На Windows тот же тёмно-золотой интерфейс и те же
+функции, что и на мобильном (профиль, устройства, подписка, автоподключение),
+а переключатель Kill Switch на Windows полноценно работает.
 
 ## Возможности
 
@@ -47,19 +52,29 @@ AIOS VPN — мобильный VPN-клиент для Android (пакет `ru.
 - Тихое автоповтор подключения после принудительного завершения сервиса
   (например, после «очистки памяти» в Android).
 
-## Сборка (Android, arm64-v8a)
+## Сборка
 
 Полная инструкция на английском — в [README.md](README.md). Кратко:
 
-- Тулечейн: JDK 17, Android SDK (platform android-28, NDK 27.0.11718014),
-  Qt 6.10.1 (android_arm64_v8a + host, модули qtremoteobjects, qt5compat,
-  qtimageformats, qtshadertools), Conan 2, Ninja. Qt ниже 6.8 не подходит
-  (краш на части устройств).
-- `libxray.aar` (58 МБ) в репозиторий не входит: положите его в
-  `client/android/xray/libXray/libxray.aar` (соберите сами или возьмите из
-  релиза с тегом `libxray`).
-- CI (`.github/workflows/build-android.yml`) собирает и подписывает APK при
-  каждом пуше в `master` и публикует его в релиз `aios-apk`.
+**Windows (x64, MSI):** Visual Studio 2022 (MSVC), Qt 6.10.1
+(`win64_msvc2022_64`, модули qtremoteobjects, qt5compat, qtshadertools,
+qtimageformats), WiX 4.0.6, Conan 2:
+
+```bat
+set QT_INSTALL_DIR=C:\Qt
+set WIX_ROOT_PATH=%USERPROFILE%\.dotnet\tools
+deploy\build.bat --installer wix
+rem MSI: deploy\build\AIOSVPN_*_windows_x64.msi
+```
+
+**Android (arm64-v8a):** тулчейн JDK 17, Android SDK (platform android-28,
+NDK 27.0.11718014), Qt 6.10.1 (android_arm64_v8a + host, модули
+qtremoteobjects, qt5compat, qtimageformats, qtshadertools), Conan 2, Ninja.
+Qt ниже 6.8 не подходит (краш на части устройств). Файл `libxray.aar` (58 МБ)
+в репозиторий не входит: положите его в
+`client/android/xray/libXray/libxray.aar` (соберите сами или возьмите из
+релиза с тегом `libxray`). CI собирает и подписывает APK при каждом пуше
+в `master` и публикует его в релиз `aios-apk`.
 
 ```bash
 git clone --recurse-submodules https://github.com/Bumer55577/aios-vpn.git
