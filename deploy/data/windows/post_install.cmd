@@ -1,5 +1,5 @@
-sc stop AmneziaWGTunnel$AmneziaVPN
-sc delete AmneziaWGTunnel$AmneziaVPN
-taskkill /IM "AmneziaVPN-service.exe" /F
-taskkill /IM "AmneziaVPN.exe" /F
+sc stop AIOSWGTunnel$AIOSVPN
+sc delete AIOSWGTunnel$AIOSVPN
+taskkill /IM "AIOSVPN-service.exe" /F
+taskkill /IM "AIOSVPN.exe" /F
 exit /b 0

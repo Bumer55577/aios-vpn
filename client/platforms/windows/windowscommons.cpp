@@ -20,8 +20,8 @@
 #include "logger.h"
 #include "platforms/windows/windowsutils.h"
 
-constexpr const char* VPN_NAME = "AmneziaVPN";
-constexpr const char* WIREGUARD_DIR = "AmneziaWG";
+constexpr const char* VPN_NAME = "AIOSVPN";
+constexpr const char* WIREGUARD_DIR = "AIOS";
 constexpr const char* DATA_DIR = "Data";
 
 namespace {
@@ -57,7 +57,7 @@ QString WindowsCommons::tunnelConfigFile() {
 
     QDir vpnDir(dir.filePath(VPN_NAME));
     if (!vpnDir.exists() && !dir.mkdir(VPN_NAME)) {
-      logger.debug() << "Failed to create path Amnezia under" << path;
+      logger.debug() << "Failed to create path AIOS under" << path;
       continue;
     }
 
@@ -134,7 +134,7 @@ int WindowsCommons::VPNAdapterIndex() {
   // For someReason QNetworkInterface::fromName(MozillaVPN) does not work >:(
   auto adapterList = QNetworkInterface::allInterfaces();
   for (const auto& adapter : adapterList) {
-    if (adapter.humanReadableName().contains("AmneziaVPN")) {
+    if (adapter.humanReadableName().contains("AIOSVPN")) {
       return adapter.index();
     }
   }

@@ -67,7 +67,7 @@ bool DaemonLocalServer::initialize() {
 
 QString DaemonLocalServer::daemonPath() const {
 #if defined(MZ_WINDOWS)
-  return "\\\\.\\pipe\\amneziavpn";
+  return "\\\\.\\pipe\\aiosvpn";
 #endif
 #if defined(MZ_MACOS) || defined(MZ_LINUX)
   QDir dir("/var/run");

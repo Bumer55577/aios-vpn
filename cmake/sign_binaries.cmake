@@ -34,11 +34,11 @@ if(APPLE)
 
     file(GLOB_RECURSE execs "${bundle}/Contents/MacOS/*")
     set(client_exec ${execs})
-    list(FILTER client_exec INCLUDE REGEX [[AmneziaVPN$]])
+    list(FILTER client_exec INCLUDE REGEX [[AIOSVPN$]])
     set(service_exec ${execs})
-    list(FILTER service_exec INCLUDE REGEX [[AmneziaVPN-service$]])
+    list(FILTER service_exec INCLUDE REGEX [[AIOSVPN-service$]])
     set(other_execs ${execs})
-    list(FILTER other_execs EXCLUDE REGEX [[AmneziaVPN$|AmneziaVPN-service$]])
+    list(FILTER other_execs EXCLUDE REGEX [[AIOSVPN$|AIOSVPN-service$]])
 
     list(APPEND files "${frameworks}" "${dylibs}" "${other_execs}" "${service_exec}" "${client_exec}" "${bundle}")
 

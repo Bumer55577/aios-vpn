@@ -3,11 +3,10 @@
     <CPackWiXFragment Id="#PRODUCT">
         <!-- Требует расширение WixToolset.Util.wixext и xmlns util -->
         <util:CloseApplication
-                Id="CloseAmneziaClient"
-                Target="AmneziaVPN.exe"
-                Description="Closing AmneziaVPN client"
+                Id="CloseAiosClient"
+                Target="AIOSVPN.exe"
+                Description="Closing AIOS VPN client"
                 TerminateProcess="1"
                 RebootPrompt="no" />
     </CPackWiXFragment>
 </CPackWiXPatch>
-

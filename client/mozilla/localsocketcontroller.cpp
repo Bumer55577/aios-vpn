@@ -104,7 +104,7 @@ void LocalSocketController::initializeInternal() {
   m_daemonState = eInitializing;
 
 #ifdef MZ_WINDOWS
-  QString path = "\\\\.\\pipe\\amneziavpn";
+  QString path = "\\\\.\\pipe\\aiosvpn";
 #else
   QString path = "/var/run/amneziavpn/daemon.socket";
   if (!QFileInfo::exists(path)) {

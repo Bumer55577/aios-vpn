@@ -1,14 +1,16 @@
 #include <windows.h>
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
-#define VER_COMPANYNAME_STR         "AmneziaVPN"
-#define VER_FILEDESCRIPTION_STR     "AmneziaVPN Service"
-#define VER_INTERNALNAME_STR        VER_FILEDESCRIPTION_STR
-#define VER_LEGALCOPYRIGHT_STR      "AmneziaVPN."
+IDI_ICON1               ICON                    "../../images/app.ico"
+
+#define VER_COMPANYNAME_STR         "AIOS"
+#define VER_FILEDESCRIPTION_STR     "AIOS VPN"
+#define VER_INTERNALNAME_STR        "AIOSVPN"
+#define VER_LEGALCOPYRIGHT_STR      "AIOS"
 #define VER_LEGALTRADEMARKS1_STR    "All Rights Reserved"
 #define VER_LEGALTRADEMARKS2_STR    VER_LEGALTRADEMARKS1_STR
-#define VER_ORIGINALFILENAME_STR    "AmneziaVPN-service.exe"
-#define VER_PRODUCTNAME_STR         VER_FILEDESCRIPTION_STR
+#define VER_ORIGINALFILENAME_STR    "AIOSVPN.exe"
+#define VER_PRODUCTNAME_STR         "AIOS VPN"
 
 VS_VERSION_INFO VERSIONINFO
 FILEVERSION     @CMAKE_PROJECT_VERSION_MAJOR@,@CMAKE_PROJECT_VERSION_MINOR@,@CMAKE_PROJECT_VERSION_PATCH@,@CMAKE_PROJECT_VERSION_TWEAK@
@@ -19,7 +21,7 @@ BEGIN
         BLOCK "040904E4"
         BEGIN
             VALUE "CompanyName",        VER_COMPANYNAME_STR
-            VALUE "FileDescription",    VER_FILEDESCRIPTION_STR
+            VALUE "FileDescription",    "@CMAKE_PROJECT_DESCRIPTION@"
             VALUE "FileVersion",        "@CMAKE_PROJECT_VERSION@"
             VALUE "InternalName",       VER_INTERNALNAME_STR
             VALUE "LegalCopyright",     VER_LEGALCOPYRIGHT_STR
@@ -35,4 +37,4 @@ BEGIN
     BEGIN
         VALUE "Translation", 0x409, 1252
     END
-END 
+END

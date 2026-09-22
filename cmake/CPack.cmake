@@ -1,20 +1,20 @@
-set(CPACK_PACKAGE_VENDOR            AmneziaVPN)
+set(CPACK_PACKAGE_VENDOR            AIOS)
 set(CPACK_PACKAGE_VERSION           ${AMNEZIAVPN_VERSION})
 if(WIN32)
-    set(CPACK_PACKAGE_FILE_NAME "AmneziaVPN_${AMNEZIAVPN_VERSION}_windows_x64")
+    set(CPACK_PACKAGE_FILE_NAME "AIOSVPN_${AMNEZIAVPN_VERSION}_windows_x64")
 elseif(APPLE AND NOT IOS AND NOT MACOS_NE)
-    set(CPACK_PACKAGE_FILE_NAME "AmneziaVPN_${AMNEZIAVPN_VERSION}_macos_x64")
+    set(CPACK_PACKAGE_FILE_NAME "AIOSVPN_${AMNEZIAVPN_VERSION}_macos_x64")
 elseif(LINUX AND NOT ANDROID)
-    set(CPACK_PACKAGE_FILE_NAME "AmneziaVPN_${AMNEZIAVPN_VERSION}_linux_x64")
+    set(CPACK_PACKAGE_FILE_NAME "AIOSVPN_${AMNEZIAVPN_VERSION}_linux_x64")
 endif()
-set(CPACK_PACKAGE_INSTALL_DIRECTORY AmneziaVPN)
-set(CPACK_PACKAGE_EXECUTABLES       AmneziaVPN AmneziaVPN)
+set(CPACK_PACKAGE_INSTALL_DIRECTORY AIOSVPN)
+set(CPACK_PACKAGE_EXECUTABLES       AIOSVPN "AIOS VPN")
 set(CPACK_PRE_BUILD_SCRIPTS         ${CMAKE_CURRENT_LIST_DIR}/sign_binaries.cmake)
 set(CPACK_POST_BUILD_SCRIPTS        ${CMAKE_CURRENT_LIST_DIR}/sign_packages.cmake)
 set(CPACK_PROJECT_CONFIG_FILE       ${CMAKE_CURRENT_LIST_DIR}/CPackOptions.cmake)
 set(CPACK_RESOURCE_FILE_LICENSE     ${CMAKE_SOURCE_DIR}/deploy/data/LICENSE.txt)
 
-list(PREPEND CPACK_COMPONENTS_ALL AmneziaVPN)
+list(PREPEND CPACK_COMPONENTS_ALL AIOSVPN)
 
 if(APPLE)
     set(CPACK_GENERATOR productbuild)
@@ -23,8 +23,8 @@ else()
 endif()
 
 # === CPack IFW generator settings ===
-set(CPACK_IFW_PACKAGE_NAME                          AmneziaVPN)
-set(CPACK_IFW_PACKAGE_TITLE                         AmneziaVPN)
+set(CPACK_IFW_PACKAGE_NAME                          "AIOS VPN")
+set(CPACK_IFW_PACKAGE_TITLE                         "AIOS VPN")
 set(CPACK_IFW_PACKAGE_WIZARD_DEFAULT_WIDTH          600)
 set(CPACK_IFW_PACKAGE_WIZARD_DEFAULT_HEIGHT         380)
 set(CPACK_IFW_PACKAGE_WIZARD_STYLE                  Modern)
@@ -35,7 +35,7 @@ set(CPACK_IFW_PACKAGE_CONTROL_SCRIPT                ${CMAKE_SOURCE_DIR}/deploy/i
 
 # === CPack WIX generator settings ===
 set(CPACK_WIX_VERSION               4)
-set(CPACK_WIX_UPGRADE_GUID          "{2D55AC62-96D6-4692-8C05-0D85BBF95485}")
+set(CPACK_WIX_UPGRADE_GUID          "{961752BB-C8E1-4E73-8733-5B03740C3EC8}")
 set(CPACK_WIX_PRODUCT_ICON          ${CMAKE_SOURCE_DIR}/client/images/app.ico)
 set(CPACK_WIX_CUSTOM_XMLNS          "util=http://wixtoolset.org/schemas/v4/wxs/util")
 set(_AMNEZIA_WIX_PATCH_SERVICE      ${CMAKE_SOURCE_DIR}/deploy/installer/wix/service_install_patch.xml)
@@ -46,9 +46,9 @@ list(APPEND CPACK_WIX_PATCH_FILE    "${_AMNEZIA_WIX_PATCH_SERVICE_CMAKE}" "${_AM
 list(APPEND CPACK_WIX_EXTENSIONS    "WixToolset.Util.wixext")
 
 # === CPack productbuild generator settings ===
-set(CPACK_PRODUCTBUILD_IDENTIFIER       org.amneziavpn)
-set(CPACK_PREFLIGHT_AMNEZIAVPN_SCRIPT   ${CMAKE_SOURCE_DIR}/deploy/data/macos/post_uninstall.sh)
-set(CPACK_POSTFLIGHT_AMNEZIAVPN_SCRIPT  ${CMAKE_SOURCE_DIR}/deploy/data/macos/post_install.sh)
+set(CPACK_PRODUCTBUILD_IDENTIFIER       app.aios.vpn)
+set(CPACK_PREFLIGHT_AIOSVPN_SCRIPT      ${CMAKE_SOURCE_DIR}/deploy/data/macos/post_uninstall.sh)
+set(CPACK_POSTFLIGHT_AIOSVPN_SCRIPT     ${CMAKE_SOURCE_DIR}/deploy/data/macos/post_install.sh)
 set(CPACK_POSTFLIGHT_UNINSTALL_SCRIPT   ${CMAKE_SOURCE_DIR}/deploy/data/macos/post_uninstall.sh)
 # provide custom CPack.distribution.dist.in
 list(APPEND CMAKE_MODULE_PATH           ${CMAKE_SOURCE_DIR}/deploy/data/macos)
@@ -61,7 +61,7 @@ if(LINUX AND NOT ANDROID)
         ${CMAKE_SOURCE_DIR}/deploy/data/linux/post_install.sh
         ${CMAKE_SOURCE_DIR}/deploy/data/linux/post_uninstall.sh
         DESTINATION "."
-        COMPONENT AmneziaVPN
+        COMPONENT AIOSVPN
     )
 endif()
 
@@ -70,7 +70,7 @@ if(WIN32)
         ${CMAKE_SOURCE_DIR}/deploy/data/windows/post_install.cmd
         ${CMAKE_SOURCE_DIR}/deploy/data/windows/post_uninstall.cmd
         DESTINATION "."
-        COMPONENT AmneziaVPN
+        COMPONENT AIOSVPN
     )
 
     set(CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS_SKIP TRUE)
@@ -78,7 +78,7 @@ if(WIN32)
     if(CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS)
         install(PROGRAMS ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS}
             DESTINATION "."
-            COMPONENT AmneziaVPN
+            COMPONENT AIOSVPN
         )
     else()
         message(WARNING "MSVC runtime libraries were not found, packages will not ship them")
@@ -87,13 +87,13 @@ endif()
 
 if (APPLE AND NOT IOS AND NOT MACOS_NE)
     install(FILES ${CMAKE_SOURCE_DIR}/deploy/data/macos/AmneziaVPN.plist
-        DESTINATION "AmneziaVPN.app/Contents/Resources"
-        COMPONENT AmneziaVPN
+        DESTINATION "AIOSVPN.app/Contents/Resources"
+        COMPONENT AIOSVPN
     )
 endif()
 
 include(CPackIFW)
-cpack_ifw_configure_component(AmneziaVPN
+cpack_ifw_configure_component(AIOSVPN
     VERSION ${AMNEZIAVPN_VERSION}
     RELEASE_DATE ${RELEASE_DATE}
     REQUIRES_ADMIN_RIGHTS
@@ -103,7 +103,7 @@ cpack_ifw_configure_component(AmneziaVPN
 
 include(CPack)
 cpack_add_component(Uninstall
-    DISPLAY_NAME "Uninstall AmneziaVPN"
+    DISPLAY_NAME "Uninstall AIOS VPN"
     REQUIRES_ADMIN_RIGHTS
     DISABLED
 )
