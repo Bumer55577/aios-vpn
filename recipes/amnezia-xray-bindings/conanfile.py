@@ -78,6 +78,20 @@ class AmneziaXrayBindings(ConanFile):
     def source(self):
         get(self, f"https://github.com/amnezia-vpn/amnezia-xray-bindings/archive/refs/tags/v{self.version}.zip",
             sha256="8977896bba99f1a3bad61d734b2929ec3d01c3ca0e206ee8ce5eb013d38ab118", strip_root=True)
+        # AIOS: переименовываем экспортируемые символы и имена артефактов
+        # (amnezia_xray -> aios_xray) в исходниках до сборки, чтобы в
+        # поставку не попадали файлы с чужим брендом.
+        for root, _dirs, files in os.walk(self.source_folder):
+            for fn in files:
+                path = os.path.join(root, fn)
+                try:
+                    with open(path, "rb") as f:
+                        data = f.read()
+                    if b"amnezia_xray" in data:
+                        with open(path, "wb") as f:
+                            f.write(data.replace(b"amnezia_xray", b"aios_xray"))
+                except OSError:
+                    pass
 
     def generate(self):
         tc = AutotoolsToolchain(self)
@@ -130,15 +144,15 @@ class AmneziaXrayBindings(ConanFile):
     def _rename_header(self):
         if not self._is_windows:
             rename(self,
-                os.path.join(self.package_folder, "lib", "amnezia_xray.a"),
-                os.path.join(self.package_folder, "lib", "libamnezia_xray.a")
+                os.path.join(self.package_folder, "lib", "aios_xray.a"),
+                os.path.join(self.package_folder, "lib", "libaios_xray.a")
             )
 
     def package(self):
-        copy(self, "amnezia_xray.h", src=self.build_folder, dst=os.path.join(self.package_folder, "include"), keep_path=False)
-        copy(self, "amnezia_xray.a", src=self.build_folder, dst=os.path.join(self.package_folder, "lib"), keep_path=False)
-        copy(self, "amnezia_xray.lib", src=self.build_folder, dst=os.path.join(self.package_folder, "lib"), keep_path=False)
-        copy(self, "amnezia_xray.dll", src=self.build_folder, dst=os.path.join(self.package_folder, "bin"), keep_path=False)
+        copy(self, "aios_xray.h", src=self.build_folder, dst=os.path.join(self.package_folder, "include"), keep_path=False)
+        copy(self, "aios_xray.a", src=self.build_folder, dst=os.path.join(self.package_folder, "lib"), keep_path=False)
+        copy(self, "aios_xray.lib", src=self.build_folder, dst=os.path.join(self.package_folder, "lib"), keep_path=False)
+        copy(self, "aios_xray.dll", src=self.build_folder, dst=os.path.join(self.package_folder, "bin"), keep_path=False)
         self._rename_header()
 
     def package_info(self):

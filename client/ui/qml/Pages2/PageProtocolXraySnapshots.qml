@@ -25,12 +25,12 @@ PageType {
     function saveConfigToFile(json) {
         var fileName = ""
         if (GC.isMobile()) {
-            fileName = "amnezia_xray_config.json"
+            fileName = "aios_xray_config.json"
         } else {
             fileName = SystemController.getFileName(
                 qsTr("Save XRay configuration"),
                 qsTr("JSON files (*.json)"),
-                StandardPaths.standardLocations(StandardPaths.DocumentsLocation) + "/amnezia_xray_config",
+                StandardPaths.standardLocations(StandardPaths.DocumentsLocation) + "/aios_xray_config",
                 true,
                 ".json")
         }

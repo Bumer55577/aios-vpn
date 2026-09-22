@@ -1,4 +1,8 @@
 set(CPACK_PACKAGE_VENDOR            AIOS)
+# AIOS: явное имя пакета — иначе CPack берёт имя проекта (AmneziaVPN),
+# и оно протекает в ProductName/Comments MSI, корневой ID каталога
+# (AmneziaVPNProgramFiles64Folder) и путь реестра Software\AIOS\AmneziaVPN\Components.
+set(CPACK_PACKAGE_NAME              AIOSVPN)
 set(CPACK_PACKAGE_VERSION           ${AMNEZIAVPN_VERSION})
 if(WIN32)
     set(CPACK_PACKAGE_FILE_NAME "AIOSVPN_${AMNEZIAVPN_VERSION}_windows_x64")
