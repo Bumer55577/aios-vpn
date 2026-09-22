@@ -68,12 +68,30 @@ Window  {
     }
 
     visible: !GC.isDesktop()
-    width: GC.screenWidth
-    height: GC.screenHeight
-    minimumWidth: GC.isDesktop() ? 360 : 0
-    minimumHeight: GC.isDesktop() ? 640 : 0
+
+    // AIOS: окно не должно вылезать за пределы экрана ноутбука.
+    // Фиксированные 380×680 не влезают, например, на 1366×768 при масштабе 125%
+    // (доступно ~580 логических пикселей по высоте) — нижняя часть окна вместе
+    // с кнопкой «Начать» уходила под панель задач. На десктопе ограничиваем
+    // размер доступной областью экрана (без панели задач), на мобильных
+    // платформах размером окна управляет активити — там ничего не меняем.
+    readonly property int availWindowWidth: GC.isDesktop() ? Screen.desktopAvailableWidth : GC.screenWidth
+    readonly property int availWindowHeight: GC.isDesktop() ? Screen.desktopAvailableHeight : GC.screenHeight
+
+    width: Math.min(GC.screenWidth, availWindowWidth)
+    height: Math.min(GC.screenHeight, availWindowHeight)
+    minimumWidth: Math.min(360, availWindowWidth)
+    minimumHeight: Math.min(560, availWindowHeight)
     maximumWidth: 600
     maximumHeight: 800
+
+    // AIOS: центрируем окно в доступной области экрана при первом запуске
+    Component.onCompleted: {
+        if (GC.isDesktop()) {
+            x = Screen.desktopAvailableX + Math.round((Screen.desktopAvailableWidth - width) / 2)
+            y = Screen.desktopAvailableY + Math.round((Screen.desktopAvailableHeight - height) / 2)
+        }
+    }
 
     color: AmneziaStyle.color.midnightBlack
 

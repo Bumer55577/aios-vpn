@@ -58,9 +58,23 @@ PageType {
 
     function isDesktopPlatform(platform) {
         var p = (platform || "").toLowerCase()
-        return p.indexOf("mac") !== -1 || p.indexOf("windows") !== -1
+        return p.indexOf("mac") !== -1 || p.indexOf("osx") !== -1 || p.indexOf("windows") !== -1
                || p.indexOf("linux") !== -1 || p.indexOf("pc") !== -1
                || p.indexOf("desktop") !== -1
+    }
+
+    // AIOS: человекочитаемое имя платформы ТЕКУЩЕГО устройства. Раньше в
+    // карточке «Это устройство» была жёсткая заглушка «Android» — на Windows
+    // приложение показывало платформу телефона из прототипа, и пользователь
+    // думал, что приложение считает его ноутбук Android-устройством.
+    function localPlatformLabel() {
+        var os = Qt.platform.os
+        if (os === "windows") return "Windows"
+        if (os === "osx" || os === "macos") return "macOS"
+        if (os === "linux") return "Linux"
+        if (os === "ios") return "iOS"
+        if (os === "android") return "Android"
+        return os
     }
 
     function confirmUnlink() {
@@ -423,7 +437,9 @@ PageType {
                                 anchors.centerIn: parent
                                 width: 20
                                 height: 20
-                                source: "qrc:/images/controls/smartphone.svg"
+                                source: root.isDesktopPlatform(Qt.platform.os)
+                                        ? "qrc:/images/controls/monitor.svg"
+                                        : "qrc:/images/controls/smartphone.svg"
                                 mipmap: true
                             }
                         }
@@ -446,6 +462,9 @@ PageType {
                                 }
 
                                 Rectangle {
+                                    // AIOS: бейдж только при реальном соединении —
+                                    // раньше он висел постоянно, даже без подключения
+                                    visible: ConnectionController.isConnected
                                     radius: 8
                                     color: Qt.rgba(61/255, 220/255, 132/255, 0.12)
                                     border.color: Qt.rgba(61/255, 220/255, 132/255, 0.3)
@@ -462,8 +481,15 @@ PageType {
                                 }
                             }
 
+                            // AIOS: реальная платформа + счётчик слотов из профиля
+                            // (если профиль доступен), вместо заглушки «Android · 1 из 5»
                             Text {
-                                text: "Android · " + qsTr("занимает 1 слот из 5")
+                                text: root.localPlatformLabel()
+                                      + (root.hasProfileInfo
+                                         ? " · " + qsTr("занимает слот") + " "
+                                           + AiosProfileController.devicesUsed + " "
+                                           + qsTr("из") + " " + AiosProfileController.devicesTotal
+                                         : "")
                                 color: '#8E8E93'
                                 font.pixelSize: 12
                                 elide: Text.ElideRight

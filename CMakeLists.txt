@@ -5,7 +5,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(PROJECT AmneziaVPN)
 if(NOT AMNEZIAVPN_VERSION)
-    set(AMNEZIAVPN_VERSION 5.0.2.2 CACHE STRING "Client app version")
+    # AIOS 5.0.2.3: версия поднята принудительно. Все прошлые MSI-сборки (в т.ч.
+    # первая, с ProductName=AmneziaVPN) имели версию 5.0.2.2 и один UpgradeCode,
+    # поэтому Windows Installer ставил их «рядом», а не поверх — в «Установленных
+    # приложениях» появлялись сразу две записи. Новый MSI 5.0.2.3 тем же
+    # UpgradeCode удаляет ОБЕ старые записи (MajorUpgrade) и перезаписывает файлы
+    # (версия файлов новее — лечит остатки «грязного» сервиса, искавшего
+    # amnezia_xray.dll).
+    set(AMNEZIAVPN_VERSION 5.0.2.3 CACHE STRING "Client app version")
 endif()
 
 set(QT_CREATOR_SKIP_PACKAGE_MANAGER_SETUP ON CACHE BOOL "" FORCE)
