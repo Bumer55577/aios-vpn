@@ -1,11 +1,12 @@
 <div align="center">
 
+**[Русский](README_RU.md) | English**
+
 <img src="./client/images/aios_logo.png" alt="AIOS VPN" width="130">
 
 # AIOS VPN
 
-**Open-source VPN client for your own server**<br>
-**Открытый VPN-клиент для собственного сервера**
+**Open-source VPN client for your own server**
 
 Android 9+ · Windows 10/11 · C++ / Qt · GPL-3.0
 
@@ -15,8 +16,7 @@ Android 9+ · Windows 10/11 · C++ / Qt · GPL-3.0
 
 ### [⬇ Download for Android](https://github.com/Bumer55577/aios-vpn/releases/tag/aios-apk) · [⬇ Download for Windows](https://github.com/Bumer55577/aios-vpn/releases/tag/aios-windows)
 
-**If AIOS VPN is useful to you, please give the repository a ⭐ Star.**<br>
-**Если AIOS VPN оказался полезен, поставьте репозиторию ⭐ Star. Это помогает проекту развиваться.**
+**If AIOS VPN is useful to you, please give the repository a ⭐ Star. It helps the project grow.**
 
 <img src="./client/images/aios_planet.jpg" alt="AIOS VPN" width="760">
 
