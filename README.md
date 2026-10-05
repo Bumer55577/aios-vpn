@@ -1,4 +1,28 @@
-# AIOS VPN (Android)
+<div align="center">
+
+<img src="./client/images/aios_logo.png" alt="AIOS VPN" width="130">
+
+# AIOS VPN
+
+**Open-source VPN client for your own server**<br>
+**Открытый VPN-клиент для собственного сервера**
+
+Android 9+ · Windows 10/11 · C++ / Qt · GPL-3.0
+
+[![GitHub Stars](https://img.shields.io/github/stars/Bumer55577/aios-vpn?style=for-the-badge&logo=github&label=Stars)](https://github.com/Bumer55577/aios-vpn)
+[![Downloads](https://img.shields.io/github/downloads/Bumer55577/aios-vpn/total?style=for-the-badge&logo=github&label=Downloads)](https://github.com/Bumer55577/aios-vpn/releases)
+[![License](https://img.shields.io/github/license/Bumer55577/aios-vpn?style=for-the-badge)](LICENSE)
+
+### [⬇ Download for Android](https://github.com/Bumer55577/aios-vpn/releases/tag/aios-apk) · [⬇ Download for Windows](https://github.com/Bumer55577/aios-vpn/releases/tag/aios-windows)
+
+**If AIOS VPN is useful to you, please give the repository a ⭐ Star.**<br>
+**Если AIOS VPN оказался полезен, поставьте репозиторию ⭐ Star. Это помогает проекту развиваться.**
+
+<img src="./client/images/aios_planet.jpg" alt="AIOS VPN" width="760">
+
+</div>
+
+---
 
 Fork of the AmneziaVPN client, rebranded and extended for the AIOS VPN service
 (package `ru.aios.vpn`, app name «AIOS VPN»).
