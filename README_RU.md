@@ -2,7 +2,7 @@
 
 **Русский | [English](README.md)**
 
-<img src="./docs/aios-vpn-icon.jpg" alt="AIOS VPN" width="180">
+<img src="./client/android/res/mipmap-xxxhdpi/icon.png" alt="AIOS VPN" width="180">
 
 # AIOS VPN
 
