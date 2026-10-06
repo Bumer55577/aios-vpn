@@ -2,7 +2,7 @@
 
 **[Русский](README_RU.md) | English**
 
-<img src="./client/images/aios_logo.png" alt="AIOS VPN" width="130">
+<img src="./docs/aios-vpn-icon.jpg" alt="AIOS VPN" width="180">
 
 # AIOS VPN
 
