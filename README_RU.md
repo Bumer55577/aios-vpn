@@ -65,10 +65,15 @@ AIOS VPN — VPN-клиент для Android и Windows, построенный 
 
 <p align="center">
   <img src="./docs/screenshots/03-devices.png" alt="AIOS VPN — устройства" width="220">
+  <img src="./docs/screenshots/05-device-unlink.png" alt="AIOS VPN — отвязка устройства" width="220">
+</p>
+
+<p align="center">
+  <img src="./docs/screenshots/06-server.png" alt="AIOS VPN — сервер" width="220">
   <img src="./docs/screenshots/04-security-settings.png" alt="AIOS VPN — настройки защиты" width="220">
 </p>
 
-Это реальные скриншоты Android-приложения: активное VPN-соединение, профиль и тариф, управление устройствами, автоподключение и настройки Kill Switch.
+Это реальные скриншоты Android-приложения: активное VPN-соединение, профиль и тариф, управление устройствами, отвязка устройства, экран сервера с намеренно скрытым публичным IP-адресом, автоподключение и настройки Kill Switch.
 
 ## Возможности
 
