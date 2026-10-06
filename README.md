@@ -71,6 +71,24 @@ Requirements: Android 9.0+ (arm64) or Windows 10/11 (x64), ~150–250 MB free sp
 
 Real screenshots from the Android app: active VPN connection, profile and plan, device management, device unlinking, server screen with the public IP intentionally blurred, auto-connect and Kill Switch settings.
 
+## Commercial use
+
+**AIOS VPN can be used as the client foundation for a commercial VPN service.**
+The project is not limited to a personal single-user setup: the app already includes the user-facing pieces needed for a subscription model, while the service operator keeps control of the infrastructure and business logic.
+
+The client supports:
+
+- subscription periods of **1 month, 6 months and 12 months**;
+- user profile and access-expiry information;
+- device limits and device unlinking;
+- plan renewal flows and expiry warnings;
+- server-side access integration through VPNPan;
+- auto-connect and Kill Switch controls for end users.
+
+The tariff screen is part of the client. The actual payment provider, checkout, server provisioning, access-key delivery, billing rules and customer support are configured by the operator running the VPN service.
+
+Commercial distribution and modification are permitted subject to the **GPL-3.0** license and the licenses of third-party components. If you distribute a modified build, make sure your distribution model complies with those license obligations.
+
 ## What changed vs upstream (amnezia-vpn/amnezia-client)
 
 - Rebranding: package id `ru.aios.vpn`, app label «AIOS VPN», gold/black design
