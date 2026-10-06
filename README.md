@@ -52,6 +52,20 @@ is fully functional on Windows.
 
 Requirements: Android 9.0+ (arm64) or Windows 10/11 (x64), ~150–250 MB free space.
 
+## Screenshots
+
+<p align="center">
+  <img src="./docs/screenshots/01-home-connected.png" alt="AIOS VPN connected" width="220">
+  <img src="./docs/screenshots/02-profile.png" alt="AIOS VPN profile" width="220">
+</p>
+
+<p align="center">
+  <img src="./docs/screenshots/03-devices.png" alt="AIOS VPN devices" width="220">
+  <img src="./docs/screenshots/04-security-settings.png" alt="AIOS VPN security settings" width="220">
+</p>
+
+Real screenshots from the Android app: active VPN connection, profile and plan, device management, auto-connect and Kill Switch settings.
+
 ## What changed vs upstream (amnezia-vpn/amnezia-client)
 
 - Rebranding: package id `ru.aios.vpn`, app label «AIOS VPN», gold/black design
